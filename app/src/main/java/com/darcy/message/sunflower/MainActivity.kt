@@ -7,6 +7,7 @@ import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.paging.ui.ArticleActivity
 import com.darcy.message.sunflower.databinding.ActivityMainBinding
+import com.darcy.message.sunflower.ui.detail.DetailActivity
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnPaging.setOnClickListener {
             startPage(ArticleActivity::class.java)
+        }
+        binding.btnDetail.setOnClickListener {
+            startPage(DetailActivity::class.java)
         }
     }
 }

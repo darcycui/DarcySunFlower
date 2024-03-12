@@ -20,10 +20,18 @@ object ItemDatabaseHelper : IDatabaseHelper {
 
     fun testDB(context: Context) {
         GlobalScope.launch {
-            getDatabase(context).itemDao().insert(Item(1, "Tom", 3.14, 100))
-            getDatabase(context).itemDao().getItem(1).onEach {
-                logD(message = it.toString())
+            repeat(100) {
+                getDatabase(context).itemDao().insert(Item(it, "Tom $it", it + 3.14, 100))
+            }
+            getDatabase(context).itemDao().getItemsFlow().onEach {
+                it?.onEach { item ->
+                    logD(message = item.toString())
+                } ?: run { logD(message = "Items == null") }
             }.collect()
+
+//            getDatabase(context).itemDao().getItems()?.onEach { item ->
+//                logD(message = "$item")
+//            } ?: run { logD(message = "Items == null") }
         }
     }
 }

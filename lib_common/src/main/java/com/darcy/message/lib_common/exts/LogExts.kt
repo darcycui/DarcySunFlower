@@ -2,7 +2,7 @@ package com.darcy.message.lib_common.exts
 
 import com.elvishew.xlog.XLog
 
-const val LOG_TAG = "DarcyLog"
+const val LOG_TAG = "DarcyLog "
 fun Any.logD(tag: String? = LOG_TAG, message: String?) {
     XLog.d((tag ?: LOG_TAG) + message)
 }

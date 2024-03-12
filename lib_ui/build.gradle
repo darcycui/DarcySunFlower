@@ -39,6 +39,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
 
+    api project(':lib_common')
+
     api "androidx.activity:activity-ktx:$rootProject.activityKtxVersion"
     api "androidx.core:core-ktx:$rootProject.ktxVersion"
     api "androidx.appcompat:appcompat:$rootProject.appCompatVersion"

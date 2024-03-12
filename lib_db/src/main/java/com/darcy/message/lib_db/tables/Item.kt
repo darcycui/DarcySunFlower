@@ -3,6 +3,7 @@ package com.darcy.message.lib_db.tables
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.darcy.message.lib_common.entity.IDataBean
 
 @Entity
 data class Item(
@@ -14,4 +15,4 @@ data class Item(
     val itemPrice: Double,
     @ColumnInfo(name = "quantity")
     val quantityInStock: Int
-)
+) : IDataBean
