@@ -1,4 +1,4 @@
-package com.darcy.message.lib_common.exts
+package com.darcy.message.lib_ui.exts
 
 import androidx.fragment.app.Fragment
 

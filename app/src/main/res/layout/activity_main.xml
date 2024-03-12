@@ -22,4 +22,11 @@
         android:text="room database"
         app:layout_constraintTop_toBottomOf="@id/tvInfo" />
 
+    <Button
+        android:id="@+id/btnPaging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="paging"
+        app:layout_constraintTop_toBottomOf="@id/btnRoom" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

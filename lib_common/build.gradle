@@ -35,10 +35,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.coroutinesVersion"
 
-    api "androidx.core:core-ktx:$rootProject.ktxVersion"
-    api "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
-    api "com.google.android.material:material:$rootProject.materialVersion"
-    api "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutinesVersion"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutinesVersion"
     api "com.elvishew:xlog:$rootProject.xlogVersion"
