@@ -41,6 +41,10 @@ class ArticleActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.btnRefresh.setOnClickListener {
+            articleAdapter.refresh()
+        }
     }
 }
 

@@ -13,9 +13,9 @@ class DetailRepository(private val itemDao: ItemDao) {
         }
     }
 
-    suspend fun loadData(currentPage: Int): List<Item>? {
+    suspend fun loadData(page: Int, pageSize: Int): List<Item> {
         return withContext(Dispatchers.IO) {
-            itemDao.getItems()
+            itemDao.getItemsByPage(page, pageSize) ?: listOf()
         }
     }
 }

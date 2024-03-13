@@ -48,10 +48,16 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun initObserver() {
-        binding.btnTop.setOnClickListener {
+        binding.btnRefresh.setOnClickListener {
             lifecycleScope.launch {
                 load()
             }
+        }
+        binding.btnAppend.setOnClickListener {
+            detailAdapter.refresh()
+        }
+        binding.btnPrepend.setOnClickListener {
+            detailAdapter.refresh()
         }
         detailAdapter.addLoadStateListener {
             when (it.refresh) {

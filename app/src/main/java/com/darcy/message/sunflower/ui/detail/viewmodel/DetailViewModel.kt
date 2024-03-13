@@ -8,10 +8,9 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.sunflower.ui.detail.DetailDateSource
+import com.darcy.message.sunflower.ui.detail.ITEMS_PER_PAGE
 import com.darcy.message.sunflower.ui.detail.bean.DetailBean
 import kotlinx.coroutines.flow.Flow
-
-private const val ITEMS_PER_PAGE = 50
 
 class DetailViewModel(private val itemDao: ItemDao) : ViewModel() {
     /**

@@ -31,4 +31,7 @@ interface ItemDao {
 
     @Query("SELECT * from item ORDER BY name ASC")
     fun getItems(): List<Item>?
+
+    @Query("SELECT * from item ORDER BY id ASC LIMIT :pageSize OFFSET ((:page - 1) * :pageSize)")
+    fun getItemsByPage(page: Int, pageSize: Int): List<Item>?
 }

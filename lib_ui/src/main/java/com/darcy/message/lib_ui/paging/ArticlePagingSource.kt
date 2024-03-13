@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_ui.paging.entity.Article
 import java.time.LocalDateTime
 import kotlin.math.max
@@ -19,11 +20,28 @@ class ArticlePagingSource : PagingSource<Int, Article>() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
+        when (params) {
+            is LoadParams.Refresh -> {
+                logD(message = "Refresh")
+            }
+
+            is LoadParams.Prepend -> {
+                logD(message = "Prepend")
+            }
+
+            is LoadParams.Append -> {
+                logD(message = "Append")
+            }
+
+            else -> {
+                logD(message = "Unknown")
+            }
+        }
         // Start paging with the STARTING_KEY if this is the first load
         val start = params.key ?: STARTING_KEY
         // Load as many items as hinted by params.loadSize
         val range = start.until(start + params.loadSize)
-
+        logD(message = "page=$start nextPage=${range.last + 1}")
         return LoadResult.Page(
             data = range.map { number ->
                 Article(
@@ -56,5 +74,6 @@ class ArticlePagingSource : PagingSource<Int, Article>() {
         val anchorPosition = state.anchorPosition ?: return null
         val article = state.closestItemToPosition(anchorPosition) ?: return null
         return ensureValidKey(key = article.id - (state.config.pageSize / 2))
+//        return null
     }
 }
