@@ -6,6 +6,7 @@ import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.sunflower.ui.detail.bean.DetailBean
 import com.darcy.message.sunflower.ui.detail.repository.DetailRepository
+import java.lang.RuntimeException
 import kotlin.math.max
 
 private const val STARTING_KEY: Int = 1
@@ -35,7 +36,6 @@ class DetailDateSource(private val itemDao: ItemDao) : PagingSource<Int, DetailB
                 //没有更多数据
                 null
             }
-
             if (itemList != null) {
                 LoadResult.Page(
                     data = createDetailBeanList(itemList),
@@ -43,11 +43,10 @@ class DetailDateSource(private val itemDao: ItemDao) : PagingSource<Int, DetailB
                     nextKey = nextPage
                 )
             } else {
-                LoadResult.Error(throwable = Throwable("Paging End"))
+                LoadResult.Error(throwable = RuntimeException("Paging End"))
             }
-
-
         } catch (e: Exception) {
+            e.printStackTrace()
             LoadResult.Error(throwable = e)
         }
     }

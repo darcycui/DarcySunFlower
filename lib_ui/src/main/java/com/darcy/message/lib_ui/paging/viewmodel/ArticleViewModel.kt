@@ -37,8 +37,8 @@ class ArticleViewModel(
         )
 
     /**
-     * 分页数据流
-     * 注意这里 缓存到viewModelScope
+     * paging data flow
+     * use [cachedIn] cached to viewModelScope
      */
     val itemsPaging: Flow<PagingData<Article>> = Pager(
         config = PagingConfig(ITEMS_PER_PAGE, enablePlaceholders = false),

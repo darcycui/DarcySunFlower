@@ -1,25 +1,25 @@
 package com.darcy.message.sunflower.ui.detail
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.lib_ui.paging.Injection
-import com.darcy.message.lib_ui.paging.viewmodel.ArticleViewModel
-import com.darcy.message.sunflower.R
 import com.darcy.message.sunflower.databinding.ActivityDetailBinding
-import com.darcy.message.sunflower.databinding.ActivityMainBinding
 import com.darcy.message.sunflower.ui.detail.adapter.DetailAdapter
+import com.darcy.message.sunflower.ui.detail.adapter.LoadStateFooterAdapter
+import com.darcy.message.sunflower.ui.detail.di.Injection
 import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.IOException
+import java.lang.RuntimeException
 
 class DetailActivity : AppCompatActivity() {
     private val context: Context by lazy {
@@ -32,35 +32,86 @@ class DetailActivity : AppCompatActivity() {
         factoryProducer = { Injection.provideViewModelFactory(owner = this) }
     )
     private val detailAdapter = DetailAdapter()
+    private val fullAdapter =
+        detailAdapter.withLoadStateFooter(footer = LoadStateFooterAdapter(retry = {
+            logD(message = "retry")
+        }))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_detail)
         setContentView(binding.root)
+        viewModel.logD(message = "DetailActivity on Create")
         initView()
         initData()
+        initObserver()
+    }
+
+    private fun initObserver() {
+        binding.btnTop.setOnClickListener {
+            lifecycleScope.launch {
+                load()
+            }
+        }
+        detailAdapter.addLoadStateListener {
+            when (it.refresh) {
+                is LoadState.NotLoading -> {
+                    logD(message = "is NotLoading")
+                }
+
+                is LoadState.Loading -> {
+                    logD(message = "is Loading")
+                }
+
+                is LoadState.Error -> {
+                    logD(message = "is Error")
+                    when ((it.refresh as LoadState.Error).error) {
+                        is IOException -> {
+                            logD(message = "IOException")
+                        }
+
+                        is RuntimeException -> {
+                            logD(message = "RuntimeException")
+                        }
+
+                        else -> {
+                            logD(message = "others exception")
+                        }
+                    }
+                }
+            }
+//            when (it.append) {
+//
+//            }
+        }
     }
 
     private fun initData() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                logD(message = "Load Data Once")
-                viewModel.itemsPaging.collectLatest {
-                    detailAdapter.submitData(it)
-                }
+                load()
             }
+        }
+    }
+
+    private suspend fun load() {
+        logD(message = "Load Data Once")
+        viewModel.itemsPaging.collectLatest {
+            logD(message = "data-->$it")
+            detailAdapter.submitData(it)
         }
     }
 
     private fun initView() {
         val context = context
         binding.recyclerView.apply {
+//            adapter = detailAdapter
+            adapter = fullAdapter
             layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             val decoration =
                 DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             addItemDecoration(decoration)
-            adapter = detailAdapter
         }
     }
 }

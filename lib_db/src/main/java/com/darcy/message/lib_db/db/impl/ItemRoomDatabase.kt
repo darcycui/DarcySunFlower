@@ -41,6 +41,7 @@ abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
                 ).fallbackToDestructiveMigration() // fallback strategy
                     .addMigrations(ItemMigration1To2()) // migrations
                     .openHelperFactory(factory) // use custom factory
+//                    .allowMainThreadQueries() // mai thread use
                     .build()
                 INSTANCE = instance
                 return instance
