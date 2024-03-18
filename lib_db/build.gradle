@@ -33,10 +33,11 @@ android {
 }
 
 dependencies {
-    implementation project(':lib_common')
     testImplementation "junit:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
+
+    api project(':lib_common')
 
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     api "androidx.room:room-runtime:$rootProject.roomVersion"
