@@ -20,15 +20,16 @@ private val foodProducerThread = Executors.newFixedThreadPool(1).asCoroutineDisp
 private val foodConsumerThread = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
 class ProducerAndConsumer {
-    private var count = 0;
+    private var count = 0
     private val foodChannel = Channel<Int>(5)
+
     @OptIn(DelicateCoroutinesApi::class)
     suspend fun test() {
         val produceJob = GlobalScope.launch(foodProducerThread) {
             while (true) {
                 // produce one food
-                foodChannel.send(count++)
-                println("Producer:$count")
+                foodChannel.send(++count)
+                println("Producer:count=$count")
                 delay(1000)
             }
         }
@@ -37,12 +38,32 @@ class ProducerAndConsumer {
             while (true) {
                 // consume one food
                 foodChannel.consumeEach {
-                    println("Consumer:$it")
+                    println("Consumer:count=$it")
                     delay(100)
                 }
             }
         }
-        produceJob.join()
-        consumeJob.join()
+//        produceJob.join()
+//        consumeJob.join()
+    }
+
+    suspend fun produce(num: Int) {
+        GlobalScope.launch(foodProducerThread) {
+            // produce one food
+            foodChannel.send(num)
+            println("Producer:num=$num")
+            delay(1000)
+        }
+    }
+
+    suspend fun consume() {
+        GlobalScope.launch(foodConsumerThread) {
+            println("Consumer:")
+            // consume one food
+            foodChannel.consumeEach {
+                println("Consumer:num-->$it")
+                delay(100)
+            }
+        }
     }
 }

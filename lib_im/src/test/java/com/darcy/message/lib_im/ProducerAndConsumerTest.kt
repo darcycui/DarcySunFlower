@@ -12,5 +12,19 @@ class ProducerAndConsumerTest {
             ProducerAndConsumer().test()
 
         }
+        Thread.sleep(11_000)
+    }
+
+
+    @Test
+    fun testProducerAndConsumer2() {
+        val producerAndConsumer = ProducerAndConsumer()
+        runBlocking {
+            repeat(10) {
+                producerAndConsumer.produce(it + 1)
+            }
+            producerAndConsumer.consume()
+        }
+        Thread.sleep(11_000)
     }
 }
