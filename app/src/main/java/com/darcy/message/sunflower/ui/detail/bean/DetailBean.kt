@@ -10,11 +10,11 @@ data class DetailBean(
     var quantity: Int = -1
 ) : IUIBean<Item> {
 
-    override fun generate(dataBean: Item): DetailBean {
-        this.id = dataBean.id
-        this.name = dataBean.itemName
-        this.price = dataBean.itemPrice
-        this.quantity = dataBean.quantityInStock
+    override fun generate(dataEntity: Item): DetailBean {
+        this.id = dataEntity.id
+        this.name = dataEntity.itemName
+        this.price = dataEntity.itemPrice
+        this.quantity = dataEntity.quantityInStock
         return this
     }
 }
