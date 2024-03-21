@@ -11,16 +11,23 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
+import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.sunflower.databinding.ActivityDetailBinding
 import com.darcy.message.sunflower.ui.detail.adapter.DetailAdapter
 import com.darcy.message.sunflower.ui.detail.adapter.LoadStateFooterAdapter
-import com.darcy.message.sunflower.ui.detail.di.Injection
+import com.darcy.message.sunflower.ui.detail.bean.Parent
+import com.darcy.message.sunflower.ui.detail.bean.Son
+import com.darcy.message.sunflower.ui.detail.di.EverywhereInject
+import com.darcy.message.sunflower.ui.detail.di.InjectionProvider
 import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.lang.RuntimeException
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
     private val context: Context by lazy {
         this
@@ -29,7 +36,7 @@ class DetailActivity : AppCompatActivity() {
         ActivityDetailBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<DetailViewModel>(
-        factoryProducer = { Injection.provideViewModelFactory(owner = this) }
+        factoryProducer = { InjectionProvider.provideViewModelFactory(owner = this) }
     )
     private val detailAdapter = DetailAdapter()
     private val fullAdapter =
@@ -37,11 +44,28 @@ class DetailActivity : AppCompatActivity() {
             logD(message = "retry")
         }))
 
+    @Inject
+    lateinit var son: Son
+
+    @Inject
+    lateinit var parent: Parent
+
+//    @Inject
+//    lateinit var everywhereInject: EverywhereInject
+
+    private fun testInject() {
+        logV(message = "son=$son")
+        logV(message = "parent=$parent")
+//        logV(message = "everywhereInject=$everywhereInject")
+        EverywhereInject().testParentInject(context = this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //setContentView(R.layout.activity_detail)
         setContentView(binding.root)
         viewModel.logD(message = "DetailActivity on Create")
+        testInject()
         initView()
         initData()
         initObserver()

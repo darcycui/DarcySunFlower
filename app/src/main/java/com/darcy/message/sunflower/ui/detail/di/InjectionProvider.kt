@@ -30,7 +30,7 @@ import com.darcy.message.sunflower.ui.detail.viewmodel.ViewModelFactory
  * Like this, objects can be passed as parameters in the constructors and then replaced for
  * testing, where needed.
  */
-object Injection {
+object InjectionProvider {
 
     /**
      * Creates an instance of [ArticleRepository]

@@ -10,25 +10,22 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
-class RetrofitHttpClient : IHttpClient {
+object RetrofitHttpClient : IHttpClient {
 
-    companion object {
+    private val okHttpClient: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .callTimeout(CALL_TIMEOUT, TimeUnit.MILLISECONDS)
+            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
+            .retryOnConnectionFailure(true)
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(KeyInterceptor())
+            .build()
+    }
 
-        private val okHttpClient: OkHttpClient by lazy {
-            OkHttpClient.Builder()
-                .callTimeout(CALL_TIMEOUT, TimeUnit.MILLISECONDS)
-                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
-                .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
-                .writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
-                .retryOnConnectionFailure(true)
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(KeyInterceptor())
-                .build()
-        }
-
-        fun okHttpClient(): OkHttpClient {
-            return okHttpClient
-        }
+    fun okHttpClient(): OkHttpClient {
+        return okHttpClient
     }
 
 }

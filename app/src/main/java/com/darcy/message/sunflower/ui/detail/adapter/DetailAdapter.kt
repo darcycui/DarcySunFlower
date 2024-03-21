@@ -6,8 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.darcy.message.sunflower.databinding.DetailItemBinding
 import com.darcy.message.sunflower.ui.detail.bean.DetailBean
+import javax.inject.Inject
 
-class DetailAdapter : PagingDataAdapter<DetailBean, DetailViewHolder>(Item_DIFF_CALLBACK) {
+class DetailAdapter @Inject constructor() : PagingDataAdapter<DetailBean, DetailViewHolder>(Item_DIFF_CALLBACK) {
     companion object {
         private val Item_DIFF_CALLBACK = object : DiffUtil.ItemCallback<DetailBean>() {
             override fun areItemsTheSame(oldItem: DetailBean, newItem: DetailBean): Boolean =

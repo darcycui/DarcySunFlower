@@ -20,7 +20,7 @@ buildscript {
         glideVersion = '4.15.0'
         gradleVersion = '8.2.2'
         gsonVersion = '2.10.0'
-        hiltVersion = '2.41'
+        hiltVersion = '2.51'
         junitVersion = '4.13.2'
         kotlinVersion = '1.9.22'
         ktlintVersion = '0.40.0'
@@ -52,6 +52,7 @@ buildscript {
     dependencies {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+
     }
 }
 

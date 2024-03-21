@@ -2,13 +2,23 @@ package com.darcy.message.sunflower
 
 import android.app.Application
 import com.darcy.message.lib_common.app.AppHelper
+import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_db.db.impl.CipherDatabaseHelper
+import com.darcy.message.sunflower.ui.detail.bean.Parent
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
+@HiltAndroidApp
 class App : Application() {
+    @Inject
+    lateinit var parent: Parent
+
     override fun onCreate() {
         super.onCreate()
         init()
+        logV(message = "parent=$parent")
     }
 
     private fun init() {
