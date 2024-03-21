@@ -15,16 +15,16 @@ import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.sunflower.databinding.ActivityDetailBinding
 import com.darcy.message.sunflower.ui.detail.adapter.DetailAdapter
 import com.darcy.message.sunflower.ui.detail.adapter.LoadStateFooterAdapter
+import com.darcy.message.sunflower.ui.detail.bean.IWork
 import com.darcy.message.sunflower.ui.detail.bean.Parent
 import com.darcy.message.sunflower.ui.detail.bean.Son
+import com.darcy.message.sunflower.ui.detail.bean.WorkA
 import com.darcy.message.sunflower.ui.detail.di.EverywhereInject
-import com.darcy.message.sunflower.ui.detail.di.InjectionProvider
 import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.IOException
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,9 +35,9 @@ class DetailActivity : AppCompatActivity() {
     private val binding: ActivityDetailBinding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
     }
-    private val viewModel by viewModels<DetailViewModel>(
-        factoryProducer = { InjectionProvider.provideViewModelFactory(owner = this) }
-    )
+    // inject ViewModel
+    private val viewModel: DetailViewModel by viewModels()
+
     private val detailAdapter = DetailAdapter()
     private val fullAdapter =
         detailAdapter.withLoadStateFooter(footer = LoadStateFooterAdapter(retry = {
@@ -50,13 +50,13 @@ class DetailActivity : AppCompatActivity() {
     @Inject
     lateinit var parent: Parent
 
-//    @Inject
-//    lateinit var everywhereInject: EverywhereInject
+    @Inject
+    lateinit var work: IWork
 
     private fun testInject() {
         logV(message = "son=$son")
         logV(message = "parent=$parent")
-//        logV(message = "everywhereInject=$everywhereInject")
+        logV(message = "work=${work.work()}")
         EverywhereInject().testParentInject(context = this)
     }
 
