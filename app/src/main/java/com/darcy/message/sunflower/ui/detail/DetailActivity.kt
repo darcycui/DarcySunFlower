@@ -20,6 +20,7 @@ import com.darcy.message.sunflower.ui.detail.bean.Parent
 import com.darcy.message.sunflower.ui.detail.bean.Son
 import com.darcy.message.sunflower.ui.detail.bean.WorkA
 import com.darcy.message.sunflower.ui.detail.di.EverywhereInject
+import com.darcy.message.sunflower.ui.detail.di.WorkModule
 import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -51,12 +52,18 @@ class DetailActivity : AppCompatActivity() {
     lateinit var parent: Parent
 
     @Inject
-    lateinit var work: IWork
+    @WorkModule.A
+    lateinit var workA: IWork
+
+    @Inject
+    @WorkModule.B
+    lateinit var workB: IWork
 
     private fun testInject() {
         logV(message = "son=$son")
         logV(message = "parent=$parent")
-        logV(message = "work=${work.work()}")
+        logV(message = "work=${workA.work()}")
+        logV(message = "work=${workB.work()}")
         EverywhereInject().testParentInject(context = this)
     }
 

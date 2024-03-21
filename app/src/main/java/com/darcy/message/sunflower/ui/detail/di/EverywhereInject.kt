@@ -27,6 +27,7 @@ data class EverywhereInject(val id: Int = 100) {
 
     /**
      * inject Parent here
+     * ActivityContext Qualifier defined by hilt
      */
     fun testParentInject(@ActivityContext context: Activity) {
         val entryPoint = EntryPointAccessors.fromActivity<EverywhereInjectEntryPoint>(context, EverywhereInjectEntryPoint::class.java)
