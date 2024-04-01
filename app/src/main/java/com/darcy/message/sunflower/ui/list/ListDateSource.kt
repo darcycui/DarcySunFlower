@@ -6,7 +6,7 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Item
-import com.darcy.message.sunflower.ui.list.bean.DetailBean
+import com.darcy.message.sunflower.ui.list.bean.ListBean
 import com.darcy.message.sunflower.ui.list.repository.ListRepository
 import kotlin.math.max
 
@@ -14,8 +14,8 @@ private const val STARTING_KEY: Int = 1
 
 const val ITEMS_PER_PAGE = 20
 
-class DetailDateSource(private val itemDao: ItemDao) : PagingSource<Int, DetailBean>() {
-    override fun getRefreshKey(state: PagingState<Int, DetailBean>): Int? {
+class ListDateSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>() {
+    override fun getRefreshKey(state: PagingState<Int, ListBean>): Int? {
 //        val anchorPosition = state.anchorPosition ?: return null
 //        val article = state.closestItemToPosition(anchorPosition) ?: return null
 //        val refreshKey = article.id - (state.config.pageSize / 2)
@@ -29,7 +29,7 @@ class DetailDateSource(private val itemDao: ItemDao) : PagingSource<Int, DetailB
      */
     private fun ensureValidKey(key: Int) = max(STARTING_KEY, key)
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DetailBean> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ListBean> {
         try {
             when (params) {
                 is LoadParams.Refresh -> {
@@ -73,7 +73,7 @@ class DetailDateSource(private val itemDao: ItemDao) : PagingSource<Int, DetailB
         }
     }
 
-    private fun createDetailBeanList(itemList: List<Item>): List<DetailBean> {
-        return itemList.map { DetailBean().generate(it) }
+    private fun createDetailBeanList(itemList: List<Item>): List<ListBean> {
+        return itemList.map { ListBean().generate(it) }
     }
 }

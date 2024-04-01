@@ -6,6 +6,8 @@ import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.paging.ui.ArticleActivity
 import com.darcy.message.sunflower.databinding.ActivityMainBinding
+import com.darcy.message.sunflower.ui.detail.DetailActivity
+import com.darcy.message.sunflower.ui.detail.repository.DetailRepository
 import com.darcy.message.sunflower.ui.list.ListActivity
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnList.setOnClickListener {
             startPage(ListActivity::class.java)
+        }
+        binding.btnFlow.setOnClickListener {
+            startPage(DetailActivity::class.java)
         }
     }
 }

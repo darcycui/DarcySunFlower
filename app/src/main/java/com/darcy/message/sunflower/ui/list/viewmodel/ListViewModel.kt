@@ -7,9 +7,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.darcy.message.lib_db.daos.ItemDao
-import com.darcy.message.sunflower.ui.list.DetailDateSource
+import com.darcy.message.sunflower.ui.list.ListDateSource
 import com.darcy.message.sunflower.ui.list.ITEMS_PER_PAGE
-import com.darcy.message.sunflower.ui.list.bean.DetailBean
+import com.darcy.message.sunflower.ui.list.bean.ListBean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -23,8 +23,8 @@ class ListViewModel @Inject constructor (private val itemDao: ItemDao) : ViewMod
      * 分页数据流
      * 注意这里 缓存到viewModelScope
      */
-    val itemsPaging: Flow<PagingData<DetailBean>> = Pager(
+    val itemsPaging: Flow<PagingData<ListBean>> = Pager(
         config = PagingConfig(ITEMS_PER_PAGE, enablePlaceholders = false),
-        pagingSourceFactory = { DetailDateSource(itemDao) }
+        pagingSourceFactory = { ListDateSource(itemDao) }
     ).flow.cachedIn(viewModelScope)
 }

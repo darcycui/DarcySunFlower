@@ -5,8 +5,9 @@ import com.darcy.message.lib_db.tables.Item
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ListRepository(private val itemDao: ItemDao) {
+class ListRepository @Inject constructor (private val itemDao: ItemDao) {
     suspend fun loadDataFlow(): Flow<List<Item>?> {
         return withContext(Dispatchers.IO) {
             itemDao.getItemsFlow()
