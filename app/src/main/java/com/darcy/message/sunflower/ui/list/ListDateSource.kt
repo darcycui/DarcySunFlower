@@ -1,15 +1,13 @@
-package com.darcy.message.sunflower.ui.detail
+package com.darcy.message.sunflower.ui.list
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Item
-import com.darcy.message.sunflower.ui.detail.bean.DetailBean
-import com.darcy.message.sunflower.ui.detail.repository.DetailRepository
-import kotlinx.coroutines.delay
+import com.darcy.message.sunflower.ui.list.bean.DetailBean
+import com.darcy.message.sunflower.ui.list.repository.ListRepository
 import kotlin.math.max
 
 private const val STARTING_KEY: Int = 1
@@ -54,7 +52,7 @@ class DetailDateSource(private val itemDao: ItemDao) : PagingSource<Int, DetailB
             val page = params.key ?: STARTING_KEY
             //仓库层请求数据
 //            delay(1_000)
-            val itemList = DetailRepository(itemDao).loadData(page, ITEMS_PER_PAGE)
+            val itemList = ListRepository(itemDao).loadData(page, ITEMS_PER_PAGE)
             //下一页 null 没有更多数据
             val nextPage = if (itemList.isNotEmpty()) {
                 page + 1

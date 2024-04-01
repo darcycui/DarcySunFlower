@@ -1,13 +1,12 @@
 package com.darcy.message.sunflower
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.paging.ui.ArticleActivity
 import com.darcy.message.sunflower.databinding.ActivityMainBinding
-import com.darcy.message.sunflower.ui.detail.DetailActivity
+import com.darcy.message.sunflower.ui.list.ListActivity
 
 class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by lazy {
@@ -30,8 +29,8 @@ class MainActivity : AppCompatActivity() {
         binding.btnPaging.setOnClickListener {
             startPage(ArticleActivity::class.java)
         }
-        binding.btnDetail.setOnClickListener {
-            startPage(DetailActivity::class.java)
+        binding.btnList.setOnClickListener {
+            startPage(ListActivity::class.java)
         }
     }
 }

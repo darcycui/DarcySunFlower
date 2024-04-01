@@ -1,8 +1,8 @@
-package com.darcy.message.sunflower.ui.detail.di
+package com.darcy.message.sunflower.ui.list.di
 
-import com.darcy.message.sunflower.ui.detail.bean.IWork
-import com.darcy.message.sunflower.ui.detail.bean.WorkA
-import com.darcy.message.sunflower.ui.detail.bean.WorkB
+import com.darcy.message.sunflower.ui.list.bean.IWork
+import com.darcy.message.sunflower.ui.list.bean.WorkA
+import com.darcy.message.sunflower.ui.list.bean.WorkB
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

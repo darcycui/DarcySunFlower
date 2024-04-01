@@ -30,10 +30,18 @@
         app:layout_constraintTop_toBottomOf="@id/btnRoom" />
 
     <Button
-        android:id="@+id/btnDetail"
+        android:id="@+id/btnList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="room+paging"
+        app:layout_constraintTop_toBottomOf="@id/btnPaging" />
+
+
+    <Button
+        android:id="@+id/btnFlow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="room+flow"
         app:layout_constraintTop_toBottomOf="@id/btnPaging" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

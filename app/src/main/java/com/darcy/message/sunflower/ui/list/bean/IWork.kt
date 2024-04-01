@@ -1,8 +1,7 @@
-package com.darcy.message.sunflower.ui.detail.bean
+package com.darcy.message.sunflower.ui.list.bean
 
 import com.darcy.message.lib_common.exts.logI
 import javax.inject.Inject
-import javax.inject.Qualifier
 
 interface IWork {
     fun work()

@@ -1,8 +1,8 @@
-package com.darcy.message.sunflower.ui.detail.di
+package com.darcy.message.sunflower.ui.list.di
 
 import android.app.Activity
 import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.sunflower.ui.detail.bean.Parent
+import com.darcy.message.sunflower.ui.list.bean.Parent
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors

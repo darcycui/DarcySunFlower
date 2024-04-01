@@ -1,4 +1,4 @@
-package com.darcy.message.sunflower.ui.detail
+package com.darcy.message.sunflower.ui.list
 
 import android.content.Context
 import android.os.Bundle
@@ -12,16 +12,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
-import com.darcy.message.sunflower.databinding.ActivityDetailBinding
-import com.darcy.message.sunflower.ui.detail.adapter.DetailAdapter
-import com.darcy.message.sunflower.ui.detail.adapter.LoadStateFooterAdapter
-import com.darcy.message.sunflower.ui.detail.bean.IWork
-import com.darcy.message.sunflower.ui.detail.bean.Parent
-import com.darcy.message.sunflower.ui.detail.bean.Son
-import com.darcy.message.sunflower.ui.detail.bean.WorkA
-import com.darcy.message.sunflower.ui.detail.di.EverywhereInject
-import com.darcy.message.sunflower.ui.detail.di.WorkModule
-import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
+import com.darcy.message.sunflower.databinding.ActivityListBinding
+import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
+import com.darcy.message.sunflower.ui.list.adapter.LoadStateFooterAdapter
+import com.darcy.message.sunflower.ui.list.bean.IWork
+import com.darcy.message.sunflower.ui.list.bean.Parent
+import com.darcy.message.sunflower.ui.list.bean.Son
+import com.darcy.message.sunflower.ui.list.di.EverywhereInject
+import com.darcy.message.sunflower.ui.list.di.WorkModule
+import com.darcy.message.sunflower.ui.list.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,19 +28,19 @@ import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class ListActivity : AppCompatActivity() {
     private val context: Context by lazy {
         this
     }
-    private val binding: ActivityDetailBinding by lazy {
-        ActivityDetailBinding.inflate(layoutInflater)
+    private val binding: ActivityListBinding by lazy {
+        ActivityListBinding.inflate(layoutInflater)
     }
     // inject ViewModel
-    private val viewModel: DetailViewModel by viewModels()
+    private val viewModel: ListViewModel by viewModels()
 
-    private val detailAdapter = DetailAdapter()
+    private val listAdapter = ListAdapter()
     private val fullAdapter =
-        detailAdapter.withLoadStateFooter(footer = LoadStateFooterAdapter(retry = {
+        listAdapter.withLoadStateFooter(footer = LoadStateFooterAdapter(retry = {
             logD(message = "retry")
         }))
 
@@ -85,12 +84,12 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         binding.btnAppend.setOnClickListener {
-            detailAdapter.refresh()
+            listAdapter.refresh()
         }
         binding.btnPrepend.setOnClickListener {
-            detailAdapter.refresh()
+            listAdapter.refresh()
         }
-        detailAdapter.addLoadStateListener {
+        listAdapter.addLoadStateListener {
             when (it.refresh) {
                 is LoadState.NotLoading -> {
                     logD(message = "is NotLoading")
@@ -135,7 +134,7 @@ class DetailActivity : AppCompatActivity() {
         logD(message = "Load Data Once")
         viewModel.itemsPaging.collectLatest {
             logD(message = "data-->$it")
-            detailAdapter.submitData(it)
+            listAdapter.submitData(it)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.darcy.message.sunflower.ui.detail.adapter
+package com.darcy.message.sunflower.ui.list.adapter
 
 import android.view.LayoutInflater
 import android.view.View

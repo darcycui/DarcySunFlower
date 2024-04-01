@@ -1,4 +1,4 @@
-package com.darcy.message.sunflower.ui.detail.di
+package com.darcy.message.sunflower.ui.list.di
 
 import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_db.daos.ItemDao

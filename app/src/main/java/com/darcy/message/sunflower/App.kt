@@ -5,9 +5,8 @@ import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_db.db.impl.CipherDatabaseHelper
-import com.darcy.message.sunflower.ui.detail.bean.Parent
+import com.darcy.message.sunflower.ui.list.bean.Parent
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 @HiltAndroidApp

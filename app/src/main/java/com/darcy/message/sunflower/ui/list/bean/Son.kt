@@ -1,4 +1,4 @@
-package com.darcy.message.sunflower.ui.detail.bean
+package com.darcy.message.sunflower.ui.list.bean
 
 import com.darcy.message.lib_db.tables.Item
 import javax.inject.Inject
