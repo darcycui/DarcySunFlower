@@ -27,11 +27,11 @@ interface ItemDao {
     fun getItemsFlow(): Flow<List<Item>?>
 
     @Query("SELECT * from item WHERE id = :id")
-    fun getItem(id: Int): Item?
+    suspend fun getItem(id: Int): Item?
 
     @Query("SELECT * from item ORDER BY name ASC")
-    fun getItems(): List<Item>?
+    suspend fun getItems(): List<Item>?
 
     @Query("SELECT * from item ORDER BY id ASC LIMIT :pageSize OFFSET ((:page - 1) * :pageSize)")
-    fun getItemsByPage(page: Int, pageSize: Int): List<Item>?
+    suspend fun getItemsByPage(page: Int, pageSize: Int): List<Item>?
 }

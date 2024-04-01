@@ -50,6 +50,11 @@ class DetailActivity : AppCompatActivity() {
                 viewModel.updateItem(1, "Tom-${System.currentTimeMillis()}")
             }
         }
+        binding.btnTransaction.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.useDBTransaction()
+            }
+        }
     }
 
     private fun initObservers() {

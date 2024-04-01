@@ -21,4 +21,8 @@ class DetailViewModel @Inject constructor(private val detailRepository: DetailRe
     suspend fun updateItem(itemId: Int, itemName: String) {
         detailRepository.updateItem(itemId, itemName)
     }
+
+    suspend fun useDBTransaction() {
+        detailRepository.useDBTransaction()
+    }
 }
