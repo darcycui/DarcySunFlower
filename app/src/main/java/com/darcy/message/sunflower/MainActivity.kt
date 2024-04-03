@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
 import com.darcy.message.lib_ui.exts.startPage
+import com.darcy.message.lib_ui.mvi.ui.MVIActivity
 import com.darcy.message.lib_ui.paging.ui.ArticleActivity
 import com.darcy.message.sunflower.databinding.ActivityMainBinding
 import com.darcy.message.sunflower.ui.detail.DetailActivity
@@ -36,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnFlow.setOnClickListener {
             startPage(DetailActivity::class.java)
+        }
+        binding.btnMVI.setOnClickListener {
+            startPage(MVIActivity::class.java)
         }
     }
 }

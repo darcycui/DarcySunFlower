@@ -4,5 +4,6 @@
     <application>
         <activity android:name="com.darcy.message.lib_ui.paging.ui.ArticleActivity"
             android:exported="false"/>
+        <activity android:name="com.darcy.message.lib_ui.mvi.ui.MVIActivity" />
     </application>
 </manifest>
