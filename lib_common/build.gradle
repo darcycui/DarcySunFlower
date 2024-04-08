@@ -27,11 +27,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        // generate buildConfig
+        buildConfig true
+    }
 }
 
 dependencies {
     testImplementation "junit:junit:$rootProject.junitVersion"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.junitAndroidxVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$rootProject.coroutinesVersion"
 
