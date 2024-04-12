@@ -22,3 +22,8 @@ fun Any?.logW(tag: String? = LOG_TAG, message: String?) {
 fun Any?.logE(tag: String? = LOG_TAG, message: String?) {
     XLog.e((tag ?: LOG_TAG) + LOG_TAG + message)
 }
+
+fun Exception.print() {
+    logE(message = "fail with Exception: $this")
+    this.printStackTrace()
+}

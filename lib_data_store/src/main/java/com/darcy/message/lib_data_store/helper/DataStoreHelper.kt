@@ -15,7 +15,6 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlin.math.log
 
 /**
  * Description:DataStore util class used to save key-value pairs recommended by google

@@ -3,14 +3,16 @@ package com.darcy.message.lib_ui.mvi.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.darcy.message.lib_common.exts.toast
 import com.darcy.message.lib_im.databinding.ActivityMviactivityBinding
+import com.darcy.message.lib_ui.exts.showSnackBar
+import com.darcy.message.lib_ui.mvi.bean.NewsItem
 import com.darcy.message.lib_ui.mvi.state.MainViewIntent
 import com.darcy.message.lib_ui.mvi.state.MainViewEvent
 import com.darcy.message.lib_ui.mvi.state.MainViewState
-import com.darcy.message.lib_ui.mvi.utils.FetchStatus
-import com.darcy.message.lib_ui.mvi.utils.observeEvent
-import com.darcy.message.lib_ui.mvi.utils.observeState
-import com.darcy.message.lib_ui.mvi.utils.toast
+import com.darcy.message.lib_ui.mvi.state.common.FetchStatus
+import com.darcy.message.lib_ui.exts.observeEvent
+import com.darcy.message.lib_ui.exts.observeState
 import com.darcy.message.lib_ui.mvi.viewmodel.MainViewModel
 
 class MVIActivity : AppCompatActivity() {
@@ -27,10 +29,17 @@ class MVIActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_mviactivity)
         setContentView(binding.root)
         initView()
-        initViewModel()
+        initObservers()
     }
 
     private fun initView() {
+        binding.btnShowSnackbar.setOnClickListener {
+            viewModel.dispatch(
+                MainViewIntent.NewsItemClickedIntent(
+                    NewsItem("title", "description", "imageUrl")
+                )
+            )
+        }
         binding.btnCount.setOnClickListener {
             viewModel.dispatch(MainViewIntent.FabClickedIntent)
         }
@@ -39,11 +48,12 @@ class MVIActivity : AppCompatActivity() {
         }
     }
 
-    private fun initViewModel() {
+    private fun initObservers() {
+        // observe events
         viewModel.viewEvents.observeEvent(this) {
             when (it) {
                 is MainViewEvent.ShowSnackbarEvent -> {
-                    binding.tvInfo.text = "ShowSnackbar"
+                    showSnackBar(it.message)
                 }
 
                 is MainViewEvent.ShowToastEvent -> {
@@ -52,6 +62,7 @@ class MVIActivity : AppCompatActivity() {
             }
         }
 
+        // observe states
         viewModel.viewStates.run {
             observeState(context, MainViewState::newsList) {
                 binding.tvInfo.text = "add to list\nadd to list\nadd to list"

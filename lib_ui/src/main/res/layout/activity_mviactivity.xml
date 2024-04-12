@@ -19,7 +19,14 @@
         android:id="@+id/btnCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="count"
+        android:text="toast"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShowSnackbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="snackbar"
         android:textAllCaps="false" />
 
     <TextView

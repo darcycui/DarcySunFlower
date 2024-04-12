@@ -1,4 +1,4 @@
-package com.darcy.message.lib_ui.mvi.utils
+package com.darcy.message.lib_ui.exts
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -8,6 +8,9 @@ import androidx.lifecycle.map
 import com.darcy.message.lib_ui.mvi.event.LiveEvents
 import kotlin.reflect.KProperty1
 
+/**
+ * only observe one property of the LiveData
+ */
 fun <T, A> LiveData<T>.observeState(
     lifecycleOwner: LifecycleOwner,
     prop1: KProperty1<T, A>,
@@ -20,6 +23,9 @@ fun <T, A> LiveData<T>.observeState(
     }
 }
 
+/**
+ * only observe two properties of the LiveData
+ */
 fun <T, A, B> LiveData<T>.observeState(
     lifecycleOwner: LifecycleOwner,
     prop1: KProperty1<T, A>,
@@ -33,6 +39,9 @@ fun <T, A, B> LiveData<T>.observeState(
     }
 }
 
+/**
+ * only observe three properties of the LiveData
+ */
 fun <T, A, B, C> LiveData<T>.observeState(
     lifecycleOwner: LifecycleOwner,
     prop1: KProperty1<T, A>,
@@ -51,9 +60,16 @@ internal data class StateTuple1<A>(val a: A)
 internal data class StateTuple2<A, B>(val a: A, val b: B)
 internal data class StateTuple3<A, B, C>(val a: A, val b: B, val c: C)
 
+/**
+ * typically used for preloading/loading/loaded success/load error eg page state
+ */
 fun <T> MutableLiveData<T>.setState(reducer: T.() -> T) {
     this.value = this.value?.reducer()
 }
+
+/**
+ * typically used for toast or snackbar
+ */
 fun <T> LiveEvents<T>.setEvent(vararg values: T) {
     this.value = values.toList()
 }

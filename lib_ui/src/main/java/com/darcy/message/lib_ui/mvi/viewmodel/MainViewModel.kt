@@ -3,16 +3,16 @@ package com.darcy.message.lib_ui.mvi.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.darcy.message.lib_ui.exts.asLiveData
 import com.darcy.message.lib_ui.mvi.bean.NewsItem
 import com.darcy.message.lib_ui.mvi.event.LiveEvents
 import com.darcy.message.lib_ui.mvi.state.MainViewIntent
 import com.darcy.message.lib_ui.mvi.state.MainViewEvent
 import com.darcy.message.lib_ui.mvi.state.MainViewState
-import com.darcy.message.lib_ui.mvi.utils.FetchStatus
-import com.darcy.message.lib_ui.mvi.utils.PageState
-import com.darcy.message.lib_ui.mvi.utils.asLiveData
-import com.darcy.message.lib_ui.mvi.utils.setEvent
-import com.darcy.message.lib_ui.mvi.utils.setState
+import com.darcy.message.lib_ui.mvi.state.common.FetchStatus
+import com.darcy.message.lib_ui.mvi.state.common.PageState
+import com.darcy.message.lib_ui.exts.setEvent
+import com.darcy.message.lib_ui.exts.setState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -23,6 +23,9 @@ class MainViewModel : ViewModel() {
     private val _viewEvents: LiveEvents<MainViewEvent> = LiveEvents()
     val viewEvents = _viewEvents.asLiveData()
 
+    /**
+     * dispatch intent
+     */
     fun dispatch(intent: MainViewIntent) {
         when (intent) {
             is MainViewIntent.NewsItemClickedIntent -> newsItemClicked(intent.newsItem)

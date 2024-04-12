@@ -1,7 +1,7 @@
 package com.darcy.message.lib_ui.mvi.state
 
 import com.darcy.message.lib_ui.mvi.bean.NewsItem
-import com.darcy.message.lib_ui.mvi.utils.FetchStatus
+import com.darcy.message.lib_ui.mvi.state.common.FetchStatus
 
 data class MainViewState(
     val fetchStatus: FetchStatus = FetchStatus.NotFetched,
