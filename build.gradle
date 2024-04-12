@@ -15,6 +15,7 @@ buildscript {
         constraintLayoutVersion = '2.1.4'
         coreTestingVersion = '2.2.0'
         coroutinesVersion = "1.7.3"
+        datastorePreferencesVersion = '1.0.0'
         espressoVersion = '3.5.1'
         fragmentVersion = '1.6.1'
         glideVersion = '4.15.0'

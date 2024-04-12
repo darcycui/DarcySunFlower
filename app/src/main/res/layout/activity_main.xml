@@ -52,4 +52,12 @@
         android:text="MVI"
         app:layout_constraintTop_toBottomOf="@id/btnFlow" />
 
+
+    <Button
+        android:id="@+id/btnDataStore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DataStore"
+        app:layout_constraintTop_toBottomOf="@id/btnMVI" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
