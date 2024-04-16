@@ -61,8 +61,8 @@ class ListActivity : AppCompatActivity() {
     private fun testInject() {
         logV(message = "son=$son")
         logV(message = "parent=$parent")
-        logV(message = "work=${workA.work()}")
-        logV(message = "work=${workB.work()}")
+        workA.work()
+        workB.work()
         EverywhereInject().testParentInject(context = this)
     }
 

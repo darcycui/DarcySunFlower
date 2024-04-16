@@ -30,7 +30,7 @@ object CommonHttpHelper : IHttpHelper {
             action.start?.invoke()
             val result = action.request?.invoke()
             if (isSuccess(result)) {
-                action.success?.invoke(result!!.data)
+                action.success?.invoke(result!!.result)
             } else {
                 action.error?.invoke(result?.reason ?: "Empty reason")
             }

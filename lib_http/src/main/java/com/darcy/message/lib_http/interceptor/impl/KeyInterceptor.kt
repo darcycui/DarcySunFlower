@@ -4,6 +4,9 @@ import com.darcy.message.lib_http.interceptor.IInterceptor
 import okhttp3.Interceptor
 import okhttp3.Response
 
+/**
+ * add header interceptor
+ */
 class KeyInterceptor : IInterceptor, Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()

@@ -18,10 +18,10 @@ class CommonHttpHelperTest {
                     api.checkIP("110.110.110.110")
                 }
                 success {
-                    println("success")
+                    println("success:$it")
                 }
                 error {
-                    println("error")
+                    println("error:$it")
                 }
                 finish {
                     println("finish")
