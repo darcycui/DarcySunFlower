@@ -2,7 +2,7 @@ package com.darcy.message.lib_http.helper.impl
 
 import com.darcy.message.lib_http.entity.base.BaseResult
 import com.darcy.message.lib_http.helper.IHttpHelper
-import com.darcy.message.lib_http.request.RequestAction
+import com.darcy.message.lib_http.request.RetrofitRequestAction
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -11,7 +11,7 @@ private const val SERVER_ERROR = "HTTP 500 Internal Server Error."
 private const val HTTP_ERROR_TIP =
     "Internet connect error, Please check your network connection and try again."
 
-object CommonHttpHelper : IHttpHelper {
+object RetrofitHttpHelper : IHttpHelper {
     /**
      * 带有接收者的函数字面值
      *
@@ -24,8 +24,8 @@ object CommonHttpHelper : IHttpHelper {
      * https://book.kotlincn.net/text/lambdas.html#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B
      * @param block 请求体
      */
-    suspend fun <T> httpRequest(block: RequestAction<T>.() -> Unit) {
-        val action: RequestAction<T> = RequestAction<T>().apply(block)
+    suspend fun <T> httpRequest(block: RetrofitRequestAction<T>.() -> Unit) {
+        val action: RetrofitRequestAction<T> = RetrofitRequestAction<T>().apply(block)
         try {
             action.start?.invoke()
             val result = action.request?.invoke()

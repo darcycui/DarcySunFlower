@@ -2,7 +2,7 @@ package com.darcy.message.lib_http.request
 
 import com.darcy.message.lib_http.entity.base.BaseResult
 
-class RequestAction<T> {
+class OkHttpRequestAction<T> {
     /**
      * http request start
      */
@@ -18,7 +18,7 @@ class RequestAction<T> {
     /**
      * http request success
      */
-    var success: ((T?) -> Unit)? = null
+    var success: ((BaseResult<T>?) -> Unit)? = null
 
     /**
      * http request error
@@ -40,7 +40,7 @@ class RequestAction<T> {
         start = block
     }
 
-    fun success(block: ((T?) -> Unit)) {
+    fun success(block: ((BaseResult<T>?) -> Unit)) {
         success = block
     }
 
