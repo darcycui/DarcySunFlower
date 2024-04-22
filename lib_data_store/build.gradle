@@ -12,6 +12,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        // todo 设置资源文件前缀 防止资源名重复
+        resourcePrefix "lib_data_store_"
     }
 
     buildTypes {

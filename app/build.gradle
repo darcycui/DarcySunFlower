@@ -17,6 +17,9 @@ android {
         versionName rootProject.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // todo 设置资源文件前缀 防止资源名重复
+        resourcePrefix "app_"
     }
     // load key store from local.properties
     def localProperties = new Properties()

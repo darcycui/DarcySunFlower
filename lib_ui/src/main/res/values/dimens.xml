@@ -16,5 +16,5 @@
   -->
 
 <resources>
-    <dimen name="article_list_spacing">8dp</dimen>
+    <dimen name="lib_ui_article_list_spacing">8dp</dimen>
 </resources>

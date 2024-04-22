@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-    android:padding="@dimen/article_list_spacing">
+    android:padding="@dimen/lib_ui_article_list_spacing">
 
     <TextView
         android:id="@+id/title"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/article_list_spacing"
+        android:layout_marginTop="@dimen/lib_ui_article_list_spacing"
         android:gravity="center"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/article_list_spacing"
+        android:layout_marginTop="@dimen/lib_ui_article_list_spacing"
         android:gravity="center"
         android:textSize="14sp"
         android:textStyle="bold"

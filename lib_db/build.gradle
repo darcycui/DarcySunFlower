@@ -19,6 +19,8 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        // todo 设置资源文件前缀 防止资源名重复
+        resourcePrefix "lib_db_"
     }
 
     buildTypes {
