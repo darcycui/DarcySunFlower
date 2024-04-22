@@ -1,20 +1,21 @@
 package com.darcy.message.lib_http
 
-import com.darcy.message.lib_http.client.impl.OKHttpClient
+import com.darcy.message.lib_http.client.impl.KtorClient
 import com.darcy.message.lib_http.entity.IPEntity
+import com.darcy.message.lib_http.entity.IPEntityAll
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class OkHttpClientTest {
-
+class KtorClientTest {
     @Test
     fun doGetTest() {
         runBlocking {
-            OKHttpClient.doGet<IPEntity>(
-//            baseUrl = "https://apis.juhe.cn",
+
+            KtorClient.doGet<IPEntityAll>(
+                baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
-                    "ip" to "114.215.154.101",
+                    "ip" to "120.120.120.120",
                     "key" to "f128bfc760193c5762c5c3be2a6051d8"
                 )
             ) {

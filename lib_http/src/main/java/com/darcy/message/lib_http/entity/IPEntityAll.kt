@@ -1,11 +1,11 @@
-package com.darcy.message.lib_http.entity.base
+package com.darcy.message.lib_http.entity
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BaseResult<T>(
+data class IPEntityAll(
     val resultcode: String = "",
     val error_code: String = "",
     val reason: String = "",
-    val result: T
+    val result: IPEntity
 )

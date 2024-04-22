@@ -11,7 +11,7 @@ object RetrofitHttpClient : IHttpClient {
         return OKHttpClient.okHttpClient()
     }
 
-    override fun <T> doGet(
+    override suspend fun <T> doGet(
         baseUrl: String,
         path: String,
         params: Map<String, String>,

@@ -3,6 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    // kotlin serialization
+//    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+    id 'org.jetbrains.kotlin.plugin.serialization' version "1.9.22"
 }
 
 android {
@@ -48,4 +51,16 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$rootProject.hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
 
+    // ktor core
+    implementation "io.ktor:ktor-client-core:$rootProject.ktorVersion"
+    // ktor android
+    implementation "io.ktor:ktor-client-android:$rootProject.ktorVersion"
+    implementation "io.ktor:ktor-client-okhttp:$rootProject.ktorVersion"
+    // ktor convert json to bean
+    implementation "io.ktor:ktor-client-content-negotiation:$rootProject.ktorVersion"
+    implementation "io.ktor:ktor-serialization-kotlinx-json:$rootProject.ktorVersion"
+    // ktor log
+    implementation "io.ktor:ktor-client-logging:$rootProject.ktorVersion"
+    // ktor gson
+//    implementation "io.ktor:ktor-client-gson:$rootProject.ktorVersion"
 }
