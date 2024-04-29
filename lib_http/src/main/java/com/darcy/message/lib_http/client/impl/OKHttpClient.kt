@@ -57,7 +57,7 @@ object OKHttpClient : IHttpClient {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    action.success?.invoke(response.gsonToBean())
+                    action.success?.invoke(response.gsonToBean<T>())
                     action.finish?.invoke()
                 }
             })

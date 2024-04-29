@@ -35,6 +35,11 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    // 单元测试配置
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -62,5 +67,9 @@ dependencies {
     // ktor log
     implementation "io.ktor:ktor-client-logging:$rootProject.ktorVersion"
     // ktor gson
-//    implementation "io.ktor:ktor-client-gson:$rootProject.ktorVersion"
+    implementation "io.ktor:ktor-serialization-gson:$rootProject.ktorVersion"
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+
 }

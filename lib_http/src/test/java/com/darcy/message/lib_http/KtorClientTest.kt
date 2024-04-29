@@ -3,6 +3,7 @@ package com.darcy.message.lib_http
 import com.darcy.message.lib_http.client.impl.KtorClient
 import com.darcy.message.lib_http.entity.IPEntity
 import com.darcy.message.lib_http.entity.IPEntityAll
+import com.darcy.message.lib_http.entity.base.BaseResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -11,7 +12,7 @@ class KtorClientTest {
     fun doGetTest() {
         runBlocking {
 
-            KtorClient.doGet<IPEntityAll>(
+            KtorClient.doGet<IPEntity>(
                 baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
