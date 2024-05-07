@@ -25,8 +25,6 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_mviactivity)
-        setContentView(binding.root)
         initView()
         initObservers()
     }

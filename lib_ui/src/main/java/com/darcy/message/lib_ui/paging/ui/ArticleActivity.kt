@@ -14,15 +14,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 import androidx.activity.viewModels
+import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.paging.Injection
 
-class ArticleActivity : AppCompatActivity() {
+class ArticleActivity : BaseActivity<LibUiActivityArticlesBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = LibUiActivityArticlesBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
 
         val viewModel by viewModels<ArticleViewModel>(
             factoryProducer = { Injection.provideViewModelFactory(owner = this) }

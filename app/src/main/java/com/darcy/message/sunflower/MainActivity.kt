@@ -3,6 +3,7 @@ package com.darcy.message.sunflower
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
+import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.mvi.ui.MVIActivity
 import com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity
@@ -12,15 +13,10 @@ import com.darcy.message.sunflower.test.DataStoreActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
 
-class MainActivity : AppCompatActivity() {
-    private val binding: AppActivityMainBinding by lazy {
-        AppActivityMainBinding.inflate(layoutInflater)
-    }
+class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
-        setContentView(binding.root)
         initView()
     }
 

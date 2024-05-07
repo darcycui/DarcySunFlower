@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
+import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityListBinding
 import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
 import com.darcy.message.sunflower.ui.list.adapter.LoadStateFooterAdapter
@@ -28,12 +29,9 @@ import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ListActivity : AppCompatActivity() {
+class ListActivity : BaseActivity<AppActivityListBinding>() {
     private val context: Context by lazy {
         this
-    }
-    private val binding: AppActivityListBinding by lazy {
-        AppActivityListBinding.inflate(layoutInflater)
     }
     // inject ViewModel
     private val viewModel: ListViewModel by viewModels()
@@ -68,8 +66,6 @@ class ListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_detail)
-        setContentView(binding.root)
         viewModel.logD(message = "DetailActivity on Create")
         testInject()
         initView()

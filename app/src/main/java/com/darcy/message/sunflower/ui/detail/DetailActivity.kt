@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
+import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityDetailBinding
 import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,12 +19,9 @@ import kotlinx.coroutines.launch
  * hilt inject Activity
  */
 @AndroidEntryPoint
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
     private val context: Context by lazy {
         this
-    }
-    private val binding: AppActivityDetailBinding by lazy {
-        AppActivityDetailBinding.inflate(layoutInflater)
     }
 
     // inject ViewModel
@@ -31,8 +29,6 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_detail)
-        setContentView(binding.root)
         initView()
         initObservers()
         initListeners()

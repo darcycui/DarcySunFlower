@@ -6,15 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_data_store.helper.DataStoreEnum
 import com.darcy.message.lib_data_store.helper.DataStoreHelper
+import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityDataStoreBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-class DataStoreActivity : AppCompatActivity() {
-    private val binding: AppActivityDataStoreBinding by lazy {
-        AppActivityDataStoreBinding.inflate(layoutInflater)
-    }
+class DataStoreActivity : BaseActivity<AppActivityDataStoreBinding>() {
     private val scope: CoroutineScope by lazy {
         MainScope()
     }
@@ -22,7 +20,6 @@ class DataStoreActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
         initView()
         initObservers()
     }
