@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.darcy.message.lib_im.databinding.ActivityArticlesBinding
+import com.darcy.message.lib_im.databinding.LibUiActivityArticlesBinding
 import com.darcy.message.lib_ui.paging.adapter.ArticleAdapter
 import com.darcy.message.lib_ui.paging.viewmodel.ArticleViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -20,7 +20,7 @@ class ArticleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityArticlesBinding.inflate(layoutInflater)
+        val binding = LibUiActivityArticlesBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -48,7 +48,7 @@ class ArticleActivity : AppCompatActivity() {
     }
 }
 
-private fun ActivityArticlesBinding.bindAdapter(
+private fun LibUiActivityArticlesBinding.bindAdapter(
     articleAdapter: ArticleAdapter
 ) {
     list.adapter = articleAdapter

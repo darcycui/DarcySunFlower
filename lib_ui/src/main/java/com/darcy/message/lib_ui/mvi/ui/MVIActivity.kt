@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.darcy.message.lib_common.exts.toast
-import com.darcy.message.lib_im.databinding.ActivityMviactivityBinding
+import com.darcy.message.lib_im.databinding.LibUiActivityMviactivityBinding
+import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.exts.showSnackBar
 import com.darcy.message.lib_ui.mvi.bean.NewsItem
 import com.darcy.message.lib_ui.mvi.state.MainViewIntent
@@ -15,13 +16,11 @@ import com.darcy.message.lib_ui.exts.observeEvent
 import com.darcy.message.lib_ui.exts.observeState
 import com.darcy.message.lib_ui.mvi.viewmodel.MainViewModel
 
-class MVIActivity : AppCompatActivity() {
+class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
     private val context: AppCompatActivity by lazy {
         this
     }
-    private val binding: ActivityMviactivityBinding by lazy {
-        ActivityMviactivityBinding.inflate(layoutInflater)
-    }
+
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

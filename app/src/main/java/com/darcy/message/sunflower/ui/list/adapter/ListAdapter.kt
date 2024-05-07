@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.darcy.message.sunflower.databinding.DetailItemBinding
+import com.darcy.message.sunflower.databinding.AppDetailItemBinding
 import com.darcy.message.sunflower.ui.list.bean.ListBean
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class ListAdapter @Inject constructor() : PagingDataAdapter<ListBean, ListViewHo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
-            DetailItemBinding.inflate(
+            AppDetailItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,

@@ -17,14 +17,14 @@
 package com.darcy.message.lib_ui.paging.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import com.darcy.message.lib_im.databinding.ArticleViewholderBinding
+import com.darcy.message.lib_im.databinding.LibUiArticleViewholderBinding
 import com.darcy.message.lib_ui.paging.entity.Article
 
 /**
  * View Holder for a [Article] RecyclerView list item.
  */
 class ArticleViewHolder(
-    private val binding: ArticleViewholderBinding
+    private val binding: LibUiArticleViewholderBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(article: Article) {

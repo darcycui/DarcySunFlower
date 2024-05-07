@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
-import com.darcy.message.sunflower.databinding.ActivityListBinding
+import com.darcy.message.sunflower.databinding.AppActivityListBinding
 import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
 import com.darcy.message.sunflower.ui.list.adapter.LoadStateFooterAdapter
 import com.darcy.message.sunflower.ui.list.bean.IWork
@@ -32,8 +32,8 @@ class ListActivity : AppCompatActivity() {
     private val context: Context by lazy {
         this
     }
-    private val binding: ActivityListBinding by lazy {
-        ActivityListBinding.inflate(layoutInflater)
+    private val binding: AppActivityListBinding by lazy {
+        AppActivityListBinding.inflate(layoutInflater)
     }
     // inject ViewModel
     private val viewModel: ListViewModel by viewModels()

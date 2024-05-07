@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.darcy.message.lib_im.databinding.ArticleViewholderBinding
+import com.darcy.message.lib_im.databinding.LibUiArticleViewholderBinding
 import com.darcy.message.lib_ui.paging.entity.Article
 
 class ArticleAdapter : PagingDataAdapter<Article, ArticleViewHolder>(ARTICLE_DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder =
         ArticleViewHolder(
-            ArticleViewholderBinding.inflate(
+            LibUiArticleViewholderBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false,

@@ -2,20 +2,14 @@ package com.darcy.message.sunflower.ui.detail
 
 import android.content.Context
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
-import com.darcy.message.sunflower.R
-import com.darcy.message.sunflower.databinding.ActivityDetailBinding
-import com.darcy.message.sunflower.databinding.ActivityListBinding
+import com.darcy.message.sunflower.databinding.AppActivityDetailBinding
 import com.darcy.message.sunflower.ui.detail.viewmodel.DetailViewModel
-import com.darcy.message.sunflower.ui.list.viewmodel.ListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -28,8 +22,8 @@ class DetailActivity : AppCompatActivity() {
     private val context: Context by lazy {
         this
     }
-    private val binding: ActivityDetailBinding by lazy {
-        ActivityDetailBinding.inflate(layoutInflater)
+    private val binding: AppActivityDetailBinding by lazy {
+        AppActivityDetailBinding.inflate(layoutInflater)
     }
 
     // inject ViewModel
