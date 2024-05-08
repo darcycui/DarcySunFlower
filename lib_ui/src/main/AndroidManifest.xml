@@ -4,11 +4,16 @@
     <application>
         <activity
             android:name="com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:persistableMode="persistAcrossReboots" />
         <activity
             android:name="com.darcy.message.lib_ui.paging.ui.ArticleActivity"
-            android:exported="false" />
-        <activity android:name="com.darcy.message.lib_ui.mvi.ui.MVIActivity" />
+            android:exported="false"
+            android:persistableMode="persistAcrossReboots" />
+        <activity
+            android:name="com.darcy.message.lib_ui.mvi.ui.MVIActivity"
+            android:exported="false"
+            android:persistableMode="persistAcrossReboots" />
     </application>
 
 </manifest>

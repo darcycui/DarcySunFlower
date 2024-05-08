@@ -1,5 +1,6 @@
 package com.darcy.message.lib_ui.base.lifecycle
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
@@ -16,42 +17,41 @@ open class ActivityLifecycle : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onCreate(owner: LifecycleOwner) {
-                super.onCreate(owner)
-                logI(TAG, "$TAG onCreate")
-            }
-
-            override fun onStart(owner: LifecycleOwner) {
-                super.onStart(owner)
-                logD(TAG, "$TAG onStart")
-            }
-
-            override fun onResume(owner: LifecycleOwner) {
-                super.onResume(owner)
-                logD(TAG, "$TAG onResume")
-            }
-
-            override fun onPause(owner: LifecycleOwner) {
-                super.onPause(owner)
-                logD(TAG, "$TAG onPause")
-            }
-
-            override fun onStop(owner: LifecycleOwner) {
-                super.onStop(owner)
-                logD(TAG, "$TAG onStop")
-            }
-
-            override fun onDestroy(owner: LifecycleOwner) {
-                super.onDestroy(owner)
-                logE(TAG, "$TAG onDestroy")
-            }
-        })
+        logI(TAG, "$TAG onCreate")
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
-        logD(TAG, "$TAG onCreate2")
+        logI(TAG, "$TAG onCreate2")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        logD(TAG, "$TAG onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        logD(TAG, "$TAG onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logD(TAG, "$TAG onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        logD(TAG, "$TAG onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        logD(TAG, "$TAG onRestart")
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        logE(TAG, "$TAG onDestroy")
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -75,6 +75,11 @@ open class ActivityLifecycle : AppCompatActivity() {
     ) {
         super.onRestoreInstanceState(savedInstanceState, persistentState)
         logD(TAG, "$TAG onRestoreInstanceState2")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        logD(TAG, "$TAG onConfigurationChanged")
     }
 
     override fun getLastNonConfigurationInstance(): Any? {
