@@ -10,6 +10,7 @@ import com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity
 import com.darcy.message.lib_ui.paging.ui.ArticleActivity
 import com.darcy.message.sunflower.databinding.AppActivityMainBinding
 import com.darcy.message.sunflower.test.DataStoreActivity
+import com.darcy.message.sunflower.test.TestHttpActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
 
@@ -43,6 +44,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnFragment.setOnClickListener {
             startPage(TestFragmentActivity::class.java)
+        }
+        binding.btnHttp.setOnClickListener {
+            startPage(TestHttpActivity::class.java)
         }
     }
 }

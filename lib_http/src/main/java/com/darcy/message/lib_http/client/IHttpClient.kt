@@ -5,8 +5,11 @@ import com.darcy.message.lib_http.request.OkHttpRequestAction
 
 interface IHttpClient {
     suspend fun <T> doGet(
-        baseUrl: String = getBaseHttpUrl(), path: String, params: Map<String, String>,
-        block: OkHttpRequestAction<T>.() -> Unit
+        baseUrl: String = getBaseHttpUrl(),
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean = true,
+        block: OkHttpRequestAction<T>.() -> Unit,
     )
 
 //    fun doPost()

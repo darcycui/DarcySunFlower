@@ -1,5 +1,6 @@
 package com.darcy.message.lib_http.client.impl
 
+import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_http.client.IHttpClient
 import com.darcy.message.lib_http.config.CALL_TIMEOUT
 import com.darcy.message.lib_http.config.CONNECT_TIMEOUT
@@ -7,10 +8,13 @@ import com.darcy.message.lib_http.config.READ_TIMEOUT
 import com.darcy.message.lib_http.config.WRITE_TIMEOUT
 import com.darcy.message.lib_http.exts.gsonToBean
 import com.darcy.message.lib_http.exts.toUrlEncodedString
+import com.darcy.message.lib_http.interceptor.impl.CacheInterceptor
 import com.darcy.message.lib_http.interceptor.impl.KeyInterceptor
 import com.darcy.message.lib_http.request.OkHttpRequestAction
+import okhttp3.Cache
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -22,13 +26,22 @@ object OKHttpClient : IHttpClient {
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
+            // set timeout
             .callTimeout(CALL_TIMEOUT, TimeUnit.MILLISECONDS)
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
             .readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS)
             .writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS)
+            // allow retry
             .retryOnConnectionFailure(true)
+            // log
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            // add header
             .addInterceptor(KeyInterceptor())
+            // use cache
+            .cache(Cache(AppHelper.getAppContext().filesDir, 1024 * 1024 * 10))
+            .addInterceptor(CacheInterceptor())
+            // increase the number of requests for per host, so that the timeout could be correctly(without waiting time in queue)
+            .dispatcher(Dispatcher().apply { maxRequestsPerHost = 10 })
             .build()
     }
 
@@ -40,12 +53,14 @@ object OKHttpClient : IHttpClient {
         baseUrl: String,
         path: String,
         params: Map<String, String>,
+        useCache: Boolean,
         block: OkHttpRequestAction<T>.() -> Unit
     ) {
         val action: OkHttpRequestAction<T> = OkHttpRequestAction<T>().apply(block)
         val url = baseUrl + path + "?" + params.toUrlEncodedString()
         val request: Request =
             Request.Builder().url(url)
+                .header("Cache-Control", if (useCache) "" else "no-cache")
                 .get()
                 .build()
         action.start?.invoke()

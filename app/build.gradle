@@ -93,5 +93,6 @@ dependencies {
     implementation project(':lib_db')
     api project(':lib_ui')
     api project(':lib_data_store')
+    api project(':lib_http')
 
 }

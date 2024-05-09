@@ -45,6 +45,7 @@ object KtorClient : IHttpClient {
         baseUrl: String,
         path: String,
         params: Map<String, String>,
+        useCache: Boolean,
         block: OkHttpRequestAction<T>.() -> Unit
     ) {
         val action: OkHttpRequestAction<T> = OkHttpRequestAction<T>().apply(block)

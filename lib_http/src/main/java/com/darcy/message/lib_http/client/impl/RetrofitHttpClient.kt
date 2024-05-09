@@ -15,6 +15,7 @@ object RetrofitHttpClient : IHttpClient {
         baseUrl: String,
         path: String,
         params: Map<String, String>,
+        useCache: Boolean,
         block: OkHttpRequestAction<T>.() -> Unit
     ) {
 
