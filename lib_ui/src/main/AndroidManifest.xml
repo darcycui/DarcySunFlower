@@ -7,7 +7,7 @@
             android:exported="false"
             android:persistableMode="persistAcrossReboots" />
         <activity
-            android:name="com.darcy.message.lib_ui.paging.ui.ArticleActivity"
+            android:name="com.darcy.message.lib_ui.paging.ui.TestPagingActivity"
             android:exported="false"
             android:persistableMode="persistAcrossReboots" />
         <activity

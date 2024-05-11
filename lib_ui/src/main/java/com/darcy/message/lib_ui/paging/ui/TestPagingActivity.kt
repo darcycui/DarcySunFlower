@@ -1,7 +1,6 @@
 package com.darcy.message.lib_ui.paging.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -17,7 +16,7 @@ import androidx.activity.viewModels
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.paging.Injection
 
-class ArticleActivity : BaseActivity<LibUiActivityArticlesBinding>() {
+class TestPagingActivity : BaseActivity<LibUiActivityArticlesBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
