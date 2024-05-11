@@ -2,8 +2,8 @@ package com.darcy.message.lib_ui.paging.repoisitory
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.darcy.message.lib_ui.paging.ArticlePagingSource
 import com.darcy.message.lib_ui.paging.entity.Article
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDateTime
@@ -19,7 +19,7 @@ class ArticleRepository {
      * Exposed singular stream of [Article] instances
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    val articleStream: Flow<List<Article>> = flowOf(
+    fun getArticleStream(): Flow<List<Article>> = flowOf(
         (0..500).map { number ->
             Article(
                 id = number,
@@ -30,8 +30,20 @@ class ArticleRepository {
         }
     )
 
-    /**
-     * 创建PagingSource对象 每次都新建
-     */
-    fun articlePagingSource() = ArticlePagingSource()
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun getRemoteArticles(range: IntRange): List<Article> {
+        delay(1_000)
+        return range.map { number ->
+            Article(
+                // Generate consecutive increasing numbers as the article id
+                id = number,
+                title = "Article $number",
+                description = "This describes article $number",
+                created = firstArticleCreatedTime.minusDays(
+                    number.toLong()
+                )
+            )
+        }
+    }
 }
