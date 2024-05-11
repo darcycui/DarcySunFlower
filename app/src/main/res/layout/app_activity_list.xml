@@ -1,37 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.list.ListActivity">
 
     <Button
         android:id="@+id/btnRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="refresh"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnAppend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="append"
-        app:layout_constraintTop_toBottomOf="@+id/btnRefresh" />
-
-    <Button
-        android:id="@+id/btnPrepend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="prepend"
-        app:layout_constraintTop_toBottomOf="@+id/btnAppend"/>
+        android:text="refresh"  />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPrepend" />
+        android:layout_height="match_parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

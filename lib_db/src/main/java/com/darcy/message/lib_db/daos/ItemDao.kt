@@ -1,5 +1,6 @@
 package com.darcy.message.lib_db.daos
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -34,4 +35,10 @@ interface ItemDao {
 
     @Query("SELECT * from item ORDER BY id ASC LIMIT :pageSize OFFSET ((:page - 1) * :pageSize)")
     suspend fun getItemsByPage(page: Int, pageSize: Int): List<Item>?
+
+    /**
+     * create PagingSource by ItemDao
+     */
+    @Query("SELECT * from item ORDER BY id DESC")
+    fun getItemsPagingSource(): PagingSource<Int, Item>
 }

@@ -10,7 +10,8 @@ class ListViewHolder(
     fun bind(detailBean: ListBean) {
         binding.apply {
             binding.tvName.text = detailBean.name
-            binding.tvPrice.text = detailBean.price.toString()
+            // keep only 2 decimal places
+            binding.tvPrice.text = String.format("%.2f", detailBean.time)
         }
     }
 }

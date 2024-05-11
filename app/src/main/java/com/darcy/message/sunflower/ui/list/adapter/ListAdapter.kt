@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.sunflower.databinding.AppDetailItemBinding
 import com.darcy.message.sunflower.ui.list.bean.ListBean
 import javax.inject.Inject
@@ -14,8 +15,14 @@ class ListAdapter @Inject constructor() : PagingDataAdapter<ListBean, ListViewHo
             override fun areItemsTheSame(oldItem: ListBean, newItem: ListBean): Boolean =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: ListBean, newItem: ListBean): Boolean =
-                oldItem == newItem
+            override fun areContentsTheSame(oldItem: ListBean, newItem: ListBean): Boolean {
+                if(oldItem !== newItem){
+                     logD(message = "不同")
+                }else{
+                    logD(message ="相同")
+                }
+                return oldItem == newItem
+            }
         }
     }
 
