@@ -2,6 +2,7 @@ package com.darcy.message.lib_ui.paging.repoisitory
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_ui.paging.entity.Article
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +35,7 @@ class ArticleRepository {
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun getRemoteArticles(range: IntRange): List<Article> {
         delay(1_000)
+        logI(message = "getRemoteArticles: $range")
         return range.map { number ->
             Article(
                 // Generate consecutive increasing numbers as the article id

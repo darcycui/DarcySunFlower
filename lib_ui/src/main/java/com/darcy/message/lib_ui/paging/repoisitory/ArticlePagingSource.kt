@@ -9,23 +9,20 @@ import com.darcy.message.lib_ui.paging.entity.Article
 import java.time.LocalDateTime
 import kotlin.math.max
 
-@RequiresApi(Build.VERSION_CODES.O)
-private val firstArticleCreatedTime = LocalDateTime.now()
-
 /**
  * PagingSource deal with page logic
  */
 class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int, Article>() {
-    private val STARTING_KEY: Int = 50
+    private val START_KEY: Int = 50
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         // Start paging with the STARTING_KEY if this is the first load
-        val start = params.key ?: STARTING_KEY
+        val start = params.key ?: START_KEY
         val range = when (params) {
             is LoadParams.Refresh -> {
                 logD(message = "Refresh")
-                STARTING_KEY.until(STARTING_KEY + params.loadSize)
+                START_KEY.until(START_KEY + params.loadSize)
             }
 
             is LoadParams.Prepend -> {
@@ -47,7 +44,7 @@ class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int,
 
             else -> {
                 logD(message = "Unknown")
-                STARTING_KEY.until(STARTING_KEY + params.loadSize)
+                START_KEY.until(START_KEY + params.loadSize)
             }
         }
         return LoadResult.Page(
@@ -67,9 +64,9 @@ class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int,
     }
 
     /**
-     * Makes sure the paging key is never less than [STARTING_KEY]
+     * Makes sure the paging key is never less than [START_KEY]
      */
-    private fun ensureValidKey(key: Int) = max(STARTING_KEY, key)
+    private fun ensureValidKey(key: Int) = max(START_KEY, key)
 
     // The refresh key is used for the initial load of the next PagingSource, after invalidation
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
