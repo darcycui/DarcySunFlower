@@ -2,4 +2,6 @@
 <resources>
     <string name="lib_ui_name">common name</string>
     <string name="lib_ui_title">common title</string>
+    <string name="lib_ui_retry">retry</string>
+    <string name="lib_ui_refresh">refresh</string>
 </resources>

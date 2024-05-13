@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Sunflower</string>
+    <string name="app_refresh">refresh</string>
+    <string name="app_retry">retry</string>
 </resources>

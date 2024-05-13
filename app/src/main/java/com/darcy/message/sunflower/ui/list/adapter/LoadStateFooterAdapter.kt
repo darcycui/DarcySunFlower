@@ -3,6 +3,7 @@ package com.darcy.message.sunflower.ui.list.adapter
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
+import com.darcy.message.sunflower.ui.list.adapter.viewholder.LoadStateViewHolder
 
 class LoadStateFooterAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<LoadStateViewHolder>() {

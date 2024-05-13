@@ -1,4 +1,4 @@
-package com.darcy.message.sunflower.ui.list.adapter
+package com.darcy.message.sunflower.ui.list.adapter.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.darcy.message.sunflower.databinding.AppDetailItemBinding

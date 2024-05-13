@@ -3,23 +3,20 @@ package com.darcy.message.sunflower.ui.list
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
-import androidx.paging.map
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityListBinding
 import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
 import com.darcy.message.sunflower.ui.list.adapter.LoadStateFooterAdapter
 import com.darcy.message.sunflower.ui.list.bean.IWork
-import com.darcy.message.sunflower.ui.list.bean.ListBean
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import com.darcy.message.sunflower.ui.list.bean.Son
 import com.darcy.message.sunflower.ui.list.di.EverywhereInject
@@ -29,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,16 +37,18 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
     // inject ViewModel
     private val viewModel: ListViewModel by viewModels()
 
-    private val listAdapter = ListAdapter()
-    
+    private val adapter = ListAdapter()
+
     // concat the header and footer
     private val fullAdapter =
-        listAdapter.withLoadStateHeaderAndFooter(
+        adapter.withLoadStateHeaderAndFooter(
             header = LoadStateFooterAdapter(retry = {
-                logD(message = "retry")
+                logD(message = "header retry")
+                adapter.retry()
             }),
             footer = LoadStateFooterAdapter(retry = {
-                logD(message = "retry")
+                logD(message = "footer retry")
+                adapter.retry()
             })
         )
 
@@ -87,10 +85,10 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
 
     private fun initObserver() {
         binding.btnRefresh.setOnClickListener {
-            listAdapter.refresh()
+            adapter.refresh()
         }
         lifecycleScope.launch {
-            listAdapter.loadStateFlow.distinctUntilChanged().collect { loadState ->
+            adapter.loadStateFlow.distinctUntilChanged().collect { loadState ->
                 when (loadState.refresh) {
                     is LoadState.Loading -> {
                         logD(message = "refresh loading")
@@ -104,33 +102,9 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
                         logD(message = "refresh error")
                     }
                 }
-                when (loadState.append) {
-                    is LoadState.Loading -> {
-                        logV(message = "append loading")
-                    }
-
-                    is LoadState.NotLoading -> {
-                        logV(message = "append not loading")
-                    }
-
-                    is LoadState.Error -> {
-                        logV(message = "append error")
-                    }
-                }
-                when (loadState.prepend) {
-                    is LoadState.Loading -> {
-                        logI(message = "prepend loading")
-                    }
-
-                    is LoadState.NotLoading -> {
-                        logI(message = "prepend not loading")
-                    }
-
-                    is LoadState.Error -> {
-                        logI(message = "prepend error")
-                    }
-                }
-
+                binding.loading.isVisible = loadState.refresh is LoadState.Loading
+                binding.retry.isVisible = loadState.refresh is LoadState.Error
+                binding.recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
             }
         }
     }
@@ -147,7 +121,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         logD(message = "Load Data Once")
         viewModel.itemsPaging.collectLatest {
             logD(message = "data-->$it")
-            listAdapter.submitData(it)
+            adapter.submitData(it)
         }
 
 //        viewModel.itemsPagingNew.collectLatest { it ->
@@ -163,11 +137,14 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         binding.recyclerView.apply {
 //            adapter = listAdapter
             adapter = fullAdapter
-            layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            val decoration =
-                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            // add divider by itemDecoration
+            val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             addItemDecoration(decoration)
+        }
+
+        binding.retry.setOnClickListener {
+            adapter.retry()
         }
     }
 }
