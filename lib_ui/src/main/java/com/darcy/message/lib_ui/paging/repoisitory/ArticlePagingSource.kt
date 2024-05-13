@@ -5,7 +5,9 @@ import androidx.annotation.RequiresApi
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.lib_ui.paging.entity.Article
+import com.darcy.message.lib_ui.paging.entity.IEntity.Article
+import kotlinx.coroutines.delay
+import java.lang.IllegalStateException
 import java.time.LocalDateTime
 import kotlin.math.max
 
@@ -13,7 +15,11 @@ import kotlin.math.max
  * PagingSource deal with page logic
  */
 class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int, Article>() {
-    private val START_KEY: Int = 0
+    private val START_KEY: Int = 80
+    companion object {
+        private var emitError = true
+        private var emitLoadMoreError = true
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
@@ -46,6 +52,19 @@ class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int,
                 logD(message = "Unknown")
                 START_KEY.until(START_KEY + params.loadSize)
             }
+        }
+        // 第一次请求返回异常
+        if (start == START_KEY && emitError){
+            delay(1000)
+            emitError = false
+            return LoadResult.Error(IllegalStateException("Failed to load data."))
+        }
+
+        // 第一次 loadMore 返回异常
+        if (start != START_KEY && emitLoadMoreError){
+            delay(1000)
+            emitLoadMoreError = false
+            return LoadResult.Error(IllegalStateException("Failed to load more data."))
         }
         return LoadResult.Page(
             data = repository.getRemoteArticles(range),

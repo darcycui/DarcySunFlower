@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package com.darcy.message.lib_ui.paging.adapter
+package com.darcy.message.lib_ui.paging.adapter.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
-import com.darcy.message.lib_im.databinding.LibUiArticleViewholderBinding
-import com.darcy.message.lib_ui.paging.entity.Article
+import com.darcy.message.lib_im.databinding.LibUiItemMessageSeparatorBinding
+import com.darcy.message.lib_ui.paging.entity.IEntity
 
 /**
- * View Holder for a [Article] RecyclerView list item.
+ * View Holder for a [IEntity.SeparatorEntity] RecyclerView list item.
  */
-class ArticleViewHolder(
-    private val binding: LibUiArticleViewholderBinding
+class SeparatorViewHolder(
+    private val binding: LibUiItemMessageSeparatorBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(article: Article) {
+    fun bind(article: IEntity.SeparatorEntity) {
         binding.apply {
-            binding.title.text = article.title
-            binding.description.text = article.description
-            binding.created.text = article.created.toString()
+            binding.tvSeparator.text = "${article.id} ${article.title}"
         }
     }
 }

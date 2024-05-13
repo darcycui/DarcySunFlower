@@ -5,8 +5,12 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.darcy.message.lib_im.databinding.LibUiArticleViewholderBinding
-import com.darcy.message.lib_ui.paging.entity.Article
+import com.darcy.message.lib_ui.paging.adapter.viewholder.ArticleViewHolder
+import com.darcy.message.lib_ui.paging.entity.IEntity.Article
 
+/**
+ * adapter for article
+ */
 class ArticleAdapter : PagingDataAdapter<Article, ArticleViewHolder>(ARTICLE_DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder =
