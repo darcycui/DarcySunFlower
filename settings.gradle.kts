@@ -1,0 +1,48 @@
+pluginManagement {
+    repositories {
+        maven {
+            setUrl("https://maven.aliyun.com/repository/public")
+        }
+        maven {
+            setUrl("https://maven.aliyun.com/repository/google")
+        }
+        maven {
+            setUrl("https://maven.aliyun.com/repository/jcenter")
+        }
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven {
+            setUrl("https://maven.aliyun.com/repository/public")
+        }
+        maven {
+            setUrl("https://maven.aliyun.com/repository/google")
+        }
+        maven {
+            setUrl("https://maven.aliyun.com/repository/jcenter")
+        }
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "Sunflower"
+include (":app")
+include (":lib_common")
+include (":lib_im")
+include (":lib_db")
+include (":lib_ui")
+include (":lib_http")
+include (":lib_data_store")
+ 

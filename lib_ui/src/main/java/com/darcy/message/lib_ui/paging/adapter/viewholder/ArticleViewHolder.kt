@@ -17,7 +17,7 @@
 package com.darcy.message.lib_ui.paging.adapter.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
-import com.darcy.message.lib_im.databinding.LibUiItemArticleBinding
+import com.darcy.message.lib_ui.databinding.LibUiItemArticleBinding
 import com.darcy.message.lib_ui.paging.entity.IEntity.Article
 
 /**

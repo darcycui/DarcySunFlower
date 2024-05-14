@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logW
-import com.darcy.message.lib_im.databinding.LibUiFragmentABinding
+import com.darcy.message.lib_ui.databinding.LibUiFragmentABinding
 import com.darcy.message.lib_ui.base.BaseFragment
 
 class TestFragmentA : BaseFragment<LibUiFragmentABinding>() {

@@ -3,7 +3,7 @@ package com.darcy.message.lib_ui.mvi.ui.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.darcy.message.lib_im.databinding.LibUiFragmentABinding
+import com.darcy.message.lib_ui.databinding.LibUiFragmentABinding
 import com.darcy.message.lib_ui.base.BaseFragment
 
 class TestFragmentB : BaseFragment<LibUiFragmentABinding>() {

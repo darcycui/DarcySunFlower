@@ -8,8 +8,8 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
-import com.darcy.message.lib_im.R
-import com.darcy.message.lib_im.databinding.LibUiActivityTestBinding
+import com.darcy.message.lib_ui.R
+import com.darcy.message.lib_ui.databinding.LibUiActivityTestBinding
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.mvi.ui.fragment.TestFragmentA
 import com.darcy.message.lib_ui.mvi.ui.fragment.TestFragmentB

@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.darcy.message.lib_im.R
-import com.darcy.message.lib_im.databinding.LibUiItemLoadStateHeaderBinding
+import com.darcy.message.lib_ui.R
+import com.darcy.message.lib_ui.databinding.LibUiItemLoadStateHeaderBinding
 
 class LoadStateHeaderViewHolder(
     private val binding: LibUiItemLoadStateHeaderBinding,

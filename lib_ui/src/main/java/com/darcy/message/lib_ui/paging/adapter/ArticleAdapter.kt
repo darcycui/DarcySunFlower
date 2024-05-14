@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import com.darcy.message.lib_im.databinding.LibUiItemArticleBinding
+import com.darcy.message.lib_ui.databinding.LibUiItemArticleBinding
 import com.darcy.message.lib_ui.paging.adapter.viewholder.ArticleViewHolder
 import com.darcy.message.lib_ui.paging.entity.IEntity.Article
 

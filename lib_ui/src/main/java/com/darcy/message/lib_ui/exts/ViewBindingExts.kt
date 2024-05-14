@@ -8,7 +8,7 @@ import androidx.activity.ComponentActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.darcy.message.lib_im.R
+import com.darcy.message.lib_ui.R
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.ParameterizedType
 

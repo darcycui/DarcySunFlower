@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.darcy.message.lib_common.exts.toast
-import com.darcy.message.lib_im.databinding.LibUiActivityMviactivityBinding
+import com.darcy.message.lib_ui.databinding.LibUiActivityMviactivityBinding
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.exts.showSnackBar
 import com.darcy.message.lib_ui.mvi.bean.NewsItem

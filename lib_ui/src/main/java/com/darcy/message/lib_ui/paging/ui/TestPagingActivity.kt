@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.darcy.message.lib_im.databinding.LibUiActivityArticlesBinding
+import com.darcy.message.lib_ui.databinding.LibUiActivityArticlesBinding
 import com.darcy.message.lib_ui.paging.viewmodel.ArticleViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
