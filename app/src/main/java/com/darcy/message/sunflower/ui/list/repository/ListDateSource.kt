@@ -4,15 +4,19 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
+import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.sunflower.ui.list.bean.ListBean
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlin.math.max
 
 private const val START_KEY: Int = 8
 
 const val ITEMS_PER_PAGE = 10
 
-class ListDateSource(private val listRepository: ListRepository) : PagingSource<Int, ListBean>() {
+class ListDateSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>() {
     override fun getRefreshKey(state: PagingState<Int, ListBean>): Int? {
 //        val anchorPosition = state.anchorPosition ?: return null
 //        val article = state.closestItemToPosition(anchorPosition) ?: return null
@@ -53,7 +57,8 @@ class ListDateSource(private val listRepository: ListRepository) : PagingSource<
             }
 
             // repository layer request data
-            val itemList = listRepository.loadData(page, ITEMS_PER_PAGE)
+            delay(2_000)
+            val itemList = itemDao.getItemsByPage(page, ITEMS_PER_PAGE) ?: listOf()
             // null means no more data.
             val nextPage = if (itemList.isNotEmpty()) {
                 page + 1
@@ -64,12 +69,12 @@ class ListDateSource(private val listRepository: ListRepository) : PagingSource<
             val prevPage = if (page > 1) page - 1 else null
             logD(message = "page=$page nextPage=$nextPage prevPage=$prevPage itemList=${itemList.size}")
             // the simulation failed load data.
-            if ((nextPage == START_KEY || prevPage == START_KEY) and (showError)){
+            if ((nextPage == START_KEY || prevPage == START_KEY) and (showError)) {
                 showError = false
                 return LoadResult.Error(throwable = Exception("Failed load data."))
             }
             // the simulation failed load more data
-            if ((nextPage != START_KEY && prevPage != START_KEY) and (showErrorLoadMore)){
+            if ((nextPage != START_KEY && prevPage != START_KEY) and (showErrorLoadMore)) {
                 showErrorLoadMore = false
                 return LoadResult.Error(throwable = Exception("Failed load more data."))
             }
@@ -87,7 +92,8 @@ class ListDateSource(private val listRepository: ListRepository) : PagingSource<
     private fun createDetailBeanList(itemList: List<Item>): List<ListBean> {
         return itemList.map { ListBean().generate(it) }
     }
-    companion object{
+
+    companion object {
         var showErrorLoadMore = true
         var showError = true
     }

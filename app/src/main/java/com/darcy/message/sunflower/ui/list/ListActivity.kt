@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
+import androidx.paging.map
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
@@ -17,6 +18,7 @@ import com.darcy.message.sunflower.databinding.AppActivityListBinding
 import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
 import com.darcy.message.sunflower.ui.list.adapter.LoadStateFooterAdapter
 import com.darcy.message.sunflower.ui.list.bean.IWork
+import com.darcy.message.sunflower.ui.list.bean.ListBean
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import com.darcy.message.sunflower.ui.list.bean.Son
 import com.darcy.message.sunflower.ui.list.di.EverywhereInject
@@ -119,17 +121,23 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
 
     private suspend fun load() {
         logD(message = "Load Data Once")
-        viewModel.itemsPaging.collectLatest {
-            logD(message = "data-->$it")
-            adapter.submitData(it)
-        }
-
-//        viewModel.itemsPagingNew.collectLatest { it ->
+//        viewModel.itemsPaging.collectLatest {
 //            logD(message = "data-->$it")
-//            listAdapter.submitData(it.map { item ->
+//            adapter.submitData(it)
+//        }
+
+//        viewModel.itemsPagingFromRoom.collectLatest { pagingData ->
+//            logD(message = "data from room-->$pagingData")
+//            adapter.submitData(pagingData.map { item ->
 //                ListBean().generate(item)
 //            })
 //        }
+        viewModel.itemsPagingFromRoomAndHttp.collectLatest { pagingData ->
+            logD(message = "data from room and http-->$pagingData")
+            adapter.submitData(pagingData.map { item ->
+                ListBean().generate(item)
+            })
+        }
     }
 
     private fun initView() {

@@ -18,6 +18,7 @@ class ListAdapter @Inject constructor() : PagingDataAdapter<ListBean, ListViewHo
                 oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: ListBean, newItem: ListBean): Boolean {
+                return true
                 if(oldItem !== newItem){
                      logE(message = "oldItem and newItem:NOT SAME")
                 }else{
