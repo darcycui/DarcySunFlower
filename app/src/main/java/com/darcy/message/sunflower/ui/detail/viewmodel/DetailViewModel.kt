@@ -1,5 +1,6 @@
 package com.darcy.message.sunflower.ui.detail.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.sunflower.ui.detail.repository.DetailRepository
@@ -14,15 +15,18 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val detailRepository: DetailRepository) :
     ViewModel() {
-    suspend fun getItemDetail(itemId: Int): Flow<Item?> {
-        return detailRepository.getItemDetail(itemId)
+    suspend fun getItemDetailFlow(itemId: Int): Flow<Item?> {
+        return detailRepository.getItemDetailFlow(itemId)
+    }
+    suspend fun getItemDetailLiveData(itemId: Int): LiveData<Item?> {
+        return detailRepository.getItemDetailLiveData(itemId)
     }
 
     suspend fun updateItem(itemId: Int, itemName: String) {
         detailRepository.updateItem(itemId, itemName)
     }
 
-    suspend fun useDBTransaction() {
-        detailRepository.useDBTransaction()
+    suspend fun updateByDBTransaction() {
+        detailRepository.updateByDBTransaction()
     }
 }

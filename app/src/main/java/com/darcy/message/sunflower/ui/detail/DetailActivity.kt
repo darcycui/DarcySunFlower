@@ -3,7 +3,6 @@ package com.darcy.message.sunflower.ui.detail
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.darcy.message.lib_common.exts.logD
@@ -42,15 +41,26 @@ class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
         }
         binding.btnTransaction.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.useDBTransaction()
+                viewModel.updateByDBTransaction()
             }
         }
     }
 
     private fun initObservers() {
+//        lifecycleScope.launch {
+//            // use flow to trigger UI update when data changed
+//            viewModel.getItemDetailFlow(1).asLiveData().observe(this@DetailActivity) {
+//                it?.let {
+//                    logD(message = "item-->$it")
+//                    binding.tvInfo.text = it.itemName
+//                } ?: run {
+//                    logE(message = "item is null")
+//                }
+//            }
+//        }
         lifecycleScope.launch {
             // use flow to trigger UI update when data changed
-            viewModel.getItemDetail(1).asLiveData().observe(this@DetailActivity) {
+            viewModel.getItemDetailLiveData(1).observe(this@DetailActivity) {
                 it?.let {
                     logD(message = "item-->$it")
                     binding.tvInfo.text = it.itemName

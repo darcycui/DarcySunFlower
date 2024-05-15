@@ -62,7 +62,7 @@ dependencies {
     api(libs.material)
 
     api(libs.androidx.recyclerview)
-    api(libs.paging.runtime.ktx)
+    api(libs.androidx.paging.runtime.ktx)
 
     api(libs.androidx.lifecycle.viewmodel.ktx)
     api(libs.androidx.lifecycle.viewmodel.ktx)

@@ -60,13 +60,13 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     api (project(":lib_common"))
-    kapt (libs.room.compiler)
-    api (libs.room.runtime)
-    api (libs.room.ktx)
+    kapt (libs.androidx.room.compiler)
+    api (libs.androidx.room.runtime)
+    api (libs.androidx.room.ktx)
 
-    api (libs.paging.runtime.ktx)
+    api (libs.androidx.paging.runtime.ktx)
     // Room Paging library
-    implementation (libs.room.paging)
+    implementation (libs.androidx.room.paging)
     implementation (libs.sqlcipher.android)
     debugImplementation (libs.glance)
 }

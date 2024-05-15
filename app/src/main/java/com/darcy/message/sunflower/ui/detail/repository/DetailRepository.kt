@@ -1,5 +1,6 @@
 package com.darcy.message.sunflower.ui.detail.repository
 
+import androidx.lifecycle.LiveData
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
@@ -7,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.darcy.message.lib_db.tables.Item
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +16,12 @@ class DetailRepository @Inject constructor(
     private val itemDao: ItemDao,
     private val itemRoomDatabase: ItemRoomDatabase
 ) {
-    suspend fun getItemDetail(itemId: Int): Flow<Item?> {
+    suspend fun getItemDetailLiveData(itemId: Int): LiveData<Item?> {
+        return withContext(Dispatchers.IO) {
+            itemDao.getItemDetailLiveData(itemId)
+        }
+    }
+    suspend fun getItemDetailFlow(itemId: Int): Flow<Item?> {
         return withContext(Dispatchers.IO) {
             itemDao.getItemFlow(itemId)
         }
@@ -35,7 +40,7 @@ class DetailRepository @Inject constructor(
      * use transaction to update db data.
      * // darcyRefactor how to use suspend function in transaction ???
      */
-    suspend fun useDBTransaction() {
+    suspend fun updateByDBTransaction() {
         withContext(Dispatchers.IO) {
             itemRoomDatabase.runInTransaction {
                 logD(message = "runInTransaction-${Thread.currentThread().id}")
