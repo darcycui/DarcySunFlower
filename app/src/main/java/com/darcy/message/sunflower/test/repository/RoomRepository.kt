@@ -1,4 +1,4 @@
-package com.darcy.message.sunflower.ui.detail.repository
+package com.darcy.message.sunflower.test.repository
 
 import androidx.lifecycle.LiveData
 import com.darcy.message.lib_common.exts.logD
@@ -12,18 +12,65 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DetailRepository @Inject constructor(
+class RoomRepository @Inject constructor(
     private val itemDao: ItemDao,
     private val itemRoomDatabase: ItemRoomDatabase
 ) {
-    suspend fun getItemDetailLiveData(itemId: Int): LiveData<Item?> {
+    suspend fun getItem(itemId: Int): Item? {
+        return withContext(Dispatchers.IO) {
+            itemDao.getItem(itemId)
+        }
+    }
+
+    suspend fun getItemLiveData(itemId: Int): LiveData<Item?> {
         return withContext(Dispatchers.IO) {
             itemDao.getItemLiveData(itemId)
         }
     }
-    suspend fun getItemDetailFlow(itemId: Int): Flow<Item?> {
+
+    suspend fun getItemFlow(itemId: Int): Flow<Item?> {
         return withContext(Dispatchers.IO) {
             itemDao.getItemFlow(itemId)
+        }
+    }
+
+    suspend fun getItems(): List<Item>? {
+        return withContext(Dispatchers.IO) {
+            itemDao.getItems()
+        }
+    }
+
+    suspend fun getItemsLiveData(): LiveData<List<Item>?> {
+        return withContext(Dispatchers.IO) {
+            itemDao.getItemsLiveData()
+        }
+    }
+
+    suspend fun getItemsFlow(): Flow<List<Item>?> {
+        return withContext(Dispatchers.IO) {
+            itemDao.getItemsFlow()
+        }
+    }
+
+    suspend fun insertItem(item: Item): Long {
+        return withContext(Dispatchers.IO) {
+            itemDao.insert(item).also {
+                logD(message = "insertItem-$it")
+            }
+        }
+    }
+
+    suspend fun deleteItem(item: Item): Int {
+        return withContext(Dispatchers.IO) {
+            itemDao.delete(item)
+        }
+    }
+
+    suspend fun deleteItemAll(): Int {
+        return withContext(Dispatchers.IO) {
+            itemDao.clearItems().also {
+                logD(message = "deleteItemAll-$it")
+            }
         }
     }
 

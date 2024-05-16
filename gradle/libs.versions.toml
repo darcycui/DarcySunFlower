@@ -32,13 +32,15 @@ datastorePreferences = '1.0.0'
 hiltVersion = '2.51'
 ktorVersion = '2.3.10'
 okhttpLogging = '4.12.0'
-pagingVersion = '3.2.1'
+#pagingVersion = '3.2.1'
+pagingVersion = '3.3.0'
 retrofitVersion = '2.10.0'
 room = '2.6.1'
 roomPaging = '2.6.1'
 xlogVersion = '1.11.0'
 sqlcipherAndroid = '4.5.6'
 glance = '1.1.0'
+activity = "1.8.0"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -82,6 +84,7 @@ ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-conte
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktorVersion" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
 ktor-serialization-gson = { group = "io.ktor", name = "ktor-serialization-gson", version.ref = "ktorVersion" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

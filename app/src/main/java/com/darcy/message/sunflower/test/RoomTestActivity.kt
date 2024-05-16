@@ -1,0 +1,79 @@
+package com.darcy.message.sunflower.test
+
+import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_ui.base.BaseActivity
+import com.darcy.message.sunflower.R
+import com.darcy.message.sunflower.databinding.AppActivityRoomTestBinding
+import com.darcy.message.sunflower.test.adapter.RoomAdapter
+import com.darcy.message.sunflower.test.viewmodel.RoomViewModel
+import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
+import com.darcy.message.sunflower.ui.list.bean.ListBean
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
+
+    private var count = 0
+    private val viewModel: RoomViewModel by viewModels()
+    private val adapters = RoomAdapter()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initView()
+        initObservers()
+    }
+
+    private fun initObservers() {
+
+    }
+
+    private fun initView() {
+        binding.recyclerView.apply {
+//            adapter = listAdapter
+            adapter = adapters
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            // add divider by itemDecoration
+            val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            addItemDecoration(decoration)
+        }
+
+        binding.run {
+            btnAdd.setOnClickListener {
+                viewModel.insertItem(Item(count, "Tom-$count", count.toDouble()))
+                count++
+            }
+            btnDelete.setOnClickListener {
+                val finalCount = count - 1
+                viewModel.deleteItem(Item(finalCount, "Tom-$finalCount", finalCount.toDouble()))
+            }
+            btnDeleteAll.setOnClickListener {
+                viewModel.deleteItemAll()
+            }
+            btnUpdate.setOnClickListener {
+                viewModel.updateItem(1, "Tom-${System.currentTimeMillis()}")
+            }
+            btnQuery.setOnClickListener {
+                lifecycleScope.launch() {
+                    val items = viewModel.getItems()
+                    withContext(Dispatchers.Main) {
+//                        tvInfo.text = items?.toString() ?: "Error"
+                        adapters.setData(items?.map { ListBean().generate(it) } ?: listOf())
+                    }
+                }
+            }
+
+        }
+    }
+}

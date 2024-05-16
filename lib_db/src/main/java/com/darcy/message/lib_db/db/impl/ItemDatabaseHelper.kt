@@ -21,7 +21,7 @@ object ItemDatabaseHelper : IDatabaseHelper {
     fun testDB(context: Context) {
         GlobalScope.launch {
             repeat(100) {
-                getDatabase(context).itemDao().insert(Item(it, "Tom $it", it + 3.14, 100))
+                getDatabase(context).itemDao().insert(Item(it, "Tom $it", it.toDouble(), 100))
             }
             getDatabase(context).itemDao().getItemsFlow().onEach {
                 it?.onEach { item ->

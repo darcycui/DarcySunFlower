@@ -6,12 +6,12 @@ import com.darcy.message.sunflower.ui.list.bean.ListBean
 
 class ListViewHolder(
     private val binding: AppDetailItemBinding
-) : RecyclerView.ViewHolder(binding.root){
+) : RecyclerView.ViewHolder(binding.root) {
     fun bind(detailBean: ListBean) {
-        binding.apply {
-            binding.tvName.text = detailBean.name
+        binding.run {
+            tvName.text = "${detailBean.id} ${detailBean.name}"
             // keep only 2 decimal places
-            binding.tvPrice.text = String.format("%.2f", detailBean.time)
+            tvPrice.text = String.format("%.2f", detailBean.time)
         }
     }
 }

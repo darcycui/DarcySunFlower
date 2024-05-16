@@ -35,7 +35,7 @@ class ListRepository @Inject constructor(
             enablePlaceholders = false
         ),
         // create pagingSource by itemDao
-        pagingSourceFactory = { itemDao.getItemsPagingSource() }
+        pagingSourceFactory = { itemDao.getItemsPagingSourceDESC() }
     ).flow
 
     @OptIn(ExperimentalPagingApi::class)

@@ -101,12 +101,12 @@ fun gradleLocalProperties(projectRootDir: File): Properties {
 
 
 dependencies {
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
     // hilt di
-    val hiltVersion = "2.51"
     implementation (libs.hilt.android)
     kapt (libs.hilt.android.compiler)
 

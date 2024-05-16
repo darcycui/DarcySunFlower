@@ -17,6 +17,9 @@
         android:theme="@style/app_Theme.Sunflower"
         tools:targetApi="31">
         <activity
+            android:name=".test.RoomTestActivity"
+            android:exported="false" />
+        <activity
             android:name=".test.TestHttpActivity"
             android:exported="false" />
         <activity
