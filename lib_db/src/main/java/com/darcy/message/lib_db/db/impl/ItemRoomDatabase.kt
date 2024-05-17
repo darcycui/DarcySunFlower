@@ -7,20 +7,23 @@ import androidx.room.RoomDatabase
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.daos.RemoteKeysDao
+import com.darcy.message.lib_db.daos.RepoDao
 import com.darcy.message.lib_db.db.IDatabase
 import com.darcy.message.lib_db.migrations.ItemMigration1To2
 import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.lib_db.tables.RemoteKeys
+import com.darcy.message.lib_db.tables.Repo
 import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 import java.nio.charset.StandardCharsets
 
 @Database(
-    entities = [Item::class, RemoteKeys::class],
+    entities = [Item::class, Repo::class, RemoteKeys::class],
     version = 1,
     exportSchema = true
 )
 abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
     abstract fun itemDao(): ItemDao
+    abstract fun reposDao(): RepoDao
     abstract fun remoteKeysDao(): RemoteKeysDao
 
     override fun show() {

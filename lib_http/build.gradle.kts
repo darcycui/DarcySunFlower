@@ -57,9 +57,9 @@ dependencies {
 
     api (project(":lib_common"))
 
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
-    implementation(libs.okhttp3.logging.interceptor)
+    api(libs.retrofit)
+    api(libs.retrofit.converter.gson)
+    api(libs.okhttp3.logging.interceptor)
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.okhttp)

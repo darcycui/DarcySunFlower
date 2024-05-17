@@ -66,14 +66,25 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
             }
             btnQuery.setOnClickListener {
                 lifecycleScope.launch() {
-                    val items = viewModel.getItems()
-                    withContext(Dispatchers.Main) {
-//                        tvInfo.text = items?.toString() ?: "Error"
-                        adapters.setData(items?.map { ListBean().generate(it) } ?: listOf())
-                    }
+//                    queryItems()
+                    queryRepos()
                 }
             }
 
+        }
+    }
+
+    private suspend fun queryItems() {
+        val items = viewModel.getItems()
+        withContext(Dispatchers.Main) {
+            adapters.setData(items?.map { ListBean().generate(it) } ?: listOf())
+        }
+    }
+
+    private suspend fun queryRepos() {
+        val items = viewModel.getRepos()
+        withContext(Dispatchers.Main) {
+            binding.tvInfo.text = items?.toString() ?: "Error"
         }
     }
 }

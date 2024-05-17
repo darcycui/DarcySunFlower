@@ -2,6 +2,8 @@ package com.darcy.message.sunflower.ui.list.di
 
 import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_db.daos.ItemDao
+import com.darcy.message.lib_db.daos.RemoteKeysDao
+import com.darcy.message.lib_db.daos.RepoDao
 import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
 import dagger.Module
@@ -31,4 +33,16 @@ object DatabaseModule {
      */
     @Provides
     fun provideItemDao(database: ItemRoomDatabase): ItemDao = database.itemDao()
+
+    /**
+     * Provides the repoDao.
+     */
+    @Provides
+    fun provideRepoDao(database: ItemRoomDatabase): RepoDao = database.reposDao()
+
+    /**
+     * Provides the remoteKeysDao.
+     */
+    @Provides
+    fun provideRemoteKeysDao(database: ItemRoomDatabase): RemoteKeysDao = database.remoteKeysDao()
 }

@@ -129,14 +129,19 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
 //        viewModel.itemsPagingFromRoom.collectLatest { pagingData ->
 //            logD(message = "data from room-->$pagingData")
 //            adapter.submitData(pagingData.map { item ->
-//                ListBean().generate(item)
+//                ListBean().generate(item).also {
+//                    logD(message = "ListBean-->$it")
+//                }
 //            })
 //        }
 
         viewModel.itemsPagingFromRoomAndHttp.collectLatest { pagingData ->
             logD(message = "data from room and http-->$pagingData")
             adapter.submitData(pagingData.map { item ->
-                ListBean().generate(item)
+                logD(message = "repo-->$item")
+                ListBean().generate(item).also {
+                    logD(message = "ListBean-->$it")
+                }
             })
         }
     }

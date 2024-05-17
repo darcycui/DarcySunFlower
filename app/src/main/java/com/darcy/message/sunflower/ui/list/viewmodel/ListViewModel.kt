@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_db.tables.Repo
 import com.darcy.message.sunflower.ui.list.bean.ListBean
 import com.darcy.message.sunflower.ui.list.repository.ListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -39,7 +40,7 @@ class ListViewModel @Inject constructor(
      * Paginated data from ItemDao
      * Cached the flow to viewModelScope
      */
-    val itemsPagingFromRoomAndHttp: Flow<PagingData<Item>> =
+    val itemsPagingFromRoomAndHttp: Flow<PagingData<Repo>> =
         listRepository.getPagingFromRoomAndHttp().cachedIn(viewModelScope)
 
 }

@@ -3,10 +3,12 @@ package com.darcy.message.sunflower.test.repository
 import androidx.lifecycle.LiveData
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_db.daos.ItemDao
+import com.darcy.message.lib_db.daos.RepoDao
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_db.tables.Repo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -14,6 +16,7 @@ import javax.inject.Inject
 
 class RoomRepository @Inject constructor(
     private val itemDao: ItemDao,
+    private val repoDao: RepoDao,
     private val itemRoomDatabase: ItemRoomDatabase
 ) {
     suspend fun getItem(itemId: Int): Item? {
@@ -102,6 +105,12 @@ class RoomRepository @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    suspend fun getRepos(queryString: String): List<Repo>? {
+        return withContext(Dispatchers.IO) {
+            repoDao.getRepos(queryString)
         }
     }
 }
