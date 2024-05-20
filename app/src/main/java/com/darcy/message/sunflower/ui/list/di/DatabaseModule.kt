@@ -4,7 +4,7 @@ import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.daos.RemoteKeysDao
 import com.darcy.message.lib_db.daos.RepoDao
-import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
+import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
 import dagger.Module
 import dagger.Provides
@@ -26,7 +26,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideItemDatabase(): ItemRoomDatabase =
-        ItemDatabaseHelper.getDatabase(AppHelper.getAppContext())
+        DatabaseManager.getDatabase() as ItemRoomDatabase
 
     /**
      * Provides the itemDao.

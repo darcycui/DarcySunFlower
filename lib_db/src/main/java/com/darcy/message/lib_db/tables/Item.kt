@@ -8,7 +8,7 @@ import java.util.Comparator
 
 @Entity
 data class Item(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     val id: Int = 0,
     @ColumnInfo(name = "name")
     var itemName: String,

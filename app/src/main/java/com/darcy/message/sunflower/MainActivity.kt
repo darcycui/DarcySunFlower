@@ -1,7 +1,7 @@
 package com.darcy.message.sunflower
 
 import android.os.Bundle
-import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
+import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.mvi.ui.MVIActivity
@@ -23,10 +23,8 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
     private fun initView() {
         binding.btnRoom.setOnClickListener {
-//            val dbHelper = ItemDatabaseHelper
-//            dbHelper.init(this.applicationContext)
-//            dbHelper.testDB(this)
-            startPage(RoomTestActivity::class.java)
+            DatabaseManager.testDB(this)
+//            startPage(RoomTestActivity::class.java)
         }
         binding.btnRoomFlow.setOnClickListener {
             startPage(DetailActivity::class.java)

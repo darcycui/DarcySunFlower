@@ -22,9 +22,6 @@ import java.nio.charset.StandardCharsets
     exportSchema = true
 )
 abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
-    abstract fun itemDao(): ItemDao
-    abstract fun reposDao(): RepoDao
-    abstract fun remoteKeysDao(): RemoteKeysDao
 
     override fun show() {
         logD(message = "This is ItemRoomDatabase.")
