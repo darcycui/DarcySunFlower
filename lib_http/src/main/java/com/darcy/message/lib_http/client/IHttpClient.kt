@@ -1,7 +1,7 @@
 package com.darcy.message.lib_http.client
 
 import com.darcy.message.lib_http.config.getBaseHttpUrl
-import com.darcy.message.lib_http.request.OkHttpRequestAction
+import com.darcy.message.lib_http.request.CommonRequestAction
 
 interface IHttpClient {
     suspend fun <T> doGet(
@@ -9,7 +9,7 @@ interface IHttpClient {
         path: String,
         params: Map<String, String>,
         useCache: Boolean = true,
-        block: OkHttpRequestAction<T>.() -> Unit,
+        block: CommonRequestAction<T>.() -> Unit,
     )
 
 //    fun doPost()

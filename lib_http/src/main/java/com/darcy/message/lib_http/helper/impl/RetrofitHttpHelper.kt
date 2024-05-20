@@ -1,8 +1,10 @@
 package com.darcy.message.lib_http.helper.impl
 
+import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.lib_http.entity.base.BaseResult
 import com.darcy.message.lib_http.helper.IHttpHelper
-import com.darcy.message.lib_http.request.RetrofitRequestAction
+import com.darcy.message.lib_http.request.CommonRequestAction
+import okhttp3.OkHttpClient
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -12,6 +14,11 @@ private const val HTTP_ERROR_TIP =
     "Internet connect error, Please check your network connection and try again."
 
 object RetrofitHttpHelper : IHttpHelper {
+
+    fun okHttpClient(): OkHttpClient {
+        return OKHttpHttpClient.okHttpClient()
+    }
+
     /**
      * 带有接收者的函数字面值
      *
@@ -24,13 +31,13 @@ object RetrofitHttpHelper : IHttpHelper {
      * https://book.kotlincn.net/text/lambdas.html#%E5%87%BD%E6%95%B0%E7%B1%BB%E5%9E%8B
      * @param block 请求体
      */
-    suspend fun <T> httpRequest(block: RetrofitRequestAction<T>.() -> Unit) {
-        val action: RetrofitRequestAction<T> = RetrofitRequestAction<T>().apply(block)
+    override suspend fun <T> httpRequest(block: CommonRequestAction<T>.() -> Unit) {
+        val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
         try {
             action.start?.invoke()
             val result = action.request?.invoke()
             if (isSuccess(result)) {
-                action.success?.invoke(result!!.result)
+                action.success?.invoke(result)
             } else {
                 action.error?.invoke(result?.reason ?: "Empty reason")
             }

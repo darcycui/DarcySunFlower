@@ -1,6 +1,6 @@
 package com.darcy.message.lib_http
 
-import com.darcy.message.lib_http.client.impl.OKHttpClient
+import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.lib_http.entity.IPEntity
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -10,7 +10,8 @@ class OkHttpClientTest {
     @Test
     fun doGetTest() {
         runBlocking {
-            OKHttpClient.doGet<IPEntity>(
+            initHttpManager()
+            HttpManager.doGet<IPEntity>(
 //            baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
@@ -21,9 +22,38 @@ class OkHttpClientTest {
                 start {
                     println("start")
                 }
-//            request {
-//                println("request:")
-//            }
+                request { null }
+                success {
+                    println("success:$it")
+                }
+                error {
+                    println("error:$it")
+                }
+                finish {
+                    println("finish")
+                }
+            }
+            Thread.sleep(2_000)
+        }
+    }
+
+    private fun initHttpManager() {
+        HttpManager.init(OKHttpHttpClient)
+    }
+
+    @Test
+    fun doGetTestLocalApi() {
+        runBlocking {
+            initHttpManager()
+            HttpManager.doGet<IPEntity>(
+                baseUrl = "http://10.0.0.193:8080",
+                path = "/customers",
+                params = mapOf()
+            ) {
+                start {
+                    println("start")
+                }
+                request { null }
                 success {
                     println("success:$it")
                 }

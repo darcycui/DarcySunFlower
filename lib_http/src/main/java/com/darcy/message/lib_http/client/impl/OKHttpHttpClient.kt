@@ -1,6 +1,5 @@
 package com.darcy.message.lib_http.client.impl
 
-import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_http.client.IHttpClient
 import com.darcy.message.lib_http.config.CALL_TIMEOUT
 import com.darcy.message.lib_http.config.CONNECT_TIMEOUT
@@ -8,10 +7,8 @@ import com.darcy.message.lib_http.config.READ_TIMEOUT
 import com.darcy.message.lib_http.config.WRITE_TIMEOUT
 import com.darcy.message.lib_http.exts.gsonToBean
 import com.darcy.message.lib_http.exts.toUrlEncodedString
-import com.darcy.message.lib_http.interceptor.impl.CacheInterceptor
 import com.darcy.message.lib_http.interceptor.impl.KeyInterceptor
-import com.darcy.message.lib_http.request.OkHttpRequestAction
-import okhttp3.Cache
+import com.darcy.message.lib_http.request.CommonRequestAction
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Dispatcher
@@ -22,7 +19,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-object OKHttpClient : IHttpClient {
+object OKHttpHttpClient : IHttpClient {
 
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
@@ -38,8 +35,8 @@ object OKHttpClient : IHttpClient {
             // add header
             .addInterceptor(KeyInterceptor())
             // use cache
-            .cache(Cache(AppHelper.getAppContext().filesDir, 1024 * 1024 * 10))
-            .addInterceptor(CacheInterceptor())
+//            .cache(Cache(AppHelper.getAppContext().filesDir, 1024 * 1024 * 10))
+//            .addInterceptor(CacheInterceptor())
             // increase the number of requests for per host, so that the timeout could be correctly(without waiting time in queue)
             .dispatcher(Dispatcher().apply { maxRequestsPerHost = 10 })
             .build()
@@ -54,9 +51,9 @@ object OKHttpClient : IHttpClient {
         path: String,
         params: Map<String, String>,
         useCache: Boolean,
-        block: OkHttpRequestAction<T>.() -> Unit
+        block: CommonRequestAction<T>.() -> Unit
     ) {
-        val action: OkHttpRequestAction<T> = OkHttpRequestAction<T>().apply(block)
+        val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
         val url = baseUrl + path + "?" + params.toUrlEncodedString()
         val request: Request =
             Request.Builder().url(url)

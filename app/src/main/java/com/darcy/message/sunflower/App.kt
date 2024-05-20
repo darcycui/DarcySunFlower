@@ -7,6 +7,8 @@ import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_data_store.helper.DataStoreHelper
 import com.darcy.message.lib_db.db.impl.CipherDatabaseHelper
 import com.darcy.message.lib_db.db.impl.ItemDatabaseHelper
+import com.darcy.message.lib_http.HttpManager
+import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -28,5 +30,6 @@ class App : Application() {
         ItemDatabaseHelper.init(this)
 //        CipherDatabaseHelper.init(this)
         DataStoreHelper.init(this)
+        HttpManager.init(OKHttpHttpClient)
     }
 }

@@ -2,7 +2,7 @@ package com.darcy.message.sunflower.test
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.darcy.message.lib_http.client.impl.OKHttpClient
+import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.lib_http.entity.IPEntity
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityTestHttpBinding
@@ -24,7 +24,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
     private fun initView() {
         binding.btnOKHttp.setOnClickListener {
             scope.launch {
-                OKHttpClient.doGet<IPEntity>(
+                OKHttpHttpClient.doGet<IPEntity>(
 //            baseUrl = "https://apis.juhe.cn",
                     path = "/ip/ipNewV3",
                     params = mapOf(

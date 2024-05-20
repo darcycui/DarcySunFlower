@@ -2,17 +2,16 @@ package com.darcy.message.lib_http.request
 
 import com.darcy.message.lib_http.entity.base.BaseResult
 
-class OkHttpRequestAction<T> {
+open class CommonRequestAction<T> {
     /**
      * http request start
      */
     var start: (() -> Unit)? = null
-        private set
 
     /**
      * http request
      */
-    var request: (suspend () -> BaseResult<T>)? = null
+    var request: (suspend () -> BaseResult<T>?)? = null
         private set
 
     /**
@@ -32,12 +31,12 @@ class OkHttpRequestAction<T> {
     var finish: (() -> Unit)? = null
         private set
 
-    fun request(block: suspend () -> BaseResult<T>) {
-        request = block
-    }
-
     fun start(block: () -> Unit) {
         start = block
+    }
+
+    fun request(block: (suspend () -> BaseResult<T>?)?) {
+        request = block
     }
 
     fun success(block: ((BaseResult<T>?) -> Unit)) {

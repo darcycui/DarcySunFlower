@@ -1,18 +1,22 @@
 package com.darcy.message.lib_http
 
-import com.darcy.message.lib_http.client.impl.KtorClient
+import com.darcy.message.lib_http.client.impl.KtorHttpClient
 import com.darcy.message.lib_http.entity.IPEntity
-import com.darcy.message.lib_http.entity.IPEntityAll
-import com.darcy.message.lib_http.entity.base.BaseResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
-class KtorClientTest {
+class KtorHttpClientTest {
+
+
+    private fun initHttpManager() {
+        HttpManager.init(KtorHttpClient)
+    }
+
     @Test
     fun doGetTest() {
         runBlocking {
-
-            KtorClient.doGet<IPEntity>(
+            initHttpManager()
+            HttpManager.doGet<IPEntity>(
                 baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
@@ -23,9 +27,7 @@ class KtorClientTest {
                 start {
                     println("start")
                 }
-//            request {
-//                println("request:")
-//            }
+                request { null }
                 success {
                     println("success:$it")
                 }
