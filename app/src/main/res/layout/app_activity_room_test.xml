@@ -9,6 +9,12 @@
     tools:context=".test.RoomTestActivity">
 
     <Button
+        android:id="@+id/btnTestItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TestDB ItemDao" />
+
+    <Button
         android:id="@+id/btnAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

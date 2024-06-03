@@ -45,4 +45,4 @@ include (":lib_db")
 include (":lib_ui")
 include (":lib_http")
 include (":lib_data_store")
- 
+include(":lib_theme")

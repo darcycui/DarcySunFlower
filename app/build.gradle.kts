@@ -117,3 +117,15 @@ dependencies {
     api (project(":lib_data_store"))
     api (project(":lib_http"))
 }
+
+// disable dependency verification foe one library
+// use this command to test it: ./gradlew checkDetachedDependencies
+tasks.register("checkDetachedDependencies") {
+    val detachedConf: FileCollection = configurations.detachedConfiguration(dependencies.create("com.guolindev.glance:glance:1.1.0")).apply {
+        resolutionStrategy.disableDependencyVerification()
+    }
+    doLast {
+        println("-->checkDetachedDependencies")
+        println(detachedConf.files)
+    }
+}

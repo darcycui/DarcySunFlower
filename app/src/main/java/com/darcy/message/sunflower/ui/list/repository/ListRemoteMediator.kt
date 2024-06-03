@@ -9,17 +9,17 @@ import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
-import com.darcy.message.lib_db.tables.Item
-import com.darcy.message.sunflower.ui.list.api.NewsApi
 import com.darcy.message.lib_db.tables.RemoteKeys
 import com.darcy.message.lib_db.tables.Repo
 import com.darcy.message.sunflower.ui.list.api.GithubService
+import com.darcy.message.sunflower.ui.list.api.TestApi
 
 private const val START_KEY: Int = 1
 
 // darcyRefactor not well to be continued...
 @OptIn(ExperimentalPagingApi::class)
 class ListRemoteMediator(
+    private val testApi: TestApi,
     private val gitApi: GithubService,
     private val database: ItemRoomDatabase
 ) : RemoteMediator<Int, Repo>() {
@@ -67,10 +67,11 @@ class ListRemoteMediator(
                     START_KEY
                 }
             }
-//            val items = newsApi.getNews(page, state.config.pageSize)
-            val items = gitApi.searchRepos("Android", page, state.config.pageSize).items.also {
-                logV(message = "items=${it}")
-            }
+//            val items = testApi.getNews(page, state.config.pageSize)
+            val items = testApi.getRepos(page, state.config.pageSize)
+//            val items = gitApi.searchRepos("Android", page, state.config.pageSize).items.also {
+//                logV(message = "items=${it}")
+//            }
             val endOfPaginationReached = items.isEmpty()
             database.withTransaction {
                 // clear all tables in the database

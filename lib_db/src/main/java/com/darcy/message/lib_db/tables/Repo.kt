@@ -27,7 +27,7 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "repos")
 data class Repo(
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey
     val id: Long,
     val name: String,
     val full_name: String,

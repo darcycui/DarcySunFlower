@@ -21,6 +21,7 @@ fun <T> Response.gsonToBean(): BaseResult<T> {
 }
 
 fun <T> String.gsonToBean(): T {
+    // darcyRefactor: gson get real type of BaseResult<T>
     val responseType = object : TypeToken<BaseResult<T>>() {}.type
     return gson.fromJson(this, responseType)
 }

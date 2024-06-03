@@ -1,5 +1,6 @@
 package com.darcy.message.sunflower.test
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -9,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.R
@@ -29,6 +31,9 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
     private var count = 0
     private val viewModel: RoomViewModel by viewModels()
     private val adapters = RoomAdapter()
+    private val context: Context by lazy {
+        this
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initView()
@@ -50,6 +55,9 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
         }
 
         binding.run {
+            btnTestItem.setOnClickListener {
+                DatabaseManager.testDB(context)
+            }
             btnAdd.setOnClickListener {
                 viewModel.insertItem(Item(count, "Tom-$count", count.toDouble()))
                 count++

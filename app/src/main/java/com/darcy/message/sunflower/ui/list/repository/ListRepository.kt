@@ -1,19 +1,13 @@
 package com.darcy.message.sunflower.ui.list.repository
 
-import androidx.lifecycle.LiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.daos.RepoDao
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
-import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.sunflower.ui.list.api.GithubService
-import com.darcy.message.sunflower.ui.list.api.NewsApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import com.darcy.message.sunflower.ui.list.api.TestApi
 import javax.inject.Inject
 
 class ListRepository @Inject constructor(
@@ -50,6 +44,6 @@ class ListRepository @Inject constructor(
         ),
         // create pagingSource by itemDao
         pagingSourceFactory = { repoDao.reposByName() },
-        remoteMediator = ListRemoteMediator(GithubService.api(), database)
+        remoteMediator = ListRemoteMediator(TestApi(), GithubService.api(), database)
     ).flow
 }

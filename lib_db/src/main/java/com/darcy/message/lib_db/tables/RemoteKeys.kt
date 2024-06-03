@@ -22,7 +22,8 @@ import com.darcy.message.lib_common.entity.IDataEntity
 
 @Entity(tableName = "remote_keys")
 data class RemoteKeys(
-    @PrimaryKey val itemId: Long,
+    @PrimaryKey
+    val itemId: Long,
     val prevKey: Int?,
     val nextKey: Int?
 ) : IDataEntity

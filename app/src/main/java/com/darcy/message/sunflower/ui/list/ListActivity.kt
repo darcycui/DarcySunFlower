@@ -139,9 +139,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
             logD(message = "data from room and http-->$pagingData")
             adapter.submitData(pagingData.map { item ->
                 logD(message = "repo-->$item")
-                ListBean().generate(item).also {
-                    logD(message = "ListBean-->$it")
-                }
+                ListBean().generate(item)
             })
         }
     }

@@ -23,8 +23,7 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
     private fun initView() {
         binding.btnRoom.setOnClickListener {
-            DatabaseManager.testDB(this)
-//            startPage(RoomTestActivity::class.java)
+            startPage(RoomTestActivity::class.java)
         }
         binding.btnRoomFlow.setOnClickListener {
             startPage(DetailActivity::class.java)
