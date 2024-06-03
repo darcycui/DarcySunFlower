@@ -17,7 +17,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        // todo 设置资源文件前缀 防止资源名重复
+        // todo Set the resource file prefix to prevent duplicate resource names
         resourcePrefix = "lib_ui_"
     }
 

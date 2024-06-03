@@ -24,7 +24,7 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
-        // todo 设置资源文件前缀 防止资源名重复
+        // todo Set the resource file prefix to prevent duplicate resource names
         resourcePrefix = "lib_db_"
     }
 
@@ -57,6 +57,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     api (project(":lib_common"))
+    // todo: use KSP instead of kapt
     kapt (libs.androidx.room.compiler)
     api (libs.androidx.room.runtime)
     api (libs.androidx.room.ktx)

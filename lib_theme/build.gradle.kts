@@ -2,23 +2,19 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
-val compileSdks = 34
-val minSdks = 26
-val targetSdks = 34
-val versionCodes = 1
-val versionNames = "1.0"
 
 android {
-    namespace = "com.darcy.message.lib_data_store"
-    compileSdk = compileSdks
+    namespace = "com.darcy.message.lib_theme"
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = minSdks
+        minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
         // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_data_store"
+        resourcePrefix = "lib_theme_"
     }
 
     buildTypes {
@@ -37,10 +33,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        // generate buildConfig
-        buildConfig = true
-    }
 }
 
 dependencies {
@@ -49,6 +41,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    api(project(":lib_common"))
-    api(libs.datastore.preferences)
+    api (project(":lib_common"))
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
 }

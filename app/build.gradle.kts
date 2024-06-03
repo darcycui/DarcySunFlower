@@ -29,7 +29,7 @@ android {
         ndk {
             abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64")
         }
-        // todo 设置资源文件前缀 防止资源名重复
+        // todo Set the resource file prefix to prevent duplicate resource names
         resourcePrefix = "app_"
     }
     // load key store from local.properties
@@ -111,6 +111,7 @@ dependencies {
     kapt (libs.hilt.android.compiler)
 
     api (project(":lib_common"))
+    api (project(":lib_theme"))
     implementation (project(":lib_im"))
     implementation (project(":lib_db"))
     api (project(":lib_ui"))

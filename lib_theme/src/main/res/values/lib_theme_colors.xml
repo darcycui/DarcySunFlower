@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lib_theme_black2">#de000000</color>
+    <color name="lib_theme_black">#ff000000</color>
+    <color name="lib_theme_gray_50">#fafafa</color>
+    <color name="lib_theme_gray_50_a600">#99fafafa</color>
+    <color name="lib_theme_green_300">#6dc790</color>
+    <color name="lib_theme_green_500">#49bb79</color>
+    <color name="lib_theme_green_700">#005d2b</color>
+    <color name="lib_theme_green_900">#1a231e</color>
+    <color name="lib_theme_white2">#deffffff</color>
+    <color name="lib_theme_white">#ffffffff</color>
+    <color name="lib_theme_yellow_300">#f8f99f</color>
+    <color name="lib_theme_yellow_500">#ffff63</color>
+</resources>
