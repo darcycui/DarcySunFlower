@@ -106,7 +106,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
         }
     }
 
-    override fun intListener() {
+    override fun initListener() {
 
     }
 

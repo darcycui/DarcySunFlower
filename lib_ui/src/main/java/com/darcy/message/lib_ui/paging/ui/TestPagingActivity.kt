@@ -70,7 +70,7 @@ class TestPagingActivity : BaseActivity<LibUiActivityArticlesBinding>() {
 
     }
 
-    override fun intListener() {
+    override fun initListener() {
 
     }
 

@@ -80,10 +80,10 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         super.onCreate(savedInstanceState)
         viewModel.logD(message = "DetailActivity on Create")
         testInject()
-        initObserver()
+        initListener()
     }
 
-    private fun initObserver() {
+    private fun initObservers() {
         binding.btnRefresh.setOnClickListener {
             adapter.refresh()
         }
@@ -158,7 +158,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         }
     }
 
-    override fun intListener() {
-
+    override fun initListener() {
+        initObservers()
     }
 }

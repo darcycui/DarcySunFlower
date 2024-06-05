@@ -54,7 +54,7 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
     }
 
-    override fun intListener() {
+    override fun initListener() {
 
     }
 

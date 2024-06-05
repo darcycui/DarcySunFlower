@@ -25,7 +25,6 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initObservers()
     }
 
     override fun initView() {
@@ -44,7 +43,8 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
         }
     }
 
-    override fun intListener() {
+    override fun initListener() {
+        initObservers()
     }
 
     override fun initData() {

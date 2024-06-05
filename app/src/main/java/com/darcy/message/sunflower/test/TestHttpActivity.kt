@@ -54,7 +54,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         }
     }
 
-    override fun intListener() {
+    override fun initListener() {
 
     }
 

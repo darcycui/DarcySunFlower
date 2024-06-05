@@ -36,11 +36,6 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initObservers()
-    }
-
-    private fun initObservers() {
-
     }
 
     override fun initView() {
@@ -81,7 +76,7 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
         }
     }
 
-    override fun intListener() {
+    override fun initListener() {
 
     }
 

@@ -21,7 +21,7 @@ class TestMVPActivity :
     override fun initView() {
     }
 
-    override fun intListener() {
+    override fun initListener() {
     }
 
     override fun initData() {

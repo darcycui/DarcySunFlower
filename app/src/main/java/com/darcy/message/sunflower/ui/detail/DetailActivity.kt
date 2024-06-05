@@ -28,10 +28,11 @@ class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initObservers()
     }
 
-    private fun initListeners() {
+    override fun initListener() {
+        initObservers()
+
         binding.btnUpdate.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.updateItem(1, "Tom-${System.currentTimeMillis()}")
@@ -71,9 +72,6 @@ class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
 
     override fun initView() {
 
-    }
-
-    override fun intListener() {
     }
 
     override fun initData() {

@@ -14,11 +14,11 @@ abstract class BaseActivity<T> : ActivityLifecycle() where T : ViewBinding {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initView()
-        intListener()
+        initListener()
         initData()
     }
 
     abstract fun initView()
-    abstract fun intListener()
+    abstract fun initListener()
     abstract fun initData()
 }
