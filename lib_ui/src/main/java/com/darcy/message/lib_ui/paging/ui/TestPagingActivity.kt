@@ -65,6 +65,18 @@ class TestPagingActivity : BaseActivity<LibUiActivityArticlesBinding>() {
             adapter.retry()
         }
     }
+
+    override fun initView() {
+
+    }
+
+    override fun intListener() {
+
+    }
+
+    override fun initData() {
+
+    }
 }
 
 private fun LibUiActivityArticlesBinding.bindAdapter(

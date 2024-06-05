@@ -11,57 +11,73 @@
         android:id="@+id/tvInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"  />
+        android:text="Hello World!"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnRoom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="room database" />
+        android:text="room database"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnRoomFlow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="room+flow" />
+        android:text="room+flow"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnPaging"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="paging" />
+        android:text="paging"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnRoomPaging"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="room+paging" />
+        android:text="room+paging"
+        android:textAllCaps="false" />
 
 
     <Button
         android:id="@+id/btnMVI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MVI" />
+        android:text="MVI"
+        android:textAllCaps="false" />
 
 
     <Button
         android:id="@+id/btnDataStore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DataStore" />
+        android:text="DataStore"
+        android:textAllCaps="false" />
 
 
     <Button
         android:id="@+id/btnFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="FragmentActivity" />
+        android:text="FragmentActivity"
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/btnHttp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="HttpActivity" />
+        android:text="HttpActivity"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnMvp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MVPActivity"
+        android:textAllCaps="false" />
 
 </LinearLayout>

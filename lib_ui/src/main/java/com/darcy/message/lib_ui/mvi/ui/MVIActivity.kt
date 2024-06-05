@@ -25,11 +25,10 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
         initObservers()
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.btnShowSnackbar.setOnClickListener {
             viewModel.dispatch(
                 MainViewIntent.NewsItemClickedIntent(
@@ -43,6 +42,12 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
         binding.btnLoad.setOnClickListener {
             viewModel.dispatch(MainViewIntent.FetchNewsIntent)
         }
+    }
+
+    override fun intListener() {
+    }
+
+    override fun initData() {
     }
 
     private fun initObservers() {

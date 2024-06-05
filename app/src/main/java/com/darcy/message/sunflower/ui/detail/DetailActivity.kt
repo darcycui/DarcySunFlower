@@ -28,9 +28,7 @@ class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
         initObservers()
-        initListeners()
     }
 
     private fun initListeners() {
@@ -71,7 +69,13 @@ class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
         }
     }
 
-    private fun initView() {
+    override fun initView() {
 
+    }
+
+    override fun intListener() {
+    }
+
+    override fun initData() {
     }
 }

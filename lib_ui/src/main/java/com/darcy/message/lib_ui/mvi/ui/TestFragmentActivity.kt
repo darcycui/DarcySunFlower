@@ -24,7 +24,6 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
     private var currentTag: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
         if (savedInstanceState == null) {
             if (fragmentA == null) {
                 fragmentA = TestFragmentA.newInstance()
@@ -97,7 +96,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
         currentTag = tag
      }
 
-    private fun initView() {
+    override fun initView() {
         binding.tvA.setOnClickListener {
             showFragment(FRAGMENT_A)
         }
@@ -105,6 +104,14 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
         binding.tvB.setOnClickListener {
             showFragment(FRAGMENT_B)
         }
+    }
+
+    override fun intListener() {
+
+    }
+
+    override fun initData() {
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

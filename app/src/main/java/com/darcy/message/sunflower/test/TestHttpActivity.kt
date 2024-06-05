@@ -18,10 +18,9 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.btnOKHttp.setOnClickListener {
             scope.launch {
                 OKHttpHttpClient.doGet<IPEntity>(
@@ -53,6 +52,14 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
                 }
             }
         }
+    }
+
+    override fun intListener() {
+
+    }
+
+    override fun initData() {
+
     }
 
     private fun showResult(it: String) {

@@ -3,15 +3,18 @@
 
     <application>
         <activity
-            android:name="com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity"
+            android:name=".base.mvp.test.TestMVPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mvi.ui.TestFragmentActivity"
             android:exported="false"
             android:persistableMode="persistAcrossReboots" />
         <activity
-            android:name="com.darcy.message.lib_ui.paging.ui.TestPagingActivity"
+            android:name=".paging.ui.TestPagingActivity"
             android:exported="false"
             android:persistableMode="persistAcrossReboots" />
         <activity
-            android:name="com.darcy.message.lib_ui.mvi.ui.MVIActivity"
+            android:name=".mvi.ui.MVIActivity"
             android:exported="false"
             android:persistableMode="persistAcrossReboots" />
     </application>

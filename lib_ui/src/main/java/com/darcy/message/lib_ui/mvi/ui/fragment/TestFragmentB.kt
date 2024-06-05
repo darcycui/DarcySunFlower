@@ -21,7 +21,16 @@ class TestFragmentB : BaseFragment<LibUiFragmentABinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun initView() {
         binding.message.text = "FragmentB Changed."
+    }
+
+    override fun initListener() {
+    }
+
+    override fun initData() {
     }
 
 }

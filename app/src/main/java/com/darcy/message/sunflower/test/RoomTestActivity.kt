@@ -36,7 +36,6 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
         initObservers()
     }
 
@@ -44,7 +43,7 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
 
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.recyclerView.apply {
 //            adapter = listAdapter
             adapter = adapters
@@ -80,6 +79,14 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
             }
 
         }
+    }
+
+    override fun intListener() {
+
+    }
+
+    override fun initData() {
+
     }
 
     private suspend fun queryItems() {

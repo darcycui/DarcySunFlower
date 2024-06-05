@@ -19,7 +19,6 @@ class DataStoreActivity : BaseActivity<AppActivityDataStoreBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
         initObservers()
     }
 
@@ -61,7 +60,15 @@ class DataStoreActivity : BaseActivity<AppActivityDataStoreBinding>() {
         }
     }
 
-    private fun initView() {
+    override fun initView() {
+
+    }
+
+    override fun intListener() {
+
+    }
+
+    override fun initData() {
 
     }
 }

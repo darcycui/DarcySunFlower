@@ -80,8 +80,6 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         super.onCreate(savedInstanceState)
         viewModel.logD(message = "DetailActivity on Create")
         testInject()
-        initView()
-        initData()
         initObserver()
     }
 
@@ -111,7 +109,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         }
     }
 
-    private fun initData() {
+    override fun initData() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 load()
@@ -144,7 +142,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         }
     }
 
-    private fun initView() {
+    override fun initView() {
         val context = context
         binding.recyclerView.apply {
 //            adapter = listAdapter
@@ -158,5 +156,9 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         binding.retry.setOnClickListener {
             adapter.retry()
         }
+    }
+
+    override fun intListener() {
+
     }
 }

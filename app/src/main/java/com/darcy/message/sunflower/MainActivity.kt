@@ -1,8 +1,10 @@
 package com.darcy.message.sunflower
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_ui.base.BaseActivity
+import com.darcy.message.lib_ui.base.mvp.test.TestMVPActivity
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.mvi.ui.MVIActivity
 import com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity
@@ -18,10 +20,11 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initView()
+        // follow system dark mode
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
-    private fun initView() {
+    override fun initView() {
         binding.btnRoom.setOnClickListener {
             startPage(RoomTestActivity::class.java)
         }
@@ -46,5 +49,16 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         binding.btnHttp.setOnClickListener {
             startPage(TestHttpActivity::class.java)
         }
+        binding.btnMvp.setOnClickListener {
+            startPage(TestMVPActivity::class.java)
+        }
+    }
+
+    override fun intListener() {
+
+    }
+
+    override fun initData() {
+
     }
 }
