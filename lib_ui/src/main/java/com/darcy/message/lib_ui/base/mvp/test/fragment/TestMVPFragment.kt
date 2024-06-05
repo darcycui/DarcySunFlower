@@ -2,11 +2,7 @@ package com.darcy.message.lib_ui.base.mvp.test.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.darcy.message.lib_common.exts.toast
-import com.darcy.message.lib_ui.R
+import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_ui.base.mvp.BaseMVPFragment
 import com.darcy.message.lib_ui.databinding.LibUiFragmentTestMvpBinding
 
@@ -78,6 +74,6 @@ class TestMVPFragment :
     }
 
     override fun showToast(msg: String) {
-        requireContext().toast(msg)
+        requireContext().toasts(msg)
     }
 }

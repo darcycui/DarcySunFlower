@@ -7,7 +7,8 @@ import kotlinx.coroutines.launch
 
 abstract class BasePresenter<T : IView> : IPresenter<T> {
     private var iView: T? = null
-    private val mainScope:CoroutineScope = MainScope()
+    private val mainScope: CoroutineScope = MainScope()
+
     override fun onCreate() {
     }
 
@@ -40,6 +41,12 @@ abstract class BasePresenter<T : IView> : IPresenter<T> {
 
     fun ui(block: () -> Unit) {
         mainScope.launch(Dispatchers.Main) {
+            block()
+        }
+    }
+
+    fun io(block: () -> Unit) {
+        mainScope.launch(Dispatchers.IO) {
             block()
         }
     }

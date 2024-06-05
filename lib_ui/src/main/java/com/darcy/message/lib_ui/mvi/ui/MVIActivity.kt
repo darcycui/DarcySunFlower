@@ -3,7 +3,7 @@ package com.darcy.message.lib_ui.mvi.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.darcy.message.lib_common.exts.toast
+import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_ui.databinding.LibUiActivityMviactivityBinding
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.exts.showSnackBar
@@ -59,7 +59,7 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
                 }
 
                 is MainViewEvent.ShowToastEvent -> {
-                    toast(message = it.message)
+                    toasts(message = it.message)
                 }
             }
         }

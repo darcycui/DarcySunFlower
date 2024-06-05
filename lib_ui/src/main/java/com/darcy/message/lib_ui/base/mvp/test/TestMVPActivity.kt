@@ -1,7 +1,7 @@
 package com.darcy.message.lib_ui.base.mvp.test
 
 import android.os.Bundle
-import com.darcy.message.lib_common.exts.toast
+import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_ui.R
 import com.darcy.message.lib_ui.base.mvp.BaseMVPActivity
 import com.darcy.message.lib_ui.base.mvp.test.fragment.TestMVPFragment
@@ -51,6 +51,6 @@ class TestMVPActivity :
     }
 
     override fun showToast(msg: String) {
-        toast(msg)
+        toasts(msg)
     }
 }
