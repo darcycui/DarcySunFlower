@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="lib_theme_AppCompatTheme" parent="lib_theme_BaseAppCompatTheme">
+        <item name="android:statusBarColor">@color/lib_theme_white</item>
+        <item name="android:navigationBarColor">@color/lib_theme_white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <style name="lib_theme_MaterialTheme" parent="lib_theme_BaseMaterialTheme">
+        <item name="android:statusBarColor">@color/lib_theme_white</item>
+        <item name="android:navigationBarColor">@color/lib_theme_white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

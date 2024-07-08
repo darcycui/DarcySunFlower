@@ -117,6 +117,8 @@ dependencies {
     api (project(":lib_ui"))
     api (project(":lib_data_store"))
     api (project(":lib_http"))
+
+    implementation (libs.androidx.preference.ktx)
 }
 
 // disable dependency verification foe one library

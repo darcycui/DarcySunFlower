@@ -6,6 +6,6 @@
     </style>
 
 <!--    <style name="app_Theme.Sunflower" parent="app_Base.Theme.Sunflower" />-->
-<!--    <style name="app_Theme.Sunflower" parent="lib_theme_BaseMaterialTheme" />-->
-    <style name="app_Theme.Sunflower" parent="lib_theme_BaseAppCompatTheme" />
+    <style name="app_Theme.Sunflower" parent="lib_theme_MaterialTheme" />
+<!--    <style name="app_Theme.Sunflower" parent="lib_theme_AppCompatTheme" />-->
 </resources>

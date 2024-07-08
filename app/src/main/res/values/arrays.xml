@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="app_pref_general_entries_test">
+        <item>成都</item>
+        <item>重庆</item>
+        <item>黄冈</item>
+    </string-array>
+    <string-array name="app_pref_general_entry_values_test">
+        <item>chengdu</item>
+        <item>chongqing</item>
+        <item>huanggang</item>
+    </string-array>
+</resources>

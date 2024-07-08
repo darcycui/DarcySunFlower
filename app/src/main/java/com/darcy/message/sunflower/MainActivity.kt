@@ -15,6 +15,7 @@ import com.darcy.message.sunflower.test.RoomTestActivity
 import com.darcy.message.sunflower.test.TestHttpActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
+import com.darcy.message.sunflower.ui.settings.SettingsActivity
 
 class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
@@ -51,6 +52,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnMvp.setOnClickListener {
             startPage(TestMVPActivity::class.java)
+        }
+        binding.btnSettings.setOnClickListener {
+            startPage(SettingsActivity::class.java)
         }
     }
 

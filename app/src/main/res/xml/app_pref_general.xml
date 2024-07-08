@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="@string/app_pref_general_key_category_test"
+        android:summary="@string/app_pref_general_summary_test"
+        android:title="@string/app_pref_general_title_test">
+        <Preference
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/app_pref_general_key_test_item1"
+            android:selectable="true"
+            android:summary="@string/app_pref_general_summary_test_summary1"
+            android:title="@string/app_pref_general_title_test_item1">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.baidu.com" />
+        </Preference>
+        <Preference
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/app_pref_general_key_test_item2"
+            android:selectable="true"
+            android:summary="@string/app_pref_general_summary_test_summary2"
+            android:title="@string/app_pref_general_title_test_item2">
+
+        </Preference>
+        <Preference
+            android:enabled="false"
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/app_pref_general_key_test_item3"
+            android:selectable="false"
+            android:summary="@string/app_pref_general_summary_test_summary3"
+            android:title="@string/app_pref_general_title_test_item3" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/app_pref_general_key_category_test"
+        android:summary="@string/app_pref_general_summary_test"
+        android:title="@string/app_pref_general_title_test"
+        app:initialExpandedChildrenCount="0">
+        <Preference
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/app_pref_general_key_test_item1"
+            android:selectable="true"
+            android:summary="@string/app_pref_general_summary_test_summary1"
+            android:title="@string/app_pref_general_title_test_item1" />
+        <Preference
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/app_pref_general_key_test_item2"
+            android:selectable="true"
+            android:summary="@string/app_pref_general_summary_test_summary2"
+            android:title="@string/app_pref_general_title_test_item2" />
+        <Preference
+            android:icon="@mipmap/ic_launcher"
+            android:key="@string/app_pref_general_key_test_item3"
+            android:selectable="false"
+            android:summary="@string/app_pref_general_summary_test_summary3"
+            android:title="@string/app_pref_general_title_test_item3" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/app_pref_general_key_category_test"
+        android:summary="@string/app_pref_general_summary_test"
+        android:title="@string/app_pref_general_title_test">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/app_pref_general_key_test_check1"
+            android:summary="@string/app_pref_general_summary_test_check1"
+            android:title="@string/app_pref_general_title_test_check1" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/app_pref_general_key_test_check2"
+            android:summary="@string/app_pref_general_summary_test_check2"
+            android:title="@string/app_pref_general_title_test_check2" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/app_pref_general_key_category_test"
+        android:summary="@string/app_pref_general_summary_test"
+        android:title="@string/app_pref_general_title_test">
+        <EditTextPreference
+            android:defaultValue="test"
+            android:key="@string/app_pref_general_key_test_edit1"
+            android:summary="@string/app_pref_general_summary_test_edit1"
+            android:title="@string/app_pref_general_title_test_edit1" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/app_pref_general_key_category_test"
+        android:summary="@string/app_pref_general_summary_test"
+        android:title="@string/app_pref_general_title_test">
+        <ListPreference
+            android:defaultValue="chengdu"
+            android:entries="@array/app_pref_general_entries_test"
+            android:entryValues="@array/app_pref_general_entry_values_test"
+            android:key="@string/app_pref_general_key_test_list1"
+            android:summary="@string/app_pref_general_summary_test_list1"
+            android:title="@string/app_pref_general_title_test_list1" />
+        <MultiSelectListPreference
+            android:entries="@array/app_pref_general_entries_test"
+            android:entryValues="@array/app_pref_general_entry_values_test"
+            android:key="@string/app_pref_general_key_test_list2"
+            android:summary="@string/app_pref_general_summary_test_list2"
+            android:title="@string/app_pref_general_title_test_list2" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/app_pref_general_key_category_test"
+        android:summary="@string/app_pref_general_summary_test"
+        android:title="@string/app_pref_general_title_test">
+        <SwitchPreference
+            android:key="@string/app_pref_general_key_test_switch1"
+            android:summary="@string/app_pref_general_summary_test_switch1"
+            android:summaryOff="@string/app_pref_general_summary_test_switch1_off"
+            android:summaryOn="@string/app_pref_general_summary_test_switch1_on"
+            android:title="@string/app_pref_general_title_test_switch1" />
+        <DropDownPreference
+            android:entries="@array/app_pref_general_entries_test"
+            android:entryValues="@array/app_pref_general_entry_values_test"
+            android:key="@string/app_pref_general_key_test_dropdown1"
+            android:summary="@string/app_pref_general_summary_test_dropdown1"
+            android:title="@string/app_pref_general_title_test_dropdown1"
+            app:useSimpleSummaryProvider="true" />
+        <SeekBarPreference
+            android:defaultValue="50"
+            android:key="@string/app_pref_general_key_test_seekbar1"
+            android:max="100"
+            android:min="0"
+            android:summary="@string/app_pref_general_summary_test_seekbar1"
+            android:title="@string/app_pref_general_title_test_seekbar1" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>

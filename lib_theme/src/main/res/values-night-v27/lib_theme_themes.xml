@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="lib_theme_AppCompatTheme" parent="lib_theme_BaseAppCompatTheme">
         <item name="android:colorPrimary">@color/lib_theme_green_900</item>
         <item name="android:colorPrimaryDark">@color/lib_theme_gray_50_a600</item>
@@ -11,8 +10,8 @@
         <item name="android:statusBarColor">@color/lib_theme_black</item>
         <item name="android:navigationBarColor">@color/lib_theme_black</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
-
     <style name="lib_theme_MaterialTheme" parent="lib_theme_BaseMaterialTheme">
         <item name="colorPrimary">@color/lib_theme_green_900</item>
         <item name="colorOnPrimary">@color/lib_theme_yellow_300</item>
@@ -26,5 +25,6 @@
         <item name="android:statusBarColor">@color/lib_theme_black</item>
         <item name="android:navigationBarColor">@color/lib_theme_black</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 </resources>
