@@ -7,6 +7,7 @@ import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_data_store.helper.DataStoreHelper
 import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
+import com.darcy.message.lib_http.BuildConfig
 import com.darcy.message.lib_http.HttpManager
 import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.sunflower.ui.list.bean.Parent
@@ -26,7 +27,7 @@ class App : Application() {
 
     private fun init() {
         AppHelper.init(this)
-        XLogHelper.init(this)
+        XLogHelper.init(this, BuildConfig.DEBUG)
         DatabaseManager.init(this, ItemRoomDatabase.getDatabase(this))
 //        CipherDatabaseHelper.init(this)
         DataStoreHelper.init(this)
