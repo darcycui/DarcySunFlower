@@ -7,15 +7,14 @@ import androidx.paging.PagingState
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_ui.paging.entity.IEntity.Article
 import kotlinx.coroutines.delay
-import java.lang.IllegalStateException
-import java.time.LocalDateTime
 import kotlin.math.max
 
 /**
  * PagingSource deal with page logic
+ * The data is fetched from Database only.(No internet data here)
  */
 class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int, Article>() {
-    private val START_KEY: Int = 80
+    private val START_KEY: Int = 50
     companion object {
         private var emitError = true
         private var emitLoadMoreError = true
@@ -43,7 +42,8 @@ class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int,
                 logD(message = "Append")
                 // Load as many items as hinted by params.loadSize
                 val appendEnd = start + params.loadSize
-                start.until(appendEnd).also {
+                // darcyRefactor 注意这里是从start + 1开始
+                (start + 1).until(appendEnd).also {
                     logD(message = "page=$start nextPage=${it.last}")
                 }
             }
@@ -66,6 +66,7 @@ class ArticlePagingSource(val repository: ArticleRepository) : PagingSource<Int,
             emitLoadMoreError = false
             return LoadResult.Error(IllegalStateException("Failed to load more data."))
         }
+        // darcyRefactor 根据range从数据库获取数据
         return LoadResult.Page(
             data = repository.getRemoteArticles(range),
             // Make sure we don't try to load items behind the STARTING_KEY

@@ -2,21 +2,18 @@ package com.darcy.message.lib_ui.paging.viewmodel
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.darcy.message.lib_ui.paging.repoisitory.ArticleRepository
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.insertFooterItem
 import androidx.paging.insertHeaderItem
 import androidx.paging.insertSeparators
 import com.darcy.message.lib_ui.paging.entity.IEntity
-import com.darcy.message.lib_ui.paging.repoisitory.ArticlePagingSource
 import com.darcy.message.lib_ui.paging.entity.IEntity.Article
-import com.darcy.message.lib_ui.paging.repoisitory.firstArticleCreatedTime
-import kotlinx.coroutines.flow.Flow
+import com.darcy.message.lib_ui.paging.repoisitory.ArticlePagingSource
+import com.darcy.message.lib_ui.paging.repoisitory.ArticleRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
