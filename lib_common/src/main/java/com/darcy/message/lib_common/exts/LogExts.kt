@@ -23,7 +23,3 @@ fun Any?.logE(tag: String? = LOG_TAG, message: String?) {
     XLog.e("$tag $message")
 }
 
-fun Exception.print() {
-    logE(message = "fail with Exception: ${this.stackTraceToString()}")
-    this.printStackTrace()
-}

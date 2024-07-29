@@ -2,6 +2,7 @@
 [versions]
 activityKtx = "1.8.2"
 agp = "8.3.1"
+codelocatorCore = "2.0.4"
 fragmentKtx = "1.6.0"
 kotlin = "1.9.23"
 coreKtx = "1.12.0"
@@ -17,6 +18,7 @@ lifecycleRuntimeKtx = "2.7.0"
 appcompat = "1.6.1"
 material = "1.10.0"
 constraintlayout = "2.1.4"
+navigationVersion = "2.6.0"
 preferenceKtx = "1.2.1"
 recyclerview = "1.3.1"
 androidxNavigation = "2.6.0"
@@ -45,6 +47,8 @@ androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-lived
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+codelocator-core = { module = "com.bytedance.tools.codelocator:codelocator-core", version.ref = "codelocatorCore" }
+dagger-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -60,6 +64,7 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
+navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationVersion" }
 xlog = { group = "com.elvishew", name = "xlog", version.ref = "xlogVersion" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

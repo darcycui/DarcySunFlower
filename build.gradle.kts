@@ -2,14 +2,16 @@ buildscript {
     repositories {
         mavenCentral()
         gradlePluginPortal()
+        maven("https://maven.aliyun.com/repository/gradle-plugin")
     }
 
     // 添加gradle插件
     dependencies {
-        val navigationVersion = "2.6.0"
-        classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion")
-        val hiltVersion = "2.51"
-        classpath ("com.google.dagger:hilt-android-gradle-plugin:$hiltVersion")
+        // navigation
+        classpath (libs.navigation.safe.args.gradle.plugin)
+        // hilt
+        classpath (libs.dagger.hilt.android.gradle.plugin)
+
     }
 }
 plugins {

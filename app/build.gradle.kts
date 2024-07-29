@@ -119,6 +119,8 @@ dependencies {
     api (project(":lib_http"))
 
     implementation (libs.androidx.preference.ktx)
+    // codelocator依赖
+    implementation (libs.codelocator.core)
 }
 
 // disable dependency verification foe one library
