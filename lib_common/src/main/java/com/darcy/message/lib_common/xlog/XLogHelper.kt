@@ -33,9 +33,9 @@ object XLogHelper {
         val config = LogConfiguration.Builder()
             .logLevel(level)
             .tag(LOG_TAG)
-            .enableThreadInfo()
-            .enableBorder()
-            .enableStackTrace(3)
+//            .enableThreadInfo()
+//            .enableBorder()
+//            .enableStackTrace(3)
             .build()
         val filePath = context.filesDir.absolutePath + "/xlog"
         val filePrinter: Printer = FilePrinter.Builder(filePath)

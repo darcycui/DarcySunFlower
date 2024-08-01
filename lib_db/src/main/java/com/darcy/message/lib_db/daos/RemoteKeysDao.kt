@@ -26,7 +26,7 @@ import com.darcy.message.lib_db.tables.RemoteKeys
 interface RemoteKeysDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(remoteKey: List<RemoteKeys>)
+    suspend fun insertAll(remoteKey: List<RemoteKeys>): List<Long>
 
     @Query("SELECT * FROM remote_keys WHERE itemId = :repoId")
     suspend fun remoteKeysRepoId(repoId: Long): RemoteKeys?

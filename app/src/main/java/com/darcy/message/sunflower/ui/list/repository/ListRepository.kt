@@ -22,7 +22,7 @@ class ListRepository @Inject constructor(
             enablePlaceholders = false
         ),
         // create pagingSource
-        pagingSourceFactory = { ListDateSource(itemDao) }
+        pagingSourceFactory = { ListDataSource(itemDao) }
     ).flow
 
     fun getItemsPagingFromRoom() = Pager(
@@ -42,8 +42,9 @@ class ListRepository @Inject constructor(
             initialLoadSize = 3 * ITEMS_PER_PAGE,
             enablePlaceholders = false
         ),
-        // create pagingSource by itemDao
+        // create pagingSource by repoDao
         pagingSourceFactory = { repoDao.reposByName() },
+        // create remoteMediator here
         remoteMediator = ListRemoteMediator(TestApi(), GithubService.api(), database)
     ).flow
 }

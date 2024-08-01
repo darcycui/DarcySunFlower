@@ -23,7 +23,7 @@ object DatabaseManager {
 
     fun testDB(context: Context) {
         GlobalScope.launch {
-            repeat(1) { count ->
+            repeat(50) { count ->
                 logI(message = "insert item $count")
                 getDatabase().itemDao().insert(Item(count, "TomJerry $count", count.toDouble(), 100))
                     .also { result ->

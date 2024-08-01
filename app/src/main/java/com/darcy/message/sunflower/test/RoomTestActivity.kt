@@ -68,8 +68,7 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
             }
             btnQuery.setOnClickListener {
                 lifecycleScope.launch() {
-//                    queryItems()
-                    queryRepos()
+                    queryItems()
                 }
             }
 

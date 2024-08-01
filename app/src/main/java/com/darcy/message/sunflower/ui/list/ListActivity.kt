@@ -12,6 +12,7 @@ import androidx.paging.map
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
+import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityListBinding
@@ -119,26 +120,22 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
 
     private suspend fun load() {
         logD(message = "Load Data Once")
-//        viewModel.itemsPaging.collectLatest {
-//            logD(message = "data-->$it")
-//            adapter.submitData(it)
+        // 1.from custom PageSource
+//        viewModel.itemsPaging.collectLatest { pagingData->
+//            logD(message = "data-->$pagingData")
+//            adapter.submitData(pagingData)
 //        }
 
+        // 2.from Room PageSource
 //        viewModel.itemsPagingFromRoom.collectLatest { pagingData ->
 //            logD(message = "data from room-->$pagingData")
-//            adapter.submitData(pagingData.map { item ->
-//                ListBean().generate(item).also {
-//                    logD(message = "ListBean-->$it")
-//                }
-//            })
+//            adapter.submitData(pagingData)
 //        }
 
+        // 3.from RemoteMediator PageSource // darcyRefactor tobe continued
         viewModel.itemsPagingFromRoomAndHttp.collectLatest { pagingData ->
-            logD(message = "data from room and http-->$pagingData")
-            adapter.submitData(pagingData.map { item ->
-                logD(message = "repo-->$item")
-                ListBean().generate(item)
-            })
+            logE(message = "data from room and http-->${pagingData}")
+            adapter.submitData(pagingData)
         }
     }
 

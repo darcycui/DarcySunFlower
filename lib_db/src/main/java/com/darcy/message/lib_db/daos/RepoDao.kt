@@ -26,14 +26,16 @@ import com.darcy.message.lib_db.tables.Repo
 @Dao
 interface RepoDao {
 
-//    @Query("SELECT * FROM repos")
-    @Query("SELECT * FROM repos WHERE " +
-            "name LIKE :queryString OR description LIKE :queryString " +
-            "ORDER BY stargazers_count DESC, name ASC")
+    //    @Query("SELECT * FROM repos")
+    @Query(
+        "SELECT * FROM repos WHERE " +
+                "name LIKE :queryString OR description LIKE :queryString " +
+                "ORDER BY stargazers_count DESC, name ASC"
+    )
     suspend fun getRepos(queryString: String): List<Repo>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(repos: List<Repo>)
+    suspend fun insertAll(repos: List<Repo>): List<Long>
 
     @Query(
         "SELECT * FROM repos WHERE " +

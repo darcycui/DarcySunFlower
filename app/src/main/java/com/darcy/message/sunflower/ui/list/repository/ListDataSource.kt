@@ -7,16 +7,14 @@ import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Item
 import com.darcy.message.sunflower.ui.list.bean.ListBean
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import kotlin.math.max
 
-private const val START_KEY: Int = 8
+private const val START_KEY: Int = 2
 
 const val ITEMS_PER_PAGE = 10
 
-class ListDateSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>() {
+class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>() {
     override fun getRefreshKey(state: PagingState<Int, ListBean>): Int? {
 //        val anchorPosition = state.anchorPosition ?: return null
 //        val article = state.closestItemToPosition(anchorPosition) ?: return null

@@ -16,7 +16,10 @@ import com.darcy.message.sunflower.ui.list.api.TestApi
 
 private const val START_KEY: Int = 1
 
-// darcyRefactor not well to be continued...
+/**
+ * mediator for local database data and remote http data
+ * darcyRefactor: not well to be continued...
+ */
 @OptIn(ExperimentalPagingApi::class)
 class ListRemoteMediator(
     private val testApi: TestApi,
@@ -67,6 +70,7 @@ class ListRemoteMediator(
                     START_KEY
                 }
             }
+            logE(message = "page=$page")
 //            val items = testApi.getNews(page, state.config.pageSize)
             val items = testApi.getRepos(page, state.config.pageSize)
 //            val items = gitApi.searchRepos("Android", page, state.config.pageSize).items.also {
@@ -84,8 +88,12 @@ class ListRemoteMediator(
                 val keys = items.map {
                     RemoteKeys(itemId = it.id.toLong(), prevKey = prevKey, nextKey = nextKey)
                 }
-                database.remoteKeysDao().insertAll(keys)
+                logI(message = "current keys=$keys")
+                database.remoteKeysDao().insertAll(keys).also {
+                    logI(message = "insert keys count=${it.size}")
+                }
                 database.reposDao().insertAll(items)
+                    .also { logI(message = "insert repos count=${it.size}") }
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 

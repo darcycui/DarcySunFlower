@@ -19,20 +19,20 @@ class ListAdapter @Inject constructor() :
     companion object {
         private val Item_DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListBean>() {
             override fun areItemsTheSame(oldItem: ListBean, newItem: ListBean): Boolean {
-                if (oldItem.id == newItem.id) {
-                    logV("areItemsTheSame", message = "oldItem=(${oldItem.id}) and newItem=(${newItem.id})--SAME")
-                } else {
-                    logE("areItemsTheSame", message = "oldItem=(${oldItem.id}) and newItem=(${newItem.id})--NOT SAME")
-                }
+//                if (oldItem.id == newItem.id) {
+//                    logV("areItemsTheSame", message = "oldItem=(${oldItem.id}) and newItem=(${newItem.id})--SAME")
+//                } else {
+//                    logE("areItemsTheSame", message = "oldItem=(${oldItem.id}) and newItem=(${newItem.id})--NOT SAME")
+//                }
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: ListBean, newItem: ListBean): Boolean {
-                if (oldItem == newItem) {
-                    logI("areContentsTheSame", message = "oldItem(${oldItem.id}) and newItem(${newItem.id}):SAME")
-                } else {
-                    logW("areContentsTheSame", message = "oldItem(${oldItem.id}) and newItem(${newItem.id}):NOT SAME")
-                }
+//                if (oldItem == newItem) {
+//                    logI("areContentsTheSame", message = "oldItem(${oldItem.id}) and newItem(${newItem.id}):SAME")
+//                } else {
+//                    logW("areContentsTheSame", message = "oldItem(${oldItem.id}) and newItem(${newItem.id}):NOT SAME")
+//                }
                 return oldItem == newItem
             }
         }
