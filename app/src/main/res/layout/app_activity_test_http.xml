@@ -8,11 +8,11 @@
     android:orientation="vertical"
     tools:context=".test.TestHttpActivity">
 
-    <TextView
-        android:id="@+id/tvInfo"
+    <Button
+        android:id="@+id/btnCheckHttpProxy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name" />
+        android:text="CheckHttpProxy" />
 
     <Button
         android:id="@+id/btnOKHttp"
@@ -31,5 +31,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ktor" />
+
+    <Button
+        android:id="@+id/btnTestHttpEBPF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="eBPF抓包测试" />
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name" />
 
 </LinearLayout>

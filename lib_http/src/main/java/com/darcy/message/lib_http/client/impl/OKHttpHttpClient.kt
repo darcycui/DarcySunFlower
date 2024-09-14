@@ -17,6 +17,10 @@ import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
+import java.net.Proxy
+import java.net.ProxySelector
+import java.net.SocketAddress
+import java.net.URI
 import java.util.concurrent.TimeUnit
 
 object OKHttpHttpClient : IHttpClient {
@@ -39,6 +43,20 @@ object OKHttpHttpClient : IHttpClient {
 //            .addInterceptor(CacheInterceptor())
             // increase the number of requests for per host, so that the timeout could be correctly(without waiting time in queue)
             .dispatcher(Dispatcher().apply { maxRequestsPerHost = 10 })
+            // retry when network is not available
+            .retryOnConnectionFailure(true)
+            // do not use system proxy
+            .proxy(Proxy.NO_PROXY)
+            .proxySelector(object : ProxySelector() {
+                override fun select(uri: URI?): MutableList<Proxy> {
+                    return mutableListOf(Proxy.NO_PROXY)
+                }
+
+                override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
+                    println("ProxySelector connectFailed: uri=$uri sa=$sa ioe=$ioe")
+                }
+
+            })
             .build()
     }
 

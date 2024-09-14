@@ -2,6 +2,12 @@ package com.darcy.message.sunflower
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import com.darcy.message.lib_common.arraymap.TestArrayMap
+import com.darcy.message.lib_common.arraymap.TestArraySet
+import com.darcy.message.lib_common.sparsearray.TestSparseArray
+import com.darcy.message.lib_common.sparsearray.TestSparseBooleanArray
+import com.darcy.message.lib_common.sparsearray.TestSparseIntArray
+import com.darcy.message.lib_common.sparsearray.TestSparseLongArray
 import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.base.mvp.test.TestMVPActivity
@@ -53,8 +59,13 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         binding.btnMvp.setOnClickListener {
             startPage(TestMVPActivity::class.java)
         }
-        binding.btnSettings.setOnClickListener {
-            startPage(SettingsActivity::class.java)
+        binding.btnSparseArray.setOnClickListener {
+            TestSparseArray.test()
+            TestSparseBooleanArray.test()
+            TestSparseIntArray.test()
+            TestSparseLongArray.test()
+            TestArrayMap.test()
+            TestArraySet.test()
         }
     }
 
