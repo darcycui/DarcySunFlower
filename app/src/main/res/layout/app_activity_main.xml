@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,84 +7,98 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvInfo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textAllCaps="false" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btnRoom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="room database"
-        android:textAllCaps="false" />
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/app_text_color"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnRoomFlow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="room+flow"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="room database"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnPaging"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="paging"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnRoomFlow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="room+flow"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnRoomPaging"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="room+paging"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnPaging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="paging"
+            android:textAllCaps="false" />
 
-
-    <Button
-        android:id="@+id/btnMVI"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="MVI"
-        android:textAllCaps="false" />
-
-
-    <Button
-        android:id="@+id/btnDataStore"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DataStore"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnRoomPaging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="room+paging"
+            android:textAllCaps="false" />
 
 
-    <Button
-        android:id="@+id/btnFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FragmentActivity"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnMVI"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MVI"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnHttp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HttpActivity"
-        android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnMvp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="MVPActivity"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnDataStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DataStore"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnSettings"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="SettingsActivity"
-        android:textAllCaps="false" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FragmentActivity"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnHttp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HttpActivity"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnMvp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MVPActivity"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SettingsActivity"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnSparseArray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SparseArray Test"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+</ScrollView>

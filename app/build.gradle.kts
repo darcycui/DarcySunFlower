@@ -31,6 +31,9 @@ android {
         }
         // todo Set the resource file prefix to prevent duplicate resource names
         resourcePrefix = "app_"
+
+        // set build config field
+        buildConfigField("String", "API_URL", "\"https://www.default.com\"")
     }
     // load key store from local.properties
     val localProperties = gradleLocalProperties(File(project.rootDir.absolutePath))
@@ -49,6 +52,36 @@ android {
             keyPassword = localProperties.getProperty("key_password")
         }
     }
+
+    // set flavorDimensions
+    flavorDimensions.add("version")
+
+    // set productFlavors
+    productFlavors {
+        // add flavor
+        create("huawei") {
+            // set dimension
+            dimension = "version"
+            // set build config field
+            buildConfigField("String", "API_URL", "\"https://www.hauwei.com\"")
+            // set res value(not recommended! use src/huawei/res/values/strings.xml instead)
+            resValue("string", "app_name", "Sunflower Huawei")
+            applicationIdSuffix = ".huawei"
+            versionNameSuffix = "-huawei"
+        }
+        // add flavor
+        create("google") {
+            // set dimension
+            dimension = "version"
+            // set build config field
+            buildConfigField("String", "API_URL", "\"https://www.google.com\"")
+            // set res value(not recommended! use src/google/res/values/strings.xml instead)
+//            resValue("string", "app_name", "Sunflower Google")
+            applicationIdSuffix = ".google"
+            versionNameSuffix = "-google"
+        }
+    }
+
     buildTypes {
         debug {
             isDebuggable = true
@@ -57,6 +90,7 @@ android {
             signingConfig = signingConfigs.getByName("debugSign")
             // network security config
             resValue("xml", "network_security_config", "@xml/network_security_config_debug")
+//            resValue("xml", "network_security_config", "@xml/network_security_config_release")
         }
         release {
             isDebuggable = false
@@ -79,9 +113,23 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    // 开启viewBinding
     buildFeatures {
+        // 开启viewBinding
         viewBinding = true
+        // enable buildConfig
+        buildConfig = true
+    }
+    sourceSets {
+        getByName("huawei") {
+            res {
+                srcDirs("src\\huawei\\res", "src\\huawei\\res")
+            }
+        }
+        getByName("google") {
+            res {
+                srcDirs("src\\google\\res", "src\\google\\res")
+            }
+        }
     }
 }
 
@@ -107,28 +155,30 @@ dependencies {
 //    androidTestImplementation(libs.androidx.ui.test.junit4)
 
     // hilt di
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
-    api (project(":lib_common"))
-    api (project(":lib_theme"))
-    implementation (project(":lib_im"))
-    implementation (project(":lib_db"))
-    api (project(":lib_ui"))
-    api (project(":lib_data_store"))
-    api (project(":lib_http"))
+    api(project(":lib_common"))
+    api(project(":lib_theme"))
+    implementation(project(":lib_im"))
+    implementation(project(":lib_db"))
+    api(project(":lib_ui"))
+    api(project(":lib_data_store"))
+    api(project(":lib_http"))
 
-    implementation (libs.androidx.preference.ktx)
+    implementation(libs.androidx.preference.ktx)
     // codelocator依赖
-    implementation (libs.codelocator.core)
+    implementation(libs.codelocator.core)
 }
 
 // disable dependency verification foe one library
 // use this command to test it: ./gradlew checkDetachedDependencies
 tasks.register("checkDetachedDependencies") {
-    val detachedConf: FileCollection = configurations.detachedConfiguration(dependencies.create("com.guolindev.glance:glance:1.1.0")).apply {
-        resolutionStrategy.disableDependencyVerification()
-    }
+    val detachedConf: FileCollection =
+        configurations.detachedConfiguration(dependencies.create("com.guolindev.glance:glance:1.1.0"))
+            .apply {
+                resolutionStrategy.disableDependencyVerification()
+            }
     doLast {
         println("-->checkDetachedDependencies")
         println(detachedConf.files)
