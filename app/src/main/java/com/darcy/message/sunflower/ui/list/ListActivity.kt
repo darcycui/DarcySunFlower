@@ -33,9 +33,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ListActivity : BaseActivity<AppActivityListBinding>() {
-    private val context: Context by lazy {
-        this
-    }
 
     // inject ViewModel
     private val viewModel: ListViewModel by viewModels()

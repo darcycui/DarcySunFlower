@@ -19,9 +19,6 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
-    private val context: Context by lazy {
-        this
-    }
 
     // inject ViewModel
     private val viewModel: DetailViewModel by viewModels()

@@ -9,31 +9,38 @@
     tools:context="com.darcy.message.lib_ui.mvi.ui.MVIActivity">
 
     <Button
-        android:id="@+id/btnLoad"
+        android:id="@+id/btnLoadNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="load"
+        android:text="loadNews"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btnCount"
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="toast"
+        android:text="login"
         android:textAllCaps="false" />
 
     <Button
-        android:id="@+id/btnShowSnackbar"
+        android:id="@+id/btnLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="snackbar"
+        android:text="logout"
         android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/tvInfo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="tvInfo"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/tvNews"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="tvNews"
         android:textAllCaps="false" />
 
 </LinearLayout>

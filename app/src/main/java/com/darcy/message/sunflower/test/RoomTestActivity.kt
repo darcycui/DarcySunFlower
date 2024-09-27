@@ -31,9 +31,6 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
     private var count = 0
     private val viewModel: RoomViewModel by viewModels()
     private val adapters = RoomAdapter()
-    private val context: Context by lazy {
-        this
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

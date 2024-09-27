@@ -3,6 +3,7 @@ package com.darcy.message.lib_ui.mvi.ui
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_ui.databinding.LibUiActivityMviactivityBinding
 import com.darcy.message.lib_ui.base.BaseActivity
@@ -14,36 +15,39 @@ import com.darcy.message.lib_ui.mvi.state.MainViewState
 import com.darcy.message.lib_ui.mvi.state.common.FetchStatus
 import com.darcy.message.lib_ui.exts.observeEvent
 import com.darcy.message.lib_ui.exts.observeState
+import com.darcy.message.lib_ui.mvi.bean.UserBean
+import com.darcy.message.lib_ui.mvi.intent.MainUiIntent
+import com.darcy.message.lib_ui.mvi.state.LoginUiState
+import com.darcy.message.lib_ui.mvi.state.NewsUiState
 import com.darcy.message.lib_ui.mvi.viewmodel.MainViewModel
+import com.darcy.message.lib_ui.mvi.viewmodel.MainViewModel2
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
-    private val context: AppCompatActivity by lazy {
-        this
-    }
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel2: MainViewModel2 by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun initView() {
-        binding.btnShowSnackbar.setOnClickListener {
-            viewModel.dispatch(
-                MainViewIntent.NewsItemClickedIntent(
-                    NewsItem("title", "description", "imageUrl")
-                )
-            )
-        }
-        binding.btnCount.setOnClickListener {
-            viewModel.dispatch(MainViewIntent.FabClickedIntent)
-        }
-        binding.btnLoad.setOnClickListener {
-            viewModel.dispatch(MainViewIntent.FetchNewsIntent)
-        }
     }
 
     override fun initListener() {
+        binding.btnLogin.setOnClickListener {
+            viewModel2.sendUiIntent(MainUiIntent.LoginIntent(UserBean(1, "darcy", "123456")))
+            showSnackBar("This is a snackbar")
+        }
+        binding.btnLogout.setOnClickListener {
+            viewModel2.sendUiIntent(MainUiIntent.LogoutIntent(UserBean(1, "darcy", "123456")))
+            showSnackBar("This is a snackbar")
+        }
+        binding.btnLoadNews.setOnClickListener {
+            viewModel2.sendUiIntent(MainUiIntent.LoadNewsIntent(id = 1))
+        }
         initObservers()
     }
 
@@ -51,37 +55,40 @@ class MVIActivity : BaseActivity<LibUiActivityMviactivityBinding>() {
     }
 
     private fun initObservers() {
-        // observe events
-        viewModel.viewEvents.observeEvent(this) {
-            when (it) {
-                is MainViewEvent.ShowSnackbarEvent -> {
-                    showSnackBar(it.message)
-                }
+        lifecycleScope.launch {
+            viewModel2.uiStateFlow.map { it.loginUiState }.distinctUntilChanged().collect {
+                when(it){
+                    is LoginUiState.Loading -> {
+                        binding.tvInfo.text = "Loading"
+                    }
 
-                is MainViewEvent.ShowToastEvent -> {
-                    toasts(message = it.message)
+                    is LoginUiState.Success -> {
+                        binding.tvInfo.text = "Success ${it.data}"
+                    }
+
+                    is LoginUiState.Error -> {
+                        binding.tvInfo.text = "Error ${it.error}"
+                    }
+
+                    is LoginUiState.SignedOut -> {
+                        binding.tvInfo.text = "SignedOut"
+                    }
                 }
             }
         }
-
-        // observe states
-        viewModel.viewStates.run {
-            observeState(context, MainViewState::newsList) {
-                binding.tvInfo.text = "add to list\nadd to list\nadd to list"
-            }
-            observeState(context, MainViewState::fetchStatus) {
-                when (it) {
-                    is FetchStatus.Fetched -> {
-                        binding.tvInfo.text = "Fetched"
+        lifecycleScope.launch {
+            viewModel2.uiStateFlow.map { it.newsUiState }.distinctUntilChanged().collect{
+                when(it){
+                    is NewsUiState.Loading -> {
+                        binding.tvNews.text = "Loading"
                     }
 
-                    is FetchStatus.NotFetched -> {
-                        viewModel.dispatch(MainViewIntent.FetchNewsIntent)
-                        binding.tvInfo.text = "NotFetched"
+                    is NewsUiState.Success -> {
+                        binding.tvNews.text = "Success ${it.data}"
                     }
 
-                    is FetchStatus.Fetching -> {
-                        binding.tvInfo.text = "Fetching"
+                    is NewsUiState.Error -> {
+                        binding.tvNews.text = "Error ${it.error}"
                     }
                 }
             }

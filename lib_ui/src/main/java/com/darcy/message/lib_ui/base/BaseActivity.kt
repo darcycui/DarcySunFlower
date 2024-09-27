@@ -5,7 +5,7 @@ import androidx.viewbinding.ViewBinding
 import com.darcy.message.lib_ui.base.lifecycle.ActivityLifecycle
 import com.darcy.message.lib_ui.exts.ViewBindingUtil
 
-abstract class BaseActivity<T> : ActivityLifecycle() where T : ViewBinding {
+abstract class BaseActivity<T : ViewBinding> : ActivityLifecycle() {
     protected val binding: T by lazy {
         ViewBindingUtil.inflateWithGeneric(this, layoutInflater)
     }

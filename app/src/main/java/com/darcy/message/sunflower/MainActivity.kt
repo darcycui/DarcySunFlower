@@ -21,6 +21,7 @@ import com.darcy.message.sunflower.test.RoomTestActivity
 import com.darcy.message.sunflower.test.TestHttpActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
+import com.darcy.message.sunflower.ui.notification.NotificationActivity
 import com.darcy.message.sunflower.ui.settings.SettingsActivity
 
 class MainActivity : BaseActivity<AppActivityMainBinding>() {
@@ -66,6 +67,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
             TestSparseLongArray.test()
             TestArrayMap.test()
             TestArraySet.test()
+        }
+        binding.btnNotification.setOnClickListener {
+            startPage(NotificationActivity::class.java)
         }
     }
 

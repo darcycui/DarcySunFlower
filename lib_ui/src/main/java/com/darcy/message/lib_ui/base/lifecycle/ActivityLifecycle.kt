@@ -1,5 +1,6 @@
 package com.darcy.message.lib_ui.base.lifecycle
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -13,6 +14,9 @@ import com.darcy.message.lib_common.exts.logI
 open class ActivityLifecycle : AppCompatActivity() {
     protected val TAG: String by lazy {
         this::class.java.simpleName
+    }
+    protected val context: Context by lazy {
+        this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +53,7 @@ open class ActivityLifecycle : AppCompatActivity() {
         super.onRestart()
         logD(TAG, "$TAG onRestart")
     }
+
     override fun onDestroy() {
         super.onDestroy()
         logE(TAG, "$TAG onDestroy")

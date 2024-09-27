@@ -14,11 +14,11 @@ class TestApi @Inject constructor() {
     suspend fun getNews(page: Int, pageCount: Int): List<Item> {
         return withContext(Dispatchers.IO) {
             delay(2_000)
-            logV("NewsApi", message = "getNews: page=$page pageCount=$pageCount")
+            logV(message = "getNews: page=$page pageCount=$pageCount", "NewsApi")
             mutableListOf<Item>().also { list ->
                 repeat(pageCount) {
                     val id = (page - 1) * pageCount + it
-                    logI("NewsApi", message = "getNews: id=$id")
+                    logI(message = "getNews: id=$id", "NewsApi")
                     list.add(Item(id, "title$id", it + 3.14, 100))
                 }
             }
@@ -28,11 +28,11 @@ class TestApi @Inject constructor() {
     suspend fun getRepos(page: Int, pageSize: Int): List<Repo> {
         return withContext(Dispatchers.IO) {
             delay(2_000)
-            logD("NewsApi", message = "getRepos: page=$page pageSize=$pageSize")
+            logD(message = "getRepos: page=$page pageSize=$pageSize", "NewsApi")
             mutableListOf<Repo>().apply {
                 repeat(pageSize) {
                     val id = (page - 1) * pageSize + it + 1
-                    logV("NewsApi", message = "getRepos: id=$id")
+                    logV(message = "getRepos: id=$id", "NewsApi")
                     add(
                         Repo(
                             id.toLong(),

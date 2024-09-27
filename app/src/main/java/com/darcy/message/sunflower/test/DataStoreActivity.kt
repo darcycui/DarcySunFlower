@@ -15,7 +15,6 @@ class DataStoreActivity : BaseActivity<AppActivityDataStoreBinding>() {
     private val scope: CoroutineScope by lazy {
         MainScope()
     }
-    private val context: Context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
