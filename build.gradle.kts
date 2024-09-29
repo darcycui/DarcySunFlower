@@ -11,6 +11,10 @@ buildscript {
         classpath (libs.navigation.safe.args.gradle.plugin)
         // hilt
         classpath (libs.dagger.hilt.android.gradle.plugin)
+        // StringFog
+        classpath (libs.stringfog.gradle.plugin)
+        // 选用加解密算法库，默认实现了xor算法，也可以使用自己的加解密库。
+        classpath (libs.stringfog.xor)
 
     }
 }

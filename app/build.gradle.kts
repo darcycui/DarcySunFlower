@@ -1,3 +1,4 @@
+import com.github.megatronking.stringfog.plugin.StringFogExtension
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.Properties
@@ -7,7 +8,22 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    // stringfog
+    id("stringfog")
 }
+apply(plugin = "stringfog")
+configure<StringFogExtension> {
+    // 必要：加解密库的实现类路径，需和上面配置的加解密算法库一致。
+    implementation = "com.github.megatronking.stringfog.xor.StringFogImpl"
+    // 可选：加密开关，默认开启。
+    enable = true
+    // 可选：指定需加密的代码包路径，可配置多个，未指定将默认全部加密。
+    // fogPackages = arrayOf("com.xxx.xxx")
+    kg = com.github.megatronking.stringfog.plugin.kg.RandomKeyGenerator()
+    // base64或者bytes
+    mode = com.github.megatronking.stringfog.plugin.StringFogMode.bytes
+}
+
 val compileSdks = 34
 val minSdks = 26
 val targetSdks = 34
@@ -169,6 +185,8 @@ dependencies {
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
     implementation(libs.codelocator.core)
+    // stringfog
+    implementation(libs.stringfog.xor)
 }
 
 // disable dependency verification foe one library

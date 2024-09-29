@@ -1,8 +1,10 @@
 package com.darcy.message.sunflower.ui.list.bean
 
 import com.darcy.message.lib_db.tables.Item
+import com.github.megatronking.stringfog.annotation.StringFogIgnore
 import javax.inject.Inject
 
+@StringFogIgnore
 class Son @Inject constructor() : Parent() {
     var id: Int = -1
     override var name: String = "Son"
