@@ -2,18 +2,13 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
 }
-val compileSdks = 34
-val minSdks = 26
-val targetSdks = 34
-val versionCodes = 1
-val versionNames = "1.0"
 
 android {
     namespace = "com.darcy.message.lib_data_store"
-    compileSdk = compileSdks
+    compileSdk = Configs.compileSdks
 
     defaultConfig {
-        minSdk = minSdks
+        minSdk = Configs.minSdks
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

@@ -24,22 +24,16 @@ configure<StringFogExtension> {
     mode = com.github.megatronking.stringfog.plugin.StringFogMode.bytes
 }
 
-val compileSdks = 34
-val minSdks = 26
-val targetSdks = 34
-val versionCodes = 1
-val versionNames = "1.0"
-
 android {
     namespace = "com.darcy.message.sunflower"
-    compileSdk = compileSdks
+    compileSdk = Configs.compileSdks
 
     defaultConfig {
         applicationId = "com.darcy.message.sunflower"
-        minSdk = minSdks
-        targetSdk = targetSdks
-        versionCode = versionCodes
-        versionName = versionNames
+        minSdk = Configs.minSdks
+        targetSdk = Configs.targetSdks
+        versionCode = Configs.versionCodes
+        versionName = Configs.versionNames
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         ndk {

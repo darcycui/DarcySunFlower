@@ -13,6 +13,7 @@
          <trust group="com.android.*" regex="true" reason="We trust android artifacts"/>
          <trust group="androidx.databinding.*" regex="true" reason="We trust android artifacts"/>
          <trust group="org.jetbrains.*" regex="true" reason="We trust jetbrains artifacts"/>
+         <trust group="org.gradle.kotlin.*" regex="true" reason="We trust kotlin artifacts"/>
 
          <trust group="org.bitbucket.b_c" reason="We trust bitbucket artifacts"/>
          <trust group="ch.qos.logback*" regex="true" reason="We trust it"/>
