@@ -76,7 +76,7 @@ android {
             buildConfigField("String", "API_URL", "\"https://www.hauwei.com\"")
             // set res value(not recommended! use src/huawei/res/values/strings.xml instead)
             resValue("string", "app_name", "Sunflower Huawei")
-            applicationIdSuffix = ".huawei"
+//            applicationIdSuffix = ".huawei"
             versionNameSuffix = "-huawei"
         }
         // add flavor
@@ -175,6 +175,7 @@ dependencies {
     api(project(":lib_ui"))
     api(project(":lib_data_store"))
     api(project(":lib_http"))
+    implementation(project(":lib_umeng"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖

@@ -11,6 +11,7 @@
          <trust file=".*-sources[.]jar" regex="true"/>
          <trust file=".*[.]pom" regex="true"/>
          <trust group="com.android.*" regex="true" reason="We trust android artifacts"/>
+         <trust group="androidx.core.*" regex="true" reason="We trust android artifacts"/>
          <trust group="androidx.databinding.*" regex="true" reason="We trust android artifacts"/>
          <trust group="org.jetbrains.*" regex="true" reason="We trust jetbrains artifacts"/>
          <trust group="org.gradle.kotlin.*" regex="true" reason="We trust kotlin artifacts"/>
@@ -21,6 +22,7 @@
          <trust group="com.squareup*" regex="true" reason="We trust it"/>
          <trust group="io.michaelrocks*" regex="true" reason="We trust it"/>
          <trust group="org.slf4j*" regex="true" reason="We trust it"/>
+         <trust group="com.umeng.*" regex="true" reason="We trust it"/>
       </trusted-artifacts>
    </configuration>
    <components>

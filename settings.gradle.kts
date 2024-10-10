@@ -24,6 +24,8 @@ dependencyResolutionManagement {
         maven("https://maven.aliyun.com/repository/jcenter")
         maven("https://maven.aliyun.com/repository/gradle-plugin")
         maven("https://jitpack.io")
+        // umeng
+        maven ("https://repo1.maven.org/maven2/")
         google()
         mavenCentral()
     }
@@ -38,3 +40,4 @@ include (":lib_ui")
 include (":lib_http")
 include (":lib_data_store")
 include(":lib_theme")
+include(":lib_umeng")

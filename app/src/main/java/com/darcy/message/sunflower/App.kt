@@ -10,6 +10,7 @@ import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
 import com.darcy.message.lib_http.BuildConfig
 import com.darcy.message.lib_http.HttpManager
 import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
+import com.darcy.message.lib_umeng.helper.UMengHelper
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -32,5 +33,8 @@ class App : Application() {
 //        CipherDatabaseHelper.init(this)
         DataStoreHelper.init(this)
         HttpManager.init(OKHttpHttpClient)
+        // UMeng
+        UMengHelper.preInit()
+        UMengHelper.init(BuildConfig.DEBUG)
     }
 }
