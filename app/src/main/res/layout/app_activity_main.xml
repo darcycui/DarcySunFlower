@@ -106,6 +106,13 @@
             android:layout_height="wrap_content"
             android:text="Notification Test"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnJni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="JNI Test"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </ScrollView>

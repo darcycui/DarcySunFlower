@@ -28,6 +28,13 @@ android {
     namespace = "com.darcy.message.sunflower"
     compileSdk = Configs.compileSdks
 
+    // use .so in libs folder
+    sourceSets {
+        getByName("main") {
+            jniLibs.srcDirs("libs")
+        }
+    }
+
     defaultConfig {
         applicationId = "com.darcy.message.sunflower"
         minSdk = Configs.minSdks
@@ -159,6 +166,10 @@ fun gradleLocalProperties(projectRootDir: File): Properties {
 
 
 dependencies {
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -176,6 +187,7 @@ dependencies {
     api(project(":lib_data_store"))
     api(project(":lib_http"))
     implementation(project(":lib_umeng"))
+    implementation(project(":lib_jni"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
