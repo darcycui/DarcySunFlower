@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TestUmengActivity"
-    tools:ignore="ResourceName">
+    tools:context=".TestUmengActivity">
 
     <TextView
         android:id="@+id/tv"
@@ -17,6 +16,13 @@
         android:text="@string/lib_umeng_test_umeng"
         android:textAllCaps="false"
         android:textSize="18sp" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/btnLogin"
@@ -58,6 +64,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Finish"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnCrash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crash"
         android:textAllCaps="false" />
 
 </LinearLayout>

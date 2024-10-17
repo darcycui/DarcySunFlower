@@ -1,78 +1,93 @@
 package com.darcy.message.lib_umeng
 
-import com.darcy.message.lib_umeng.proxy.IReportProxy
-import com.darcy.message.lib_umeng.proxy.UMengProxyImpl
+import android.content.Context
+import com.darcy.message.lib_umeng.proxy.IAgentProxy
+import com.darcy.message.lib_umeng.proxy.UMengAgentProxyImpl
 
 object ReportManager {
-    private var iReportProxy: IReportProxy
+    private var iAgentProxy: IAgentProxy
 
     init {
         // use UMeng implementation by default
-        iReportProxy = UMengProxyImpl
+        iAgentProxy = UMengAgentProxyImpl
     }
 
     /**
      * set custom report helper
      */
-    fun setReportHelper(reportHelper: IReportProxy) {
-        iReportProxy = reportHelper
+    fun setReportHelper(reportHelper: IAgentProxy) {
+        iAgentProxy = reportHelper
     }
 
     fun preInit() {
-        iReportProxy.preInit()
+        iAgentProxy.preInit()
     }
 
     fun init(isDebug: Boolean) {
-        iReportProxy.init(isDebug)
+        iAgentProxy.init(isDebug)
     }
 
     /**
      * report show event
      */
-    fun show(pageName: String, params: Map<String, Any?>? = null) {
-        iReportProxy.pageStart(pageName, params)
+    fun show(context: Context, pageName: String, params: Map<String, Any?>? = null) {
+        iAgentProxy.pageStart(context, pageName, params)
     }
 
     /**
      * report hide event
      */
-    fun hide(pageName: String, params: Map<String, Any?>? = null) {
-        iReportProxy.pageEnd(pageName, params)
+    fun hide(context: Context, pageName: String, params: Map<String, Any?>? = null) {
+        iAgentProxy.pageEnd(context, pageName, params)
+    }
+
+    /**
+     * report onResume event
+     */
+    fun onResume(context: Context, pageName: String, params: Map<String, Any?>? = null) {
+        iAgentProxy.onResume(context, pageName, params)
+    }
+
+    /**
+     * report pause event
+     */
+    fun onPause(context: Context, pageName: String, params: Map<String, Any?>? = null) {
+        iAgentProxy.onPause(context, pageName, params)
     }
 
     /**
      * report click event
      */
-    fun click(eventName: String, params: Map<String, Any?>? = null) {
-        iReportProxy.clickEvent(eventName, params)
+    fun click(context: Context, eventName: String, params: Map<String, Any?>? = null) {
+        iAgentProxy.clickEvent(context, eventName, params)
     }
 
     /**
      * report sign in event
      */
     fun signIn(userID: String) {
-        iReportProxy.signIn(userID)
+        iAgentProxy.signIn(userID)
     }
 
     /**
      * report sign out event
      */
     fun signOut(userID: String) {
-        iReportProxy.signOut(userID)
+        iAgentProxy.signOut(userID)
     }
 
     /**
      * report sign in event
      */
     fun signIn(provider: String, userID: String) {
-        iReportProxy.signIn(provider, userID)
+        iAgentProxy.signIn(provider, userID)
     }
 
     /**
      * report sign out event
      */
     fun signOut(provider: String, userID: String) {
-        iReportProxy.signOut(provider, userID)
+        iAgentProxy.signOut(provider, userID)
     }
 
 
