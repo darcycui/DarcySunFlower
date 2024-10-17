@@ -6,12 +6,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TestUmengActivity">
+    tools:context=".TestUmengActivity"
+    tools:ignore="ResourceName">
 
     <TextView
         android:id="@+id/tv"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/lib_umeng_test_umeng" />
+        android:gravity="center"
+        android:text="@string/lib_umeng_test_umeng"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnClickButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ClickButton"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnShow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnHide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hide"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnFinish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finish"
+        android:textAllCaps="false" />
 
 </LinearLayout>

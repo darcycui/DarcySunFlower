@@ -35,6 +35,7 @@ android {
     buildFeatures {
         // generate buildConfig
         buildConfig = true
+        viewBinding = true
     }
 }
 
@@ -53,7 +54,8 @@ dependencies {
     api(project(":lib_common"))
 
     // 友盟统计SDK
-    implementation("com.umeng.umsdk:common:9.4.7")// 必选
+    implementation("com.umeng.umsdk:common:9.7.7")// 必选
     implementation("com.umeng.umsdk:asms:1.8.3")// 必选
-    implementation("com.umeng.umsdk:abtest:1.0.0")//使用U-App中ABTest能力，可选
+    implementation("com.umeng.umsdk:abtest:1.0.1")//使用U-App中ABTest能力，可选
+    implementation("com.umeng.umsdk:apm:1.9.11")// U-APM产品包依赖，必选
 }
