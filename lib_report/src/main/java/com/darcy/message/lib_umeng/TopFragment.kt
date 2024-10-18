@@ -34,7 +34,7 @@ class TopFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.lib_umeng_fragment_top, container, false)
+        return inflater.inflate(R.layout.lib_report_fragment_top, container, false)
     }
 
     override fun onResume() {

@@ -25,8 +25,10 @@ class TestJniActivity : BaseActivity<AppActivityTestJniBinding>() {
             val str = TestJni.getString()
             logD("str: $str")
             binding.tvTestJni.text = "$str ${count++}"
-            val strRust = RustNative.getStringFromRust()
-            binding.tvTestJniRust.text = "$strRust ${count++}"
+            val strRustEnc = RustNative.getEncryptStringFromRust("test rust AES")
+            binding.tvTestJniEncryptRust.text = "$strRustEnc ${count++}"
+            val strRustDec = RustNative.getDecryptStringFromRust(strRustEnc)
+            binding.tvTestJniDecryptRust.text = "$strRustDec ${count++}"
         }
     }
 

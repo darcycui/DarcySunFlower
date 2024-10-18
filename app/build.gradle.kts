@@ -186,7 +186,7 @@ dependencies {
     api(project(":lib_ui"))
     api(project(":lib_data_store"))
     api(project(":lib_http"))
-    implementation(project(":lib_umeng"))
+    implementation(project(":lib_report"))
     implementation(project(":lib_jni"))
 
     implementation(libs.androidx.preference.ktx)

@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_umeng_"
+        resourcePrefix = "lib_report_"
     }
 
     buildTypes {
@@ -56,6 +56,5 @@ dependencies {
     // 友盟统计SDK
     implementation("com.umeng.umsdk:common:9.7.7")// 必选
     implementation("com.umeng.umsdk:asms:1.8.3")// 必选
-    implementation("com.umeng.umsdk:abtest:1.0.1")//使用U-App中ABTest能力，可选
     implementation("com.umeng.umsdk:apm:1.9.11")// U-APM产品包依赖，必选
 }

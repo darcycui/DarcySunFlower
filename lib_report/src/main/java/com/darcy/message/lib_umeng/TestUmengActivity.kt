@@ -1,11 +1,12 @@
 package com.darcy.message.lib_umeng
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.darcy.message.lib_umeng.databinding.LibUmengActivityTestUmentBinding
+import com.darcy.message.lib_umeng.databinding.LibReportActivityTestUmentBinding
 import com.umeng.analytics.MobclickAgent
 
 class TestUmengActivity : AppCompatActivity() {
@@ -14,8 +15,8 @@ class TestUmengActivity : AppCompatActivity() {
     private val context by lazy { this }
     private val fragment: TopFragment by lazy { TopFragment.getInstance("test") }
 
-    private val binding: LibUmengActivityTestUmentBinding by lazy {
-        LibUmengActivityTestUmentBinding.inflate(layoutInflater)
+    private val binding: LibReportActivityTestUmentBinding by lazy {
+        LibReportActivityTestUmentBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +46,15 @@ class TestUmengActivity : AppCompatActivity() {
 
     private fun initView() {
         binding.run {
+            btnHome.setOnClickListener {
+                // 根据包名和类名 创建隐式Intent 然后启动activity
+                val intent = Intent(Intent.ACTION_MAIN).apply {
+                    addCategory(Intent.CATEGORY_LAUNCHER)
+                    setClassName(packageName, "com.darcy.message.sunflower.MainActivity")
+                }
+                startActivity(intent)
+                finish()
+            }
             btnLogin.setOnClickListener {
                 ReportManager.click(context, "login")
                 ReportManager.signIn(USER_ID)
