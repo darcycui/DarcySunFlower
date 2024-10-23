@@ -31,6 +31,11 @@ inline fun <reified T> String.jsonToBean(): T {
     return json.decodeFromString<T>(this)
 }
 
+// fixme: add toJsonString()
+// fun Any.toJsonString(): String {
+//    return json.encodeToString()
+//}
+
 fun <T> BaseResult<T>?.isSuccess(): Boolean {
     val bool: Boolean = this?.run {
         resultcode == "200"

@@ -1,6 +1,7 @@
 package com.darcy.message.lib_http.client.impl
 
 import com.darcy.message.lib_http.client.IHttpClient
+import com.darcy.message.lib_http.client.factory.KtorFactory
 import com.darcy.message.lib_http.entity.base.BaseResult
 import com.darcy.message.lib_http.exts.gsonToBean
 import com.darcy.message.lib_http.exts.toFormDataContent
@@ -20,23 +21,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 
 object KtorHttpClient : IHttpClient {
-    // use DSL init ktorClient
-    private val ktorClient = HttpClient(OkHttp) {
-        install(Logging) {
-            logger = object : Logger {
-                override fun log(message: String) {
-                    println(message)
-                }
-            }
-            level = LogLevel.ALL
-        }
-//        install(ContentNegotiation) {
-//            json(com.darcy.message.lib_http.exts.json)
-//            gson(
-//                contentType = ContentType.Any // workaround for broken APIs
-//            )
-//        }
-    }
+    private val ktorClient = KtorFactory.create()
 
     override suspend fun <T> doGet(
         baseUrl: String,
