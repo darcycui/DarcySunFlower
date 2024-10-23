@@ -17,12 +17,6 @@
 package com.darcy.message.sunflower.ui.list.api
 
 import com.darcy.message.lib_http.exts.createRetrofitService
-import com.darcy.message.lib_http.service.impl.JuHeApiService
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 

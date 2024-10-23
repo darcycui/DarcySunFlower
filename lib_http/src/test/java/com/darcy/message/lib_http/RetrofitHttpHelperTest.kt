@@ -1,7 +1,7 @@
 package com.darcy.message.lib_http
 
+import com.darcy.message.lib_http.client.impl.RetrofitHttpClient
 import com.darcy.message.lib_http.entity.IPEntity
-import com.darcy.message.lib_http.helper.impl.RetrofitHttpHelper
 import com.darcy.message.lib_http.service.impl.JuHeApiService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -9,7 +9,7 @@ import org.junit.Test
 class RetrofitHttpHelperTest {
 
     private fun initHttpManager() {
-        HttpManager.init(RetrofitHttpHelper)
+        HttpManager.init(RetrofitHttpClient)
     }
 
     @Test

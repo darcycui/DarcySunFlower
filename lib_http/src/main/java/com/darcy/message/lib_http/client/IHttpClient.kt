@@ -1,11 +1,11 @@
 package com.darcy.message.lib_http.client
 
-import com.darcy.message.lib_http.config.getBaseHttpUrl
+import com.darcy.message.lib_http.config.HttpConfig
 import com.darcy.message.lib_http.request.CommonRequestAction
 
 interface IHttpClient {
     suspend fun <T> doGet(
-        baseUrl: String = getBaseHttpUrl(),
+        baseUrl: String = HttpConfig.getBaseHttpUrl(),
         path: String,
         params: Map<String, String>,
         useCache: Boolean = true,
