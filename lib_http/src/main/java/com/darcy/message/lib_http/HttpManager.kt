@@ -29,9 +29,24 @@ object HttpManager : IHttpClient {
         useCache: Boolean,
         block: CommonRequestAction<T>.() -> Unit
     ) {
+        checkHttpClientInit()
+        httpClient?.doGet(baseUrl, path, params, useCache, block)
+    }
+
+    override suspend fun <T> doPost(
+        baseUrl: String,
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean,
+        block: CommonRequestAction<T>.() -> Unit
+    ) {
+        checkHttpClientInit()
+        httpClient?.doPost(baseUrl, path, params, useCache, block)
+    }
+
+    private fun checkHttpClientInit() {
         if (httpClient == null) {
             throw IllegalStateException("HttpManager not init")
         }
-        httpClient?.doGet(baseUrl, path, params, useCache, block)
     }
 }

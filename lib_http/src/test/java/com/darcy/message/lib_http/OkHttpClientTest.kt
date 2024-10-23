@@ -7,6 +7,10 @@ import org.junit.Test
 
 class OkHttpClientTest {
 
+    private fun initHttpManager() {
+        HttpManager.init(OKHttpHttpClient)
+    }
+
     @Test
     fun doGetTest() {
         runBlocking {
@@ -36,9 +40,34 @@ class OkHttpClientTest {
             Thread.sleep(2_000)
         }
     }
-
-    private fun initHttpManager() {
-        HttpManager.init(OKHttpHttpClient)
+    @Test
+    fun doPostTest() {
+        runBlocking {
+            initHttpManager()
+            HttpManager.doPost<IPEntity>(
+//            baseUrl = "https://apis.juhe.cn",
+                path = "/ip/ipNewV3",
+                params = mapOf(
+                    "ip" to "114.215.154.101",
+                    "key" to "f128bfc760193c5762c5c3be2a6051d8"
+                )
+            ) {
+                start {
+                    println("start")
+                }
+                request { null }
+                success {
+                    println("success:$it")
+                }
+                error {
+                    println("error:$it")
+                }
+                finish {
+                    println("finish")
+                }
+            }
+            Thread.sleep(2_000)
+        }
     }
 
     @Test

@@ -20,6 +20,16 @@ object RetrofitHttpClient : IHttpClient {
         internalRequest(block)
     }
 
+    override suspend fun <T> doPost(
+        baseUrl: String,
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean,
+        block: CommonRequestAction<T>.() -> Unit
+    ) {
+        internalRequest(block)
+    }
+
     private suspend fun <T> internalRequest(block: CommonRequestAction<T>.() -> Unit) {
         val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
         try {

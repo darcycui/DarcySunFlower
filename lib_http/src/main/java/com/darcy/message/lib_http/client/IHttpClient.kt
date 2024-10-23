@@ -12,13 +12,19 @@ interface IHttpClient {
         block: CommonRequestAction<T>.() -> Unit,
     )
 
-//    fun doPost()
+    suspend fun <T> doPost(
+        baseUrl: String = HttpConfig.getBaseHttpUrl(),
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean = true,
+        block: CommonRequestAction<T>.() -> Unit,
+    )
 //
-//    fun doPut()
+//  suspend  fun doPut()
 //
-//    fun doDelete()
+//  suspend  fun doDelete()
 //
-//    fun doUpload()
+//  suspend fun doUpload() // val body:RequestBody = file.toRequestBody
 //
-//    fun doDownload()
+//  suspend fun doDownload()
 }
