@@ -1,14 +1,11 @@
 package com.darcy.message.sunflower.test
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_ui.base.BaseActivity
-import com.darcy.message.sunflower.R
 import com.darcy.message.sunflower.databinding.AppActivityTestJniBinding
 import com.jni.rust.RustNative
+import com.jni.vs.VSNative
 import jni.TestJni
 
 class TestJniActivity : BaseActivity<AppActivityTestJniBinding>() {
@@ -29,6 +26,8 @@ class TestJniActivity : BaseActivity<AppActivityTestJniBinding>() {
             binding.tvTestJniEncryptRust.text = "$strRustEnc ${count++}"
             val strRustDec = RustNative.getDecryptStringFromRust(strRustEnc)
             binding.tvTestJniDecryptRust.text = "$strRustDec ${count++}"
+            val strVS = VSNative.getVSString(100, "Tom")
+            binding.tvTestJniVS.text = "$strVS ${count++}"
         }
     }
 

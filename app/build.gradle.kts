@@ -188,6 +188,7 @@ dependencies {
     api(project(":lib_http"))
     implementation(project(":lib_report"))
     implementation(project(":lib_jni"))
+    implementation(project(":lib_security"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖

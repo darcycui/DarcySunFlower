@@ -28,11 +28,18 @@
         android:text="@string/app_name"
         app:layout_constraintTop_toBottomOf="@+id/tvTestJniEncryptRust" />
 
+    <TextView
+        android:id="@+id/tvTestJniVS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        app:layout_constraintTop_toBottomOf="@+id/tvTestJniDecryptRust" />
+
     <Button
         android:id="@+id/btnTestJni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="call jni"
-        app:layout_constraintTop_toBottomOf="@+id/tvTestJniDecryptRust" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTestJniVS" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

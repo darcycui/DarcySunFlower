@@ -16,6 +16,7 @@ import com.darcy.message.lib_ui.mvi.ui.MVIActivity
 import com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity
 import com.darcy.message.lib_ui.paging.ui.TestPagingActivity
 import com.darcy.message.sunflower.databinding.AppActivityMainBinding
+import com.darcy.message.sunflower.lib_security.TestSecurityActivity
 import com.darcy.message.sunflower.test.DataStoreActivity
 import com.darcy.message.sunflower.test.RoomTestActivity
 import com.darcy.message.sunflower.test.TestHttpActivity
@@ -74,6 +75,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnJni.setOnClickListener {
             startPage(TestJniActivity::class.java)
+        }
+        binding.btnSecurity.setOnClickListener {
+            startPage(TestSecurityActivity::class.java)
         }
     }
 
