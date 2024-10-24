@@ -13,7 +13,7 @@ class VerifyHostHelper : HostnameVerifier {
         //BASE_URL
         val buildInHostName = HttpConfig.getHostName()
         val verify = HttpsURLConnection.getDefaultHostnameVerifier().verify(buildInHostName, session)
-        logV("hostname：$hostname verify：$verify")
+        logV("hostname=$hostname ==>verify:$verify")
         return verify
     }
 }

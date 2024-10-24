@@ -40,23 +40,23 @@ object OkHttpFactory {
             // increase the number of requests for per host, so that the timeout could be correctly(without waiting time in queue)
             .dispatcher(Dispatcher().apply { maxRequestsPerHost = 10 })
             // do not use system proxy
-            .proxy(Proxy.NO_PROXY)
-            .proxySelector(object : ProxySelector() {
-                override fun select(uri: URI?): MutableList<Proxy> {
-                    return mutableListOf(Proxy.NO_PROXY)
-                }
-
-                override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
-                    println("ProxySelector connectFailed: uri=$uri sa=$sa ioe=$ioe")
-                }
-
-            })
+//            .proxy(Proxy.NO_PROXY)
+//            .proxySelector(object : ProxySelector() {
+//                override fun select(uri: URI?): MutableList<Proxy> {
+//                    return mutableListOf(Proxy.NO_PROXY)
+//                }
+//
+//                override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) {
+//                    println("ProxySelector connectFailed: uri=$uri sa=$sa ioe=$ioe")
+//                }
+//            })
             .apply {
                 // trust build in cert only
                 TrustCertHelper.createTrustBuildInSSLSocketFactoryPair(AppHelper.getAppContext()).let { pair ->
                     if (pair.first != null && pair.second != null) {
                         sslSocketFactory(pair.first!!, pair.second!!)
                         println(message = "sslSocketFactory enabled")
+                        logI(message = "sslSocketFactory enabled")
                     } else {
                         println(message = "sslSocketFactory is null")
                         logE(message = "sslSocketFactory is null")

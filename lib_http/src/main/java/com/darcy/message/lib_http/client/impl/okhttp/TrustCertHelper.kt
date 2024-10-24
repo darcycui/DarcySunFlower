@@ -2,6 +2,7 @@ package com.darcy.message.lib_http.client.impl.okhttp
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.darcy.message.lib_common.exts.logD
 import java.io.IOException
 import java.security.KeyManagementException
 import java.security.KeyStore
@@ -86,6 +87,10 @@ object TrustCertHelper {
                     x509Certificates: Array<X509Certificate>,
                     s: String
                 ) {
+                    // 遍历证书链
+                    for (certificate in x509Certificates) {
+                        logD("certificate.issuerDN.name=${certificate.issuerDN.name} certificate.serialNumber=${certificate.issuerDN.name}")
+                    }
                     //使用内置证书，校验服务端证书
                     finalTrustManager.checkServerTrusted(x509Certificates, s)
                 }

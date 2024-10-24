@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.darcy.message.lib_http.HttpManager
 import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.lib_http.entity.IPEntity
+import com.darcy.message.lib_http.service.impl.JuHeApiService
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityTestHttpBinding
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +27,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         binding.btnCheckHttpProxy.setOnClickListener {
             checkHttpProxy()
         }
-        binding.btnOKHttp.setOnClickListener {
+        binding.btnHttp.setOnClickListener {
             scope.launch {
                 HttpManager.doGet<IPEntity>(
 //            baseUrl = "https://apis.juhe.cn",
@@ -40,9 +41,12 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
                     start {
                         println("start")
                     }
-//            request {
-//                println("request:")
-//            }
+                    request {
+                        println("request:")
+//                        val api = JuHeApiService.api()
+//                        api.checkIP("110.110.110.110")
+                        null
+                    }
                     success {
                         println("success:$it")
                         showResult(it.toString())

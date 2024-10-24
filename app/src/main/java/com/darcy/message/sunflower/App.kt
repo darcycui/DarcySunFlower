@@ -9,7 +9,9 @@ import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
 import com.darcy.message.lib_http.BuildConfig
 import com.darcy.message.lib_http.HttpManager
+import com.darcy.message.lib_http.client.impl.KtorHttpClient
 import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
+import com.darcy.message.lib_http.client.impl.RetrofitHttpClient
 import com.darcy.message.lib_umeng.ReportManager
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import dagger.hilt.android.HiltAndroidApp
@@ -32,7 +34,10 @@ class App : Application() {
         DatabaseManager.init(this, ItemRoomDatabase.getDatabase(this))
 //        CipherDatabaseHelper.init(this)
         DataStoreHelper.init(this)
+        // Http
         HttpManager.init(OKHttpHttpClient)
+//        HttpManager.init(RetrofitHttpClient)
+//        HttpManager.init(KtorHttpClient)
         // Report
         ReportManager.preInit()
         ReportManager.init(BuildConfig.DEBUG)

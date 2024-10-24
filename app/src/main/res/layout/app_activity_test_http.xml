@@ -15,22 +15,10 @@
         android:text="CheckHttpProxy" />
 
     <Button
-        android:id="@+id/btnOKHttp"
+        android:id="@+id/btnHttp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="OKHttp" />
-
-    <Button
-        android:id="@+id/btnRetrofit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Retrofit" />
-
-    <Button
-        android:id="@+id/btnKtor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ktor" />
 
     <Button
         android:id="@+id/btnTestHttpEBPF"
