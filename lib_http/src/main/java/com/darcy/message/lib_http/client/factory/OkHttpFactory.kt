@@ -1,5 +1,10 @@
 package com.darcy.message.lib_http.client.factory
 
+import com.darcy.message.lib_common.app.AppHelper
+import com.darcy.message.lib_common.exts.logE
+import com.darcy.message.lib_common.exts.logI
+import com.darcy.message.lib_http.client.impl.okhttp.TrustCertHelper
+import com.darcy.message.lib_http.client.impl.okhttp.VerifyHostHelper
 import com.darcy.message.lib_http.config.CALL_TIMEOUT
 import com.darcy.message.lib_http.config.CONNECT_TIMEOUT
 import com.darcy.message.lib_http.config.READ_TIMEOUT
@@ -46,6 +51,21 @@ object OkHttpFactory {
                 }
 
             })
+            .apply {
+                // trust build in cert only
+                TrustCertHelper.createTrustBuildInSSLSocketFactoryPair(AppHelper.getAppContext()).let { pair ->
+                    if (pair.first != null && pair.second != null) {
+                        sslSocketFactory(pair.first!!, pair.second!!)
+                        println(message = "sslSocketFactory enabled")
+                    } else {
+                        println(message = "sslSocketFactory is null")
+                        logE(message = "sslSocketFactory is null")
+                        throw IllegalStateException("sslSocketFactory is null")
+                    }
+                }
+            }
+            // verify host
+            .hostnameVerifier(VerifyHostHelper())
             .build()
     }
 }

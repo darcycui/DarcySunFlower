@@ -8,7 +8,6 @@ import com.darcy.message.lib_http.exts.toUrlEncodedString
 import com.darcy.message.lib_http.request.CommonRequestAction
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -37,7 +36,7 @@ object OKHttpHttpClient : IHttpClient {
         val url = baseUrl + path + "?" + params.toUrlEncodedString()
         val request: Request =
             Request.Builder().url(url)
-                .header("Cache-Control", if (useCache) "" else "no-cache")
+//                .header("Cache-Control", if (useCache) "" else "no-cache")
                 .get()
                 .build()
         internalRequest(request, action)
@@ -57,7 +56,7 @@ object OKHttpHttpClient : IHttpClient {
 
         val request: Request =
             Request.Builder().url(url)
-                .header("Cache-Control", if (useCache) "" else "no-cache")
+//                .header("Cache-Control", if (useCache) "" else "no-cache")
                 .header("Content-Type", "application/json;charset=utf-8")
                 .post(formBody)
                 .build()

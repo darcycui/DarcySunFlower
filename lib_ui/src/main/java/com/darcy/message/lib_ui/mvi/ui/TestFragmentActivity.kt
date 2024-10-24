@@ -40,7 +40,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
             showFragment(FRAGMENT_A)
         } else {
             currentTag = savedInstanceState.getString("currentTag", "")
-            logI(TAG, "$TAG onCreate currentTag=$currentTag")
+            logI( "$TAG onCreate currentTag=$currentTag")
             restoreFragment(currentTag)
         }
     }
@@ -56,7 +56,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
             return
         }
         currentTag = persistentState?.getString("currentTagPersistent", "") ?: ""
-        logI(TAG, "$TAG onCreate2 currentTagPersistent=$currentTag")
+        logI( "$TAG onCreate2 currentTagPersistent=$currentTag")
         restoreFragment(currentTag)
     }
 

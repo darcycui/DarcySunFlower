@@ -20,12 +20,12 @@ open class FragmentLifecycle : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        logV(TAG, "$TAG onAttach ${hashCode()}")
+        logV( "$TAG onAttach ${hashCode()}")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        logI(TAG, "$TAG onCreate")
+        logI( "$TAG onCreate")
     }
 
     override fun onCreateView(
@@ -33,38 +33,38 @@ open class FragmentLifecycle : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        logD(TAG, "$TAG onCreateView")
+        logD( "$TAG onCreateView")
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logD(TAG, "$TAG onViewCreated")
+        logD( "$TAG onViewCreated")
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        logD(TAG, "$TAG onViewStateRestored")
+        logD( "$TAG onViewStateRestored")
     }
 
     override fun onStart() {
         super.onStart()
-        logD(TAG, "$TAG onStart")
+        logD( "$TAG onStart")
     }
 
     override fun onResume() {
         super.onResume()
-        logD(TAG, "$TAG onResume")
+        logD( "$TAG onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        logD(TAG, "$TAG onPause")
+        logD( "$TAG onPause")
     }
 
     override fun onStop() {
         super.onStop()
-        logD(TAG, "$TAG onStop")
+        logD( "$TAG onStop")
     }
 
     override fun onDestroyView() {
@@ -74,11 +74,11 @@ open class FragmentLifecycle : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        logE(TAG, "$TAG onDestroy")
+        logE( "$TAG onDestroy")
     }
 
     override fun onDetach() {
         super.onDetach()
-        logE(TAG, "$TAG onDetach")
+        logE( "$TAG onDetach")
     }
 }
