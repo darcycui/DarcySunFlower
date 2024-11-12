@@ -120,6 +120,13 @@
             android:layout_height="wrap_content"
             android:text="Security Test"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnAppStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test App Status"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </ScrollView>

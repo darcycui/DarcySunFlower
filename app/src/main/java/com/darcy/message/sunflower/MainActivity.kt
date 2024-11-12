@@ -2,13 +2,13 @@ package com.darcy.message.sunflower
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import com.darcy.message.lib_app_status.TestAppStatusActivity
 import com.darcy.message.lib_common.arraymap.TestArrayMap
 import com.darcy.message.lib_common.arraymap.TestArraySet
 import com.darcy.message.lib_common.sparsearray.TestSparseArray
 import com.darcy.message.lib_common.sparsearray.TestSparseBooleanArray
 import com.darcy.message.lib_common.sparsearray.TestSparseIntArray
 import com.darcy.message.lib_common.sparsearray.TestSparseLongArray
-import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.base.mvp.test.TestMVPActivity
 import com.darcy.message.lib_ui.exts.startPage
@@ -24,7 +24,7 @@ import com.darcy.message.sunflower.test.TestJniActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
 import com.darcy.message.sunflower.ui.notification.NotificationActivity
-import com.darcy.message.sunflower.ui.settings.SettingsActivity
+
 
 class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
@@ -78,6 +78,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnSecurity.setOnClickListener {
             startPage(TestSecurityActivity::class.java)
+        }
+        binding.btnAppStatus.setOnClickListener {
+            startPage(TestAppStatusActivity::class.java)
         }
     }
 

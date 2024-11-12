@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_umeng.databinding.LibReportActivityTestUmentBinding
 import com.umeng.analytics.MobclickAgent
 
@@ -30,6 +31,15 @@ class TestUmengActivity : AppCompatActivity() {
             insets
         }
         initView()
+        // 获取data
+        val data = intent.data
+        if (data == null) {
+            goHomePage()
+        } else {
+            // 获取scheme
+            val scheme = data.scheme ?: ""
+            toasts(scheme)
+        }
     }
 
     override fun onResume() {
@@ -48,12 +58,7 @@ class TestUmengActivity : AppCompatActivity() {
         binding.run {
             btnHome.setOnClickListener {
                 // 根据包名和类名 创建隐式Intent 然后启动activity
-                val intent = Intent(Intent.ACTION_MAIN).apply {
-                    addCategory(Intent.CATEGORY_LAUNCHER)
-                    setClassName(packageName, "com.darcy.message.sunflower.MainActivity")
-                }
-                startActivity(intent)
-                finish()
+                goHomePage()
             }
             btnLogin.setOnClickListener {
                 ReportManager.click(context, "login")
@@ -83,5 +88,14 @@ class TestUmengActivity : AppCompatActivity() {
                 val a = 1 / 0
             }
         }
+    }
+
+    private fun goHomePage() {
+        val intent = Intent(Intent.ACTION_MAIN).apply {
+            addCategory(Intent.CATEGORY_LAUNCHER)
+            setClassName(packageName, "com.darcy.message.sunflower.MainActivity")
+        }
+        startActivity(intent)
+        finish()
     }
 }

@@ -2,11 +2,14 @@ package com.darcy.message.lib_http.client.impl.okhttp
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Base64
 import com.darcy.message.lib_common.exts.logD
+import com.darcy.message.lib_common.exts.logW
 import java.io.IOException
 import java.security.KeyManagementException
 import java.security.KeyStore
 import java.security.KeyStoreException
+import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.security.NoSuchProviderException
 import java.security.SecureRandom
@@ -50,8 +53,9 @@ object TrustCertHelper {
 
             //1、获取证书 keyStore
             var keyStore: KeyStore? = null
-            val bksName = "darcyBKS.bks"
+//            val bksName = "darcyBKS.bks"
 //            val bksName = "weixinBKS.bks"
+            val bksName = "login_10.bks"
             //证书密码（没有密码传 null）
             val bksPassword = "123456"
             context.resources.assets.open(bksName).use { inputStream ->
@@ -78,6 +82,7 @@ object TrustCertHelper {
                     x509Certificates: Array<X509Certificate>,
                     s: String
                 ) {
+                    logW("finalTrustManager:checkClientTrusted")
                     //使用内置证书，校验客户端证书 （https 双向校验时）
                     finalTrustManager.checkClientTrusted(x509Certificates, s)
                 }
@@ -87,6 +92,7 @@ object TrustCertHelper {
                     x509Certificates: Array<X509Certificate>,
                     s: String
                 ) {
+                    logW("finalTrustManager:checkServerTrusted")
                     // 遍历证书链
                     for (certificate in x509Certificates) {
                         logD("certificate.issuerDN.name=${certificate.issuerDN.name} certificate.serialNumber=${certificate.issuerDN.name}")
@@ -147,12 +153,32 @@ class TrustAllManager : X509TrustManager {
     @Throws(CertificateException::class)
     override fun checkClientTrusted(chain: Array<X509Certificate?>?, authType: String?) {
         // do nothing
+        logW("TrustAllManager:checkClientTrusted")
     }
 
     @SuppressLint("TrustAllX509TrustManager")
     @Throws(CertificateException::class)
     override fun checkServerTrusted(chain: Array<X509Certificate?>?, authType: String?) {
         // do nothing
+        logW("TrustAllManager:checkServerTrusted")
+        chain?.let {
+            for (cert in chain) {
+                val certificate = cert as X509Certificate
+                // 计算 SHA-256 指纹
+                val md = MessageDigest.getInstance("SHA-256")
+                val digestCA = md.digest(certificate.encoded)
+                // 转换为 Base64 编码
+                val fingerprintCA = Base64.encodeToString(digestCA, Base64.DEFAULT)
+                logD("证书指纹: $fingerprintCA")
+                // 提取公钥
+                val publicKey = certificate.publicKey.encoded
+                // 计算 SHA-256 指纹
+                val digestPub = md.digest(publicKey)
+                // 转换为 Base64 编码
+                val fingerprintPub = Base64.encodeToString(digestPub, Base64.DEFAULT)
+                logD("公钥指纹: $fingerprintPub")
+            }
+        }
     }
 
     override fun getAcceptedIssuers(): Array<X509Certificate> {

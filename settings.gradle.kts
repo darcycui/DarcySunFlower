@@ -22,7 +22,6 @@ dependencyResolutionManagement {
         maven ("https://maven.aliyun.com/repository/public")
         maven("https://maven.aliyun.com/repository/google")
         maven("https://maven.aliyun.com/repository/jcenter")
-        maven("https://maven.aliyun.com/repository/gradle-plugin")
         maven("https://jitpack.io")
         // umeng
         maven ("https://repo1.maven.org/maven2/")
@@ -43,3 +42,4 @@ include(":lib_theme")
 include(":lib_report")
 include(":lib_jni")
 include(":lib_security")
+include(":lib_status")

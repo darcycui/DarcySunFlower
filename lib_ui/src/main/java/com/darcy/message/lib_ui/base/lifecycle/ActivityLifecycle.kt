@@ -5,8 +5,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
@@ -17,6 +15,11 @@ open class ActivityLifecycle : AppCompatActivity() {
     }
     protected val context: Context by lazy {
         this
+    }
+
+    override fun onUserLeaveHint() {
+        super.onUserLeaveHint()
+        logD("$TAG onUserLeaveHint")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

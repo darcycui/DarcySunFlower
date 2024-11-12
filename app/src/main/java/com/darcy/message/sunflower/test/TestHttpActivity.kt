@@ -91,6 +91,37 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
                 }
             }
         }
+        binding.btnTestLogin.setOnClickListener {
+            scope.launch {
+                HttpManager.doGet<String>(
+                    baseUrl = "https://www.baidu.com",
+                    path = "/",
+//                    baseUrl = "https://10.0.0.200",
+//                    path = "/UniExServicesWeb/login",
+                    params = mapOf(),
+                    useCache = false
+                ) {
+                    start {
+                        println("start")
+                    }
+                    request {
+                        println("request:")
+                        null
+                    }
+                    success {
+                        println("success:$it")
+                        showResult(it.toString())
+                    }
+                    error {
+                        println("error:$it")
+                        showResult(it)
+                    }
+                    finish {
+                        println("finish")
+                    }
+                }
+            }
+        }
     }
 
     override fun initListener() {

@@ -1,5 +1,7 @@
 package com.darcy.message.lib_http.exts
 
+import com.darcy.message.lib_common.exts.logE
+import com.darcy.message.lib_common.exts.print
 import com.darcy.message.lib_http.entity.base.BaseResult
 import com.darcy.message.lib_http.response.HttpCode
 import com.google.gson.Gson
@@ -16,15 +18,21 @@ val json = Json {
     coerceInputValues = true
 }
 
-fun <T> Response.gsonToBean(): BaseResult<T> {
+fun <T> Response.gsonToBean(): BaseResult<T>? {
     val jsonString = this.body?.string() ?: "{}"
     return jsonString.gsonToBean()
 }
 
-fun <T> String.gsonToBean(): T {
+fun <T> String.gsonToBean(): T? {
     // darcyRefactor: gson get real type of BaseResult<T>
     val responseType = object : TypeToken<BaseResult<T>>() {}.type
-    return gson.fromJson(this, responseType)
+    return try {
+        gson.fromJson(this, responseType)
+    } catch (e: Exception) {
+        logE("gsonToBean error: $this")
+        e.print()
+        null
+    }
 }
 
 inline fun <reified T> String.jsonToBean(): T {

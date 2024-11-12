@@ -1,6 +1,8 @@
 import com.github.megatronking.stringfog.plugin.StringFogExtension
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Properties
 
 plugins {
@@ -148,6 +150,54 @@ android {
             }
         }
     }
+    // 修改apk名字
+    android.applicationVariants.all {
+        // 编译类型
+        val buildType = this.buildType.name
+        val date = SimpleDateFormat("yyyy_MMdd_HHmm").format(Date())
+        val flavor = this.flavorName
+        outputs.all {
+            // 判断是否是输出 apk 类型
+            if (buildType.contains("release", ignoreCase = true)) {
+                if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
+                    this.outputFileName =
+                        "Sunflower_" + flavor + "_v${android.defaultConfig.versionName}_${date}_${buildType}.apk"
+                }
+                // 复制到指定文件夹
+                assembleProvider.get().doLast {
+                    copy {
+                        from(File(project.buildDir, "outputs/apk/$flavor/$buildType"))
+                        into(File(rootDir, "apks"))
+//                rename{"Sunflower_" + flavor + "_v${android.defaultConfig.versionName}_${date}_${buildType}.apk"}
+                        include("*.apk")
+                    }
+                }
+            }
+            // 将获取到的名称首字母变为大写，比如：release变为Release
+            val combineName = "${flavorName.capitalize()}${buildType.capitalize()}"
+            // 为我们的任务命名：比如叫packRelease
+            val taskName = "pack$combineName"
+            // 找到打包的任务，比如release就是assembleRelease任务
+            val originName = "assemble$combineName"
+            // 创建一个任务专门做我们的自定义打包任务
+            project.task(taskName) {
+                // 为任务分组
+                group = "Pack apk"
+                // 执行我们的任务之前会先执行的任务，比如，打release包时会先执行assembleRelease任务
+                dependsOn(originName)
+                // 执行完任务后，我们将得到的APK 重命名并输出到根目录下的apks文件夹下
+//                doLast {
+//                    copy {
+//                        from(File(project.buildDir, "outputs/apk/$buildType"))
+//                        into(File(rootDir, "apks"))
+//                        rename { "AppPackDemo-V-$versionName-$date.apk" }
+//                        include("*.apk")
+//                    }
+//                }
+            }
+        }
+    }
+
 }
 
 fun gradleLocalProperties(projectRootDir: File): Properties {
@@ -189,6 +239,7 @@ dependencies {
     implementation(project(":lib_report"))
     implementation(project(":lib_jni"))
     implementation(project(":lib_security"))
+    implementation(project(":lib_status"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖

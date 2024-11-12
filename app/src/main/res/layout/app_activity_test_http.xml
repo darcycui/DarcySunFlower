@@ -18,7 +18,7 @@
         android:id="@+id/btnHttp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OKHttp" />
+        android:text="TestHttp" />
 
     <Button
         android:id="@+id/btnTestHttpEBPF"
@@ -26,6 +26,13 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:text="eBPF抓包测试" />
+
+    <Button
+        android:id="@+id/btnTestLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="Login_10" />
 
     <TextView
         android:id="@+id/tvInfo"
