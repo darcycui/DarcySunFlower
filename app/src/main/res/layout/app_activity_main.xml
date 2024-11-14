@@ -127,6 +127,20 @@
             android:layout_height="wrap_content"
             android:text="Test App Status"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnCamera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test Custom Camera"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnCameraBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test Custom Camera Background"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </ScrollView>

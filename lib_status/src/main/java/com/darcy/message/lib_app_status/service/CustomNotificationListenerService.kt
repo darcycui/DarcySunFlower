@@ -8,7 +8,7 @@ import com.darcy.message.lib_common.exts.logD
 /**
  * 监听通知栏的服务,需要用户授权
  */
-class MyNotificationListenerService : NotificationListenerService() {
+class CustomNotificationListenerService : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val packageName = sbn.packageName
         val tickerText = sbn.notification.tickerText

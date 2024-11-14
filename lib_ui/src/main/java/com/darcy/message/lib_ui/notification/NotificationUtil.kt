@@ -7,8 +7,8 @@ import androidx.activity.ComponentActivity
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.toasts
-import com.darcy.message.lib_ui.permission.PermissionUtil
-import com.darcy.message.lib_ui.permission.toAppSettingsDetail
+import com.darcy.message.lib_permission.permission.PermissionUtil
+import com.darcy.message.lib_permission.permission.toAppSettingsDetail
 
 
 object NotificationUtil {
@@ -53,7 +53,7 @@ object NotificationUtil {
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as? android.app.NotificationManager?
                 ?: return
-        if (manager.areNotificationsEnabled() && PermissionUtil.checkPermissions(
+        if (manager.areNotificationsEnabled() && com.darcy.message.lib_permission.permission.PermissionUtil.checkPermissions(
                 context,
                 listOf(Manifest.permission.POST_NOTIFICATIONS)
             )

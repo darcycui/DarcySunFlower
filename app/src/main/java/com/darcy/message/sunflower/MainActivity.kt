@@ -3,6 +3,8 @@ package com.darcy.message.sunflower
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.darcy.message.lib_app_status.TestAppStatusActivity
+import com.darcy.message.lib_camera.camera1.activity.TestCameraActivity
+import com.darcy.message.lib_camera.camera1.activity.TestCameraBackgroundActivity
 import com.darcy.message.lib_common.arraymap.TestArrayMap
 import com.darcy.message.lib_common.arraymap.TestArraySet
 import com.darcy.message.lib_common.sparsearray.TestSparseArray
@@ -81,6 +83,12 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnAppStatus.setOnClickListener {
             startPage(TestAppStatusActivity::class.java)
+        }
+        binding.btnCamera.setOnClickListener {
+            startPage(TestCameraActivity::class.java)
+        }
+        binding.btnCameraBackground.setOnClickListener {
+            startPage(TestCameraBackgroundActivity::class.java)
         }
     }
 

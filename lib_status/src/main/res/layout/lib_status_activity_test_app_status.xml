@@ -39,6 +39,13 @@
             android:layout_height="wrap_content"
             android:text="Make a crash"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/checkBattery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check battery"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,9 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.PowerManager
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.KeyEvent
 import android.window.OnBackInvokedCallback
 import android.window.OnBackInvokedDispatcher
@@ -31,6 +33,8 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_common.exts.logW
+import com.darcy.message.lib_common.exts.print
+import com.darcy.message.lib_common.exts.toasts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -73,13 +77,34 @@ class TestAppStatusActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        registerReceivers()
         initListener()
+        registerReceivers()
         handleIntent(intent)
         windowInfoTracker = WindowInfoTracker.getOrCreate(this)
         windowLayoutInfoFlow = windowInfoTracker.windowLayoutInfo(this)
         observeFold()
         resisterPreBack()
+        checkBatteryOptimization()
+    }
+    private fun checkBatteryOptimization() {
+        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
+                toasts("需要设置电池优化策略")
+                requestIgnoreBatteryOptimizations()
+            } else {
+                toasts("已忽略电池优化")
+            }
+        } else {
+            toasts("当前设备不支持电池优化设置")
+        }
+    }
+
+    private fun requestIgnoreBatteryOptimizations() {
+        val intent = Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS)
+        intent.data = Uri.parse("package:$packageName")
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun resisterPreBack() {
@@ -180,56 +205,103 @@ class TestAppStatusActivity : AppCompatActivity() {
         binding.btnCrash.setOnClickListener {
             val a = 1 / 0
         }
+        binding.checkBattery.setOnClickListener {
+            checkBatteryOptimization()
+        }
     }
 
     private fun registerReceivers() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // 注册按键广播
-            registerReceiver(
-                recentAppsAndHomeKeyReceiver,
-                IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS),
-                RECEIVER_NOT_EXPORTED
-            )
-
-            // 注册卸载广播
-            registerReceiver(appRemovedReceiver, IntentFilter().apply {
-                addAction(Intent.ACTION_PACKAGE_ADDED)
-                addAction(Intent.ACTION_PACKAGE_REPLACED)
-                addAction(Intent.ACTION_PACKAGE_REMOVED)
-                // 设置scheme
-                addDataScheme("package")
-            }, RECEIVER_NOT_EXPORTED)
-
-            // 注册屏幕状态广播
-            registerReceiver(
-                screenStateReceiver, IntentFilter().apply {
-                    addAction(Intent.ACTION_SCREEN_ON)
-                    addAction(Intent.ACTION_SCREEN_OFF)
-                },
-                RECEIVER_NOT_EXPORTED
-            )
-            // 注册充电状态广播
-            registerReceiver(
-                batteryStatusReceiver,
-                IntentFilter(Intent.ACTION_BATTERY_CHANGED),
-                RECEIVER_NOT_EXPORTED
-            )
-            // 注册用户解锁广播
-            registerReceiver(
-                userPresentReceiver,
-                IntentFilter(Intent.ACTION_USER_PRESENT),
-                RECEIVER_EXPORTED
-            )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            registerNew()
+        } else {
+            registerOld()
         }
 
     }
 
+    private fun registerOld() {
+// 注册按键广播
+        registerReceiver(
+            recentAppsAndHomeKeyReceiver,
+            IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+
+        // 注册卸载广播
+        registerReceiver(appRemovedReceiver, IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_ADDED)
+            addAction(Intent.ACTION_PACKAGE_REPLACED)
+            addAction(Intent.ACTION_PACKAGE_REMOVED)
+            // 设置scheme
+            addDataScheme("package")
+        })
+
+        // 注册屏幕状态广播
+        registerReceiver(
+            screenStateReceiver, IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_ON)
+                addAction(Intent.ACTION_SCREEN_OFF)
+            }
+        )
+        // 注册充电状态广播
+        registerReceiver(
+            batteryStatusReceiver,
+            IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        )
+        // 注册用户解锁广播
+        registerReceiver(
+            userPresentReceiver,
+            IntentFilter(Intent.ACTION_USER_PRESENT)
+        )
+    }
+
+    private fun registerNew() {
+        // 注册按键广播
+        registerReceiver(
+            recentAppsAndHomeKeyReceiver,
+            IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS),
+            RECEIVER_NOT_EXPORTED
+        )
+
+        // 注册卸载广播
+        registerReceiver(appRemovedReceiver, IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_ADDED)
+            addAction(Intent.ACTION_PACKAGE_REPLACED)
+            addAction(Intent.ACTION_PACKAGE_REMOVED)
+            // 设置scheme
+            addDataScheme("package")
+        }, RECEIVER_NOT_EXPORTED)
+
+        // 注册屏幕状态广播
+        registerReceiver(
+            screenStateReceiver, IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_ON)
+                addAction(Intent.ACTION_SCREEN_OFF)
+            },
+            RECEIVER_NOT_EXPORTED
+        )
+        // 注册充电状态广播
+        registerReceiver(
+            batteryStatusReceiver,
+            IntentFilter(Intent.ACTION_BATTERY_CHANGED),
+            RECEIVER_NOT_EXPORTED
+        )
+        // 注册用户解锁广播
+        registerReceiver(
+            userPresentReceiver,
+            IntentFilter(Intent.ACTION_USER_PRESENT),
+            RECEIVER_EXPORTED
+        )
+    }
+
     private fun unregisterReceivers() {
-        unregisterReceiver(recentAppsAndHomeKeyReceiver)
-        unregisterReceiver(appRemovedReceiver)
-        unregisterReceiver(screenStateReceiver)
-        unregisterReceiver(batteryStatusReceiver)
-        unregisterReceiver(userPresentReceiver)
+        try {
+            unregisterReceiver(recentAppsAndHomeKeyReceiver)
+            unregisterReceiver(appRemovedReceiver)
+            unregisterReceiver(screenStateReceiver)
+            unregisterReceiver(batteryStatusReceiver)
+            unregisterReceiver(userPresentReceiver)
+        } catch (e: Exception) {
+            e.print()
+        }
     }
 
     override fun onLowMemory() {

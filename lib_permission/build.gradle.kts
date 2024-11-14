@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.darcy.message.lib_ui"
+    namespace = "com.darcy.message.lib_permission"
     compileSdk = Configs.compileSdks
 
     defaultConfig {
@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_ui_"
+        resourcePrefix = "lib_permission_"
     }
 
     buildTypes {
@@ -33,9 +33,8 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
-        // 开启viewBinding
+        // generate viewBinding
         viewBinding = true
-        dataBinding = true
         // generate buildConfig
         buildConfig = true
     }
@@ -43,30 +42,12 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     api(project(":lib_common"))
-    api(project(":lib_permission"))
-
-    api(libs.androidx.core.ktx)
-    api(libs.androidx.appcompat)
-    api(libs.androidx.activity.ktx)
-    api(libs.androidx.fragment.ktx)
-    api(libs.androidx.constraintlayout)
-    api(libs.material)
-
-    api(libs.androidx.recyclerview)
-    api(libs.androidx.paging.runtime.ktx)
-
-    api(libs.androidx.lifecycle.viewmodel.ktx)
-    api(libs.androidx.lifecycle.viewmodel.ktx)
-    api(libs.androidx.lifecycle.livedata.ktx)
-    api(libs.androidx.lifecycle.extensions)
-    api(libs.androidx.lifecycle.runtime.ktx)
 }

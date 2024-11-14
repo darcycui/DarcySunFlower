@@ -1,4 +1,4 @@
-package com.darcy.message.lib_ui.permission
+package com.darcy.message.lib_permission.permission
 
 import android.app.Activity
 import android.content.Context

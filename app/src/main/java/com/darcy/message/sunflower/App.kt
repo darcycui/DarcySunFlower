@@ -39,6 +39,12 @@ class App : Application() {
         initAppStatus()
     }
 
+    private fun startHomeActivity() {
+        /** * 跳转到指定应用的首页 */
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        startActivity(intent)
+    }
+
     private fun initAppStatus() {
         registerActivityLifecycleCallbacks(CustomActivityLifecycleListener)
         Thread.setDefaultUncaughtExceptionHandler(CustomUncaughtExceptionHandler)

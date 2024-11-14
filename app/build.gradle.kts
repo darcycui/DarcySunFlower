@@ -240,6 +240,7 @@ dependencies {
     implementation(project(":lib_jni"))
     implementation(project(":lib_security"))
     implementation(project(":lib_status"))
+    implementation(project(":lib_camera"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
