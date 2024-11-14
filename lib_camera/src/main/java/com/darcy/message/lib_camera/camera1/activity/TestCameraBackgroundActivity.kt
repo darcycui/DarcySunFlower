@@ -2,7 +2,9 @@ package com.darcy.message.lib_camera.camera1.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -68,7 +70,7 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
         if (PermissionUtil.checkPermissions(
                 context, listOf(
                     android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.FOREGROUND_SERVICE_CAMERA
+                    android.Manifest.permission.FOREGROUND_SERVICE_CAMERA,
                 )
             )
         ) {
@@ -81,6 +83,13 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
                 onDenied = {
                     // 处理拒绝授权的情况
                 })
+        }
+        if (Settings.canDrawOverlays(this)) {
+            toasts("悬浮窗已授权")
+        } else {
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            intent.data = Uri.parse("package:$packageName")
+            startActivityForResult(intent, 100)
         }
     }
 
@@ -126,6 +135,9 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
+        }
+        binding.btnCaptureInvisibleActivity.setOnClickListener {
+            startActivity(Intent(context, InVisibleCameraActivity::class.java))
         }
         binding.btnCaptureService.setOnClickListener {
             startService(Intent(context, CameraService::class.java))

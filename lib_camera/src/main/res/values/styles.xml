@@ -1,0 +1,19 @@
+<resources>
+    <!-- Base application theme -->
+    <style name="lib_camera_AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/lib_camera_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/lib_camera_colorPrimaryDark</item>
+        <item name="colorAccent">@color/lib_camera_colorAccent</item>
+    </style>
+
+    <!-- Transparent theme -->
+    <style name="lib_camera_AppTheme.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+</resources>

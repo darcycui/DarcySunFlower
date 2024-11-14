@@ -4,8 +4,13 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application>
+        <activity
+            android:name=".camera1.activity.InVisibleCameraActivity"
+            android:theme="@style/lib_camera_AppTheme.Transparent"
+            android:exported="false" />
         <activity
             android:name=".camera1.activity.TestCameraBackgroundActivity"
             android:exported="false" />
@@ -13,8 +18,9 @@
             android:name=".camera1.activity.TestCameraActivity"
             android:exported="false" />
 
-        <service android:name="com.darcy.message.lib_camera.camera1.service.CameraService"
-            android:exported="false"/>
+        <service
+            android:name=".camera1.service.CameraService"
+            android:exported="false" />
     </application>
 
 </manifest>

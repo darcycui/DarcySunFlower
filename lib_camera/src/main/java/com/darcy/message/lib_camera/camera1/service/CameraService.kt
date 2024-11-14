@@ -18,6 +18,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.WindowManager
 import android.widget.Toast
+import com.darcy.message.lib_camera.CameraPrams
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -180,22 +181,25 @@ class CameraService : Service(), SurfaceHolder.Callback {
     // 得到后置摄像头
     private fun openFacingFrontCamera(): Boolean {
         // 尝试开启前置摄像头
-
         val cameraInfo = CameraInfo()
         camera = Camera.open(0)
-
         try {
             // 这里的myCamera为已经初始化的Camera对象
-            camera?.setPreviewDisplay(surfaceView!!.holder)
-            camera?.startPreview()
+            camera?.let {
+                val parameters = it.parameters
+                parameters.setPictureSize(CameraPrams.previewWidth, CameraPrams.previewHeight)
+                // 设置自动对焦模式
+                parameters.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
+                it.parameters = parameters
+                it.setPreviewDisplay(surfaceView!!.holder)
+                it.startPreview()
+            }
         } catch (e: IOException) {
             e.printStackTrace()
             camera?.stopPreview()
             camera?.release()
             camera = null
         }
-
-
         return true
     }
 

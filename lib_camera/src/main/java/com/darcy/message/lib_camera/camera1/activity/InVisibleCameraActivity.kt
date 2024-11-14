@@ -5,23 +5,32 @@ import android.hardware.Camera
 import android.hardware.Camera.PictureCallback
 import android.os.Bundle
 import android.view.SurfaceHolder
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.darcy.message.lib_camera.CameraPrams
-import com.darcy.message.lib_camera.databinding.LibCameraActivityCameraBinding
+import com.darcy.message.lib_camera.databinding.LibCameraActivityInvisibleCameraBinding
+import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_permission.permission.PermissionUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 
-class TestCameraActivity : AppCompatActivity() {
-    private val binding: LibCameraActivityCameraBinding by lazy {
-        LibCameraActivityCameraBinding.inflate(layoutInflater)
+/**
+ * 透明Activity实现偷偷拍照
+ */
+class InVisibleCameraActivity : AppCompatActivity() {
+    private val binding: LibCameraActivityInvisibleCameraBinding by lazy {
+        LibCameraActivityInvisibleCameraBinding.inflate(layoutInflater)
     }
     private val context: Context by lazy {
         this
@@ -29,7 +38,7 @@ class TestCameraActivity : AppCompatActivity() {
 
     private val outputMediaFile: File?
         get() {
-            val mediaStorageDir = File(getExternalFilesDir(null), "MyCameraApp")
+            val mediaStorageDir = File(getExternalFilesDir(null), "MyCameraAppInvisible")
             if (!mediaStorageDir.exists()) {
                 if (!mediaStorageDir.mkdirs()) {
                     return null
@@ -41,12 +50,14 @@ class TestCameraActivity : AppCompatActivity() {
 
     private val pictureCallback: PictureCallback = object : PictureCallback {
         override fun onPictureTaken(data: ByteArray, camera: Camera) {
+            logI("pictureCallback save start")
             val pictureFile: File = outputMediaFile ?: return
             try {
                 val fos = FileOutputStream(pictureFile)
                 fos.write(data)
                 fos.close()
-                camera.startPreview() // 重新开始预览
+                logI("pictureCallback save end")
+                finish() // 拍照成功，结束Activity
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -70,6 +81,10 @@ class TestCameraActivity : AppCompatActivity() {
 
     private var screenGY: Int = 0
 
+    private val mainScope: CoroutineScope by lazy {
+        MainScope()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -80,24 +95,43 @@ class TestCameraActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        checkCameraPermission(false)
+
+        // 设置 Activity 的大小为 1 像素
+        val params = window.attributes
+        params.width = 1
+        params.height = 1
+        params.flags =
+            params.flags or (WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        window.attributes = params
+
         // 获取屏幕尺寸以获取最佳的相机预览尺寸
         getScreenSize()
         // 设置相机监听
         initListener()
+        // 延时拍照
+        autoTakePictureAfterDelay()
     }
 
-    private fun checkCameraPermission(needOpenCamera: Boolean) {
-        if (PermissionUtil.checkPermissions(context, listOf(android.Manifest.permission.CAMERA))) {
-            if (needOpenCamera) {
-                openCamera()
+    private fun autoTakePictureAfterDelay() {
+        mainScope.launch {
+            logI("autoTakePictureAfterDelay start")
+            repeat(5) {
+                delay(1_000)
+                logD("delay $it")
+
             }
+            mCamera?.takePicture(null, null, pictureCallback)
+            logI("autoTakePictureAfterDelay end")
+        }
+    }
+
+    private fun checkCameraPermission() {
+        if (PermissionUtil.checkPermissions(context, listOf(android.Manifest.permission.CAMERA))) {
+            openCamera()
         } else {
             PermissionUtil.requestPermissions(this, listOf(android.Manifest.permission.CAMERA),
                 onGranted = {
-                    if (needOpenCamera) {
-                        openCamera()
-                    }
+                    openCamera()
                 },
                 onDenied = {
                     // 处理拒绝授权的情况
@@ -109,7 +143,7 @@ class TestCameraActivity : AppCompatActivity() {
         mSurfaceHolder = binding.surfaceView.holder
         mSurfaceHolder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
-                checkCameraPermission(true)
+                checkCameraPermission()
             }
 
             override fun surfaceChanged(
@@ -145,9 +179,7 @@ class TestCameraActivity : AppCompatActivity() {
 
         })
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
-        binding.btnCapture.setOnClickListener {
-            mCamera?.takePicture(null, null, pictureCallback)
-        }
+
     }
 
     /**
@@ -233,13 +265,9 @@ class TestCameraActivity : AppCompatActivity() {
         screenGY = getGY(screenWidth, screenHeight)
     }
 
-    private var first = true
     override fun onResume() {
         super.onResume()
-        if (first) {
-            return
-        }
-        resumeCamera()
+        initializeCamera()
     }
 
     override fun onPause() {
@@ -249,11 +277,12 @@ class TestCameraActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        releaseCamera()
     }
 
-    private fun resumeCamera() {
+    private fun initializeCamera() {
         try {
-            checkCameraPermission(true)
+            openCamera()
             mCamera?.setPreviewDisplay(mSurfaceHolder)
             mCamera?.startPreview()
         } catch (e: IOException) {

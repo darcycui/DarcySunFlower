@@ -8,7 +8,7 @@
 <!--    <style name="app_Theme.Sunflower" parent="app_Base.Theme.Sunflower" />-->
     <style name="app_Theme.Sunflower" parent="lib_theme_MaterialTheme" />
   <!-- Base application theme. -->
-    <style name="Base.app_Theme.Sunflower" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="app_Base.app_Theme.Sunflower" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
