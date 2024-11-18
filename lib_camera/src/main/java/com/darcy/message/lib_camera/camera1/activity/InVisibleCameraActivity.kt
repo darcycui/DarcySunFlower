@@ -101,7 +101,7 @@ class InVisibleCameraActivity : AppCompatActivity() {
     private fun autoTakePictureAfterDelay() {
         mainScope.launch {
             logI("autoTakePictureAfterDelay start")
-            repeat(5) {
+            repeat(1) {
                 delay(1_000)
                 logD("delay $it")
 

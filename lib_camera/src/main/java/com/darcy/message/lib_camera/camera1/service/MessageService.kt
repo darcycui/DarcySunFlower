@@ -29,14 +29,13 @@ class MessageService : Service() {
     override fun onCreate() {
         super.onCreate()
         logD("MessageService onCreate")
-        initMessageSocket()
     }
 
     private fun initMessageSocket() {
         mainScope.launch {
-            repeat(5) { count ->
+            repeat(3) { count ->
                 logD("MessageService initMessageSocket: delay $count start")
-                repeat(10) { second ->
+                repeat(5) { second ->
                     logD("delay second:$second")
                     delay(1_000)
                 }
@@ -89,6 +88,7 @@ class MessageService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        initMessageSocket()
         return START_STICKY
     }
 
