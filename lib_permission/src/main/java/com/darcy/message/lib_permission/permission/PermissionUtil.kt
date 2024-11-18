@@ -21,16 +21,13 @@ object PermissionUtil {
     fun checkPermissions(
         context: Context,
         permissions: List<String>,
-        onGranted: () -> Unit = {},
-        onDenied: (shouldShowCustomRequest: Boolean) -> Unit = {}
-
     ): Boolean {
         // 检查权限 是否被授予
         val granted = permissions.all {
             ContextCompat.checkSelfPermission(
                 context,
                 it
-            ) == android.content.pm.PackageManager.PERMISSION_GRANTED
+            ) == PackageManager.PERMISSION_GRANTED
         }
         return granted
     }

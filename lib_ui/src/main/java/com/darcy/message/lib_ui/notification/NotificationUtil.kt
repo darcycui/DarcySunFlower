@@ -53,7 +53,7 @@ object NotificationUtil {
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as? android.app.NotificationManager?
                 ?: return
-        if (manager.areNotificationsEnabled() && com.darcy.message.lib_permission.permission.PermissionUtil.checkPermissions(
+        if (manager.areNotificationsEnabled() && PermissionUtil.checkPermissions(
                 context,
                 listOf(Manifest.permission.POST_NOTIFICATIONS)
             )

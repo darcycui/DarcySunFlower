@@ -10,6 +10,9 @@ import com.darcy.message.lib_common.exts.print
 import java.io.File
 
 object CameraBackgroundHelper {
+
+    // 自动对焦回调函数(空实现)
+    private val myAutoFocus = Camera.AutoFocusCallback { success, camera -> }
     fun takePicture(context: Context, cameraId: Int, file: File, callback: Camera.PictureCallback) {
         try {
             logD("takePicture start")
@@ -22,6 +25,7 @@ object CameraBackgroundHelper {
             val surfaceTexture = SurfaceTexture(0)
             open.setPreviewTexture(surfaceTexture)
             open.startPreview()
+            open.autoFocus(myAutoFocus)
             open.takePicture(null, null, callback)
             logI("takePicture end")
         } catch (e: Exception) {

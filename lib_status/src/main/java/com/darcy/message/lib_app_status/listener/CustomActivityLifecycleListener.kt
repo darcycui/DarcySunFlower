@@ -3,12 +3,13 @@ package com.darcy.message.lib_app_status.listener
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import com.darcy.message.lib_app_status.utils.ActivityUtil
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logW
 
-object CustomActivityLifecycleListener: Application.ActivityLifecycleCallbacks {
+object CustomActivityLifecycleListener : Application.ActivityLifecycleCallbacks {
     private val TAG: String = "MyActivityLifecycleListener"
     private var activityCount = 0
     fun isBackground(): Boolean {
@@ -35,6 +36,11 @@ object CustomActivityLifecycleListener: Application.ActivityLifecycleCallbacks {
     override fun onActivityStopped(activity: Activity) {
         activityCount--
         logW("onActivityStopped: ${activity.componentName} activityCount=$activityCount")
+        if (activityCount <= 0) {
+            ActivityUtil.getTopActivityName(activity).also {
+                logW("栈顶Activity:$it")
+            }
+        }
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {

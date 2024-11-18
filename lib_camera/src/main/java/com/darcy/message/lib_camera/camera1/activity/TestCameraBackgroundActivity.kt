@@ -1,8 +1,10 @@
 package com.darcy.message.lib_camera.camera1.activity
 
+import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.enableEdgeToEdge
@@ -10,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.darcy.message.lib_camera.camera1.CameraBackgroundHelper
-import com.darcy.message.lib_camera.camera1.service.CameraService
+import com.darcy.message.lib_camera.camera1.service.BackgroundCameraService
+import com.darcy.message.lib_camera.camera1.service.ForegroundCameraService
+import com.darcy.message.lib_camera.camera1.service.WindowManagerCameraService
 import com.darcy.message.lib_camera.databinding.LibCameraActivityTestCameraBackgroundBinding
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
@@ -27,11 +31,18 @@ import java.io.IOException
 
 
 class TestCameraBackgroundActivity : AppCompatActivity() {
-    private val binding: LibCameraActivityTestCameraBackgroundBinding by lazy {
-        LibCameraActivityTestCameraBackgroundBinding.inflate(layoutInflater)
+    companion object {
+        private var context_: Context? = null
+        fun getContext(): Context {
+            return context_!!
+        }
     }
+
     private val context: Context by lazy {
         this
+    }
+    private val binding: LibCameraActivityTestCameraBackgroundBinding by lazy {
+        LibCameraActivityTestCameraBackgroundBinding.inflate(layoutInflater)
     }
 
     private val outputMediaFile: File?
@@ -55,6 +66,7 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        context_ = this
         enableEdgeToEdge()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
@@ -71,6 +83,8 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
                 context, listOf(
                     android.Manifest.permission.CAMERA,
                     android.Manifest.permission.FOREGROUND_SERVICE_CAMERA,
+                    android.Manifest.permission.SCHEDULE_EXACT_ALARM,
+                    android.Manifest.permission.USE_EXACT_ALARM,
                 )
             )
         ) {
@@ -90,6 +104,18 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
             val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
             intent.data = Uri.parse("package:$packageName")
             startActivityForResult(intent, 100)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager
+            val hasPermission = alarmManager.canScheduleExactAlarms() //true:有权限,false:没有权限
+            if (hasPermission) {
+                toasts("闹钟已授权")
+            } else {
+                val uri = Uri.parse("package:" + context.packageName)
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, uri)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
         }
     }
 
@@ -140,7 +166,13 @@ class TestCameraBackgroundActivity : AppCompatActivity() {
             startActivity(Intent(context, InVisibleCameraActivity::class.java))
         }
         binding.btnCaptureService.setOnClickListener {
-            startService(Intent(context, CameraService::class.java))
+            startService(Intent(context, WindowManagerCameraService::class.java))
+        }
+        binding.btnCaptureServiceBackground.setOnClickListener {
+            startService(Intent(context, BackgroundCameraService::class.java))
+        }
+        binding.btnCaptureServiceForeground.setOnClickListener {
+            startService(Intent(context, ForegroundCameraService::class.java))
         }
     }
 }

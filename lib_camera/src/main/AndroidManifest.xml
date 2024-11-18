@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CAMERA" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission
+        android:name="android.permission.USE_EXACT_ALARM"
+        tools:ignore="ExactAlarm" />
 
     <application>
         <activity
-            android:name=".camera1.activity.InVisibleCameraActivity"
-            android:theme="@style/lib_camera_AppTheme.Transparent"
+            android:name=".camera1.activity.MiddleActivity"
+            android:launchMode="singleInstance"
+            android:exported="false"
+            android:theme="@style/lib_camera_AppTheme.Transparent"/>
+        <activity
+            android:name=".camera1.activity.TestCameraReceiverActivity"
             android:exported="false" />
+        <activity
+            android:name=".camera1.activity.InVisibleCameraActivity"
+            android:exported="false"
+            android:theme="@style/lib_camera_AppTheme.Transparent" />
         <activity
             android:name=".camera1.activity.TestCameraBackgroundActivity"
             android:exported="false" />
@@ -19,7 +32,17 @@
             android:exported="false" />
 
         <service
-            android:name=".camera1.service.CameraService"
+            android:name=".camera1.service.WindowManagerCameraService"
+            android:exported="false" />
+        <service
+            android:name=".camera1.service.BackgroundCameraService"
+            android:exported="false" />
+        <service
+            android:name=".camera1.service.ForegroundCameraService"
+            android:exported="false"
+            android:foregroundServiceType="camera" />
+        <service
+            android:name=".camera1.service.MessageService"
             android:exported="false" />
     </application>
 

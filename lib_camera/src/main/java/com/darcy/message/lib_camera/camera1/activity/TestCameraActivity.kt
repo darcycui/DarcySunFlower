@@ -14,6 +14,10 @@ import com.darcy.message.lib_camera.CameraPrams
 import com.darcy.message.lib_camera.databinding.LibCameraActivityCameraBinding
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_permission.permission.PermissionUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -70,6 +74,10 @@ class TestCameraActivity : AppCompatActivity() {
 
     private var screenGY: Int = 0
 
+    private val mainScope: CoroutineScope by lazy {
+        MainScope()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -89,15 +97,11 @@ class TestCameraActivity : AppCompatActivity() {
 
     private fun checkCameraPermission(needOpenCamera: Boolean) {
         if (PermissionUtil.checkPermissions(context, listOf(android.Manifest.permission.CAMERA))) {
-            if (needOpenCamera) {
-                openCamera()
-            }
+            openCamera()
         } else {
             PermissionUtil.requestPermissions(this, listOf(android.Manifest.permission.CAMERA),
                 onGranted = {
-                    if (needOpenCamera) {
-                        openCamera()
-                    }
+                    openCamera()
                 },
                 onDenied = {
                     // 处理拒绝授权的情况
@@ -109,7 +113,7 @@ class TestCameraActivity : AppCompatActivity() {
         mSurfaceHolder = binding.surfaceView.holder
         mSurfaceHolder.addCallback(object : SurfaceHolder.Callback {
             override fun surfaceCreated(holder: SurfaceHolder) {
-                checkCameraPermission(true)
+                //checkCameraPermission(true)
             }
 
             override fun surfaceChanged(
@@ -118,21 +122,9 @@ class TestCameraActivity : AppCompatActivity() {
                 width: Int,
                 height: Int
             ) {
-                mCamera?.let {
-                    val parameters = it.parameters
-                    getPreviewSize(parameters)
-                    parameters.setPictureSize(previewWidth, previewHeight)
-                    // 设置自动对焦模式
-                    parameters.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
-                    parameters.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
-                    it.parameters = parameters
-                    try {
-                        it.setPreviewDisplay(holder)
-                        it.startPreview()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-                    }
+                mainScope.launch {
+                    delay(2_000)
+                    startCameraPreview(holder)
                 }
             }
 
@@ -147,6 +139,25 @@ class TestCameraActivity : AppCompatActivity() {
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
         binding.btnCapture.setOnClickListener {
             mCamera?.takePicture(null, null, pictureCallback)
+        }
+    }
+
+    private fun startCameraPreview(holder: SurfaceHolder) {
+        mCamera?.let {
+//            val parameters = it.parameters
+//            getPreviewSize(parameters)
+//            parameters.setPictureSize(previewWidth, previewHeight)
+//            // 设置自动对焦模式
+//            parameters.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
+//            parameters.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
+//            it.parameters = parameters
+            try {
+                it.setPreviewDisplay(holder)
+                it.startPreview()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -166,13 +177,15 @@ class TestCameraActivity : AppCompatActivity() {
      * 释放相机
      */
     private fun releaseCamera() {
-        mCamera?.setPreviewCallback(null)
-        //停止预览
-        mCamera?.stopPreview()
-        mCamera?.lock()
-        //释放相机资源
-        mCamera?.release()
-        mCamera = null
+        mCamera?.let {
+            it.setPreviewCallback(null)
+            //停止预览
+            it.stopPreview()
+            it.lock()
+            //释放相机资源
+            it.release()
+            mCamera = null
+        }
     }
 
     /**
@@ -237,6 +250,7 @@ class TestCameraActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (first) {
+            first = false
             return
         }
         resumeCamera()
@@ -253,7 +267,6 @@ class TestCameraActivity : AppCompatActivity() {
 
     private fun resumeCamera() {
         try {
-            checkCameraPermission(true)
             mCamera?.setPreviewDisplay(mSurfaceHolder)
             mCamera?.startPreview()
         } catch (e: IOException) {

@@ -54,4 +54,5 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.window.window)
     api (project(":lib_common"))
+    api(project(":lib_permission"))
 }

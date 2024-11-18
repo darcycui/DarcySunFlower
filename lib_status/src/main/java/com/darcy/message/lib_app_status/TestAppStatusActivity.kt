@@ -29,6 +29,12 @@ import com.darcy.message.lib_app_status.receiver.BatteryStatusReceiver
 import com.darcy.message.lib_app_status.receiver.RecentAppsAndHomeKeyReceiver
 import com.darcy.message.lib_app_status.receiver.ScreenStateReceiver
 import com.darcy.message.lib_app_status.receiver.UserPresentReceiver
+import com.darcy.message.lib_app_status.utils.AssetsUtil
+import com.darcy.message.lib_app_status.utils.AutoStartUtil
+import com.darcy.message.lib_app_status.utils.DeveloperModeUtil
+import com.darcy.message.lib_app_status.utils.FilePreviewUtil
+import com.darcy.message.lib_app_status.utils.FileProviderUtil
+import com.darcy.message.lib_app_status.utils.UriUtil
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
@@ -85,7 +91,10 @@ class TestAppStatusActivity : AppCompatActivity() {
         observeFold()
         resisterPreBack()
         checkBatteryOptimization()
+        // 自启动管理
+        AutoStartUtil.openSettingsPage(context)
     }
+
     private fun checkBatteryOptimization() {
         val powerManager = getSystemService(POWER_SERVICE) as PowerManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -107,6 +116,9 @@ class TestAppStatusActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    /**
+     * 预返回手势
+     */
     private fun resisterPreBack() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             onBackInvokedCallback = OnBackInvokedCallback {
@@ -184,17 +196,119 @@ class TestAppStatusActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
+        binding.btnPreviewImage.setOnClickListener {
+//            FilePreviewUtil.previewImage(
+//                context,
+//                UriUtil.insertImageIntoMediaStore(
+//                    context,
+//                    AssetsUtil.copyAssetToMediaFile(context, "a.png")
+//                )
+//            )
+            FileProviderUtil.previewFileByProvider(
+                context,
+                AssetsUtil.copyAssetToMediaFolder(context, "a.png")
+            )
+        }
+        binding.btnPreviewVideo.setOnClickListener {
+//            FilePreviewUtil.previewVideo(
+//                context,
+//                UriUtil.insertVideoIntoMediaStore(
+//                    context,
+//                    AssetsUtil.copyAssetToMediaFile(context, "mp4.ts")
+//                )
+//            )
+            FileProviderUtil.previewFileByProvider(
+                context,
+                AssetsUtil.copyAssetToMediaFolder(context, "mp4.ts")
+            )
+        }
+        binding.btnPreviewAudio.setOnClickListener {
+//            FilePreviewUtil.previewAudio(
+//                context,
+//                UriUtil.insertAudioIntoMediaStore(
+//                    context,
+//                    AssetsUtil.copyAssetToMediaFile(context, "song.mp3")
+//                )
+//            )
+            FileProviderUtil.previewFileByProvider(
+                context,
+                AssetsUtil.copyAssetToMediaFolder(context, "song.mp3")
+            )
+        }
+        binding.btnPreviewFile.setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                PermissionUtil.requestPermissions(context as ComponentActivity,
+//                    listOf(
+//                        Manifest.permission.READ_MEDIA_IMAGES,
+//                        Manifest.permission.READ_MEDIA_VIDEO,
+//                        Manifest.permission.READ_MEDIA_AUDIO,
+//                    ),
+//                    onGranted = {
+//                        FilePreviewUtil.previewFile(
+//                            context,
+//                            UriUtil.insertFileIntoMediaStore(
+//                                context,
+//                                AssetsUtil.copyAssetToMediaFolder(context, "text.txt")
+//                            )
+//                        )
+//                    },
+//                    onDenied = {
+//                        toasts("未授予文件读写权限")
+//                    })
+//            } else {
+//                PermissionUtil.requestPermissions(context as ComponentActivity,
+//                    listOf(
+//                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                    ),
+//                    onGranted = {
+//                        FilePreviewUtil.previewFile(
+//                            context,
+//                            UriUtil.insertFileIntoMediaStore(
+//                                context,
+//                                AssetsUtil.copyAssetToMediaFolder(context, "text.txt")
+//                            )
+//                        )
+//                    },
+//                    onDenied = {
+//                        toasts("未授予文件读写权限")
+//                    })
+//            }
+            FilePreviewUtil.previewFile(
+                context,
+                UriUtil.insertFileIntoMediaStore(
+                    context,
+                    AssetsUtil.copyAssetToMediaFolder(context, "text.txt")
+                )
+            )
+
+//            FileProviderUtil.previewFile(context, AssetsUtil.copyAssetToMediaFolder(context, "text.txt"))
+        }
+
         binding.btnGallery.setOnClickListener {
-            // select 10 images from gallery
-            val maxNumPhotosAndVideos = 10
-            val intent = Intent(MediaStore.ACTION_PICK_IMAGES)
-            intent.putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, maxNumPhotosAndVideos)
-            startActivityForResult(intent, 100)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // select 10 images from gallery
+                val maxNumPhotosAndVideos = 10
+                val intent = Intent(MediaStore.ACTION_PICK_IMAGES)
+                intent.putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, maxNumPhotosAndVideos)
+                startActivityForResult(intent, 100)
+            } else {
+                val intent = Intent(Intent.ACTION_PICK)
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                intent.setType("image/*")
+                startActivityForResult(intent, 100)
+            }
         }
         binding.btnOtherApp.setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN).apply {
                 addCategory(Intent.CATEGORY_LAUNCHER)
                 setClassName("com.example.newhelloworld", "com.example.newhelloworld.MainActivity")
+            }
+            // 检查是否有activity响应intent
+            if (packageManager.resolveActivity(intent, 0) == null) {
+                toasts("No activity found to handle intent")
+                return@setOnClickListener
             }
             startActivity(intent)
         }
@@ -208,10 +322,15 @@ class TestAppStatusActivity : AppCompatActivity() {
         binding.checkBattery.setOnClickListener {
             checkBatteryOptimization()
         }
+        binding.checkDeveloperMode.setOnClickListener {
+            DeveloperModeUtil.isDeveloperMode(context).also {
+                toasts("开发者模式: $it")
+            }
+        }
     }
 
     private fun registerReceivers() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerNew()
         } else {
             registerOld()
@@ -220,10 +339,11 @@ class TestAppStatusActivity : AppCompatActivity() {
     }
 
     private fun registerOld() {
-// 注册按键广播
+        // 注册按键广播
         registerReceiver(
             recentAppsAndHomeKeyReceiver,
-            IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
+            IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
+        )
 
         // 注册卸载广播
         registerReceiver(appRemovedReceiver, IntentFilter().apply {

@@ -1,0 +1,39 @@
+
+--------- beginning of crash
+2024-11-15 14:31:26.371 Andro...time  E  FATAL EXCEPTION: main
+Process: com.darcy.message.sunflower, PID: 3768
+java.lang.RuntimeException: Unable to create service com.darcy.message.lib_camera.camera1.service.ForegroundCameraService: java.lang.SecurityException: Starting FGS with type camera callerApp=ProcessRecord{bc4fbf 3768:com.darcy.message.sunflower/u0a193} targetSDK=34 requires permissions: all of the permissions allOf=true [android.permission.FOREGROUND_SERVICE_CAMERA] any of the permissions allOf=false [android.permission.CAMERA, android.permission.SYSTEM_CAMERA]  and the app must be in the eligible state/exemptions to access the foreground only permission
+	at android.app.ActivityThread.handleCreateService(ActivityThread.java:4664)
+	at android.app.ActivityThread.-$$Nest$mhandleCreateService(Unknown Source:0)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2264)
+	at android.os.Handler.dispatchMessage(Handler.java:106)
+	at android.os.Looper.loopOnce(Looper.java:205)
+	at android.os.Looper.loop(Looper.java:294)
+	at android.app.ActivityThread.main(ActivityThread.java:8177)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971)
+Caused by: java.lang.SecurityException: Starting FGS with type camera callerApp=ProcessRecord{bc4fbf 3768:com.darcy.message.sunflower/u0a193} targetSDK=34 requires permissions: all of the permissions allOf=true [android.permission.FOREGROUND_SERVICE_CAMERA] any of the permissions allOf=false [android.permission.CAMERA, android.permission.SYSTEM_CAMERA]  and the app must be in the eligible state/exemptions to access the foreground only permission
+	at android.os.Parcel.createExceptionOrNull(Parcel.java:3057)
+	at android.os.Parcel.createException(Parcel.java:3041)
+	at android.os.Parcel.readException(Parcel.java:3024)
+	at android.os.Parcel.readException(Parcel.java:2966)
+	at android.app.IActivityManager$Stub$Proxy.setServiceForeground(IActivityManager.java:6761)
+	at android.app.Service.startForeground(Service.java:775)
+	at com.darcy.message.lib_camera.camera1.service.ForegroundCameraService.onCreate(ForegroundCameraService.kt:95)
+	at android.app.ActivityThread.handleCreateService(ActivityThread.java:4651)
+	at android.app.ActivityThread.-$$Nest$mhandleCreateService(Unknown Source:0) 
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2264) 
+	at android.os.Handler.dispatchMessage(Handler.java:106) 
+	at android.os.Looper.loopOnce(Looper.java:205) 
+	at android.os.Looper.loop(Looper.java:294) 
+	at android.app.ActivityThread.main(ActivityThread.java:8177) 
+	at java.lang.reflect.Method.invoke(Native Method) 
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:552) 
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:971) 
+Caused by: android.os.RemoteException: Remote stack trace:
+	at com.android.server.am.ActiveServices.validateForegroundServiceType(ActiveServices.java:2611)
+	at com.android.server.am.ActiveServices.setServiceForegroundInnerLocked(ActiveServices.java:2322)
+	at com.android.server.am.ActiveServices.setServiceForegroundLocked(ActiveServices.java:1679)
+	at com.android.server.am.ActivityManagerService.setServiceForeground(ActivityManagerService.java:13281)
+	at android.app.IActivityManager$Stub.onTransact(IActivityManager.java:3385)

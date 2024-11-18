@@ -16,6 +16,7 @@ class BatteryStatusReceiver : BroadcastReceiver() {
 
             if (isCharging) {
                 logD("BatteryStatus:设备正在充电")
+
                 // 处理设备充电的逻辑
             } else {
                 logD("BatteryStatus:设备已断开充电")

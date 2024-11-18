@@ -20,6 +20,41 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/btnPreviewImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Image Preview"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnPreviewVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Video Preview"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnPreviewAudio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Audio Preview"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnPreviewFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="File Preview"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnSaveFile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="File Save To Download"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/btnOtherApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,6 +80,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Check battery"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/checkDeveloperMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check DeveloperMode"
             android:textAllCaps="false" />
     </LinearLayout>
 

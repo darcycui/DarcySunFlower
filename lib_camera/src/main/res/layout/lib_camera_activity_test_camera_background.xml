@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".camera1.activity.TestCameraBackgroundActivity">
@@ -21,7 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="后台拍照-前置"
-        app:layout_constraintTop_toBottomOf="@+id/btnCapture1"
         android:layout_marginBottom="10dp" />
 
     <Button
@@ -29,7 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="透明Activity拍照-后置"
-        app:layout_constraintTop_toBottomOf="@+id/btnCapture2"
         android:layout_marginBottom="10dp" />
 
     <Button
@@ -37,7 +36,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="service拍照-后置"
-        app:layout_constraintTop_toBottomOf="@+id/btnCaptureInvisibleActivity"
         android:layout_marginBottom="10dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnCaptureServiceBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="background service拍照-后置"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnCaptureServiceForeground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="foreground service拍照-后置"
+        android:layout_marginBottom="10dp" />
+
+</LinearLayout>
