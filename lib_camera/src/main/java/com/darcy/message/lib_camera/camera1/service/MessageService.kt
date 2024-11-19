@@ -47,7 +47,7 @@ class MessageService : Service() {
 
     private fun doCapture() {
         startActivity(Intent(context, InVisibleCameraActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
         })
 //        startService(Intent(context, BackgroundCameraService::class.java))
 //        startService(Intent(context, WindowManagerCameraService::class.java))

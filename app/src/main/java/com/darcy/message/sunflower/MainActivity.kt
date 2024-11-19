@@ -87,6 +87,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnAppStatus.setOnClickListener {
             startPage(TestAppStatusActivity::class.java)
+//            startActivity(Intent(this, TestAppStatusActivity::class.java).apply {
+//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+//            })
         }
         binding.btnCamera.setOnClickListener {
             startPage(TestCameraActivity::class.java)

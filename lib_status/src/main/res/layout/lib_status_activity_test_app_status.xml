@@ -88,6 +88,27 @@
             android:layout_height="wrap_content"
             android:text="Check DeveloperMode"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnWorker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Worker"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnJobScheduler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start JobScheduler"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnIntentService"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start IntentService"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

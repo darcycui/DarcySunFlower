@@ -6,20 +6,16 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-
-<!--    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
-<!--    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
-<!--    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />-->
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
     <application
         android:enableOnBackInvokedCallback="true"
         tools:ignore="UnusedAttribute">
         <activity
             android:name=".TestAppStatusActivity"
+            android:taskAffinity=".other"
             android:configChanges="screenSize|keyboard|keyboardHidden|layoutDirection|smallestScreenSize|orientation|screenLayout"
             android:exported="true">
             <intent-filter>
@@ -34,6 +30,7 @@
                     android:scheme="darcyscheme" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".service.CustomNotificationListenerService"
             android:exported="false"
@@ -46,16 +43,24 @@
                 android:name="android.service.notification.NotificationListenerService"
                 android:value="MyNotificationListenerService" />
         </service>
-
+        <service
+            android:name="com.darcy.message.lib_app_status.service.intentservice.CustomIntentService"
+            android:exported="false" />
+        <service
+            android:name="com.darcy.message.lib_app_status.service.jobscheduler.CustomJobSchedulerService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
-            android:name="com.darcy.message.lib_app_status.receiver.BootCompletedReceiver"
+            android:name=".receiver.BootCompletedReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

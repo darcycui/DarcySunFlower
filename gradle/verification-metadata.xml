@@ -11,11 +11,9 @@
          <trust file=".*-javadoc[.]jar" regex="true"/>
          <trust file=".*-sources[.]jar" regex="true"/>
          <trust file=".*[.]pom" regex="true"/>
-         <trust group="com.android.*" regex="true" reason="We trust android artifacts"/>
          <trust group="androidx.*" regex="true" reason="We trust android artifacts"/>
-<!--         <trust group="androidx.databinding.*" regex="true" reason="We trust android artifacts"/>-->
-<!--         <trust group="androidx.window.*" regex="true" reason="We trust android artifacts"/>-->
          <trust group="ch.qos.logback*" regex="true" reason="We trust it"/>
+         <trust group="com.android.*" regex="true" reason="We trust android artifacts"/>
          <trust group="com.github.megatronking.stringfog*" regex="true" reason="We trust it"/>
          <trust group="com.squareup*" regex="true" reason="We trust it"/>
          <trust group="com.umeng.*" regex="true" reason="We trust it"/>

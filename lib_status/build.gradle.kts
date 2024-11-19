@@ -55,4 +55,6 @@ dependencies {
     implementation(libs.androidx.window.window)
     api (project(":lib_common"))
     api(project(":lib_permission"))
+
+    implementation ("androidx.work:work-runtime-ktx:2.8.0")
 }

@@ -1,5 +1,8 @@
 package com.darcy.message.lib_app_status
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -23,14 +26,20 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.darcy.message.lib_app_status.databinding.LibStatusActivityTestAppStatusBinding
 import com.darcy.message.lib_app_status.receiver.AppRemovedReceiver
 import com.darcy.message.lib_app_status.receiver.BatteryStatusReceiver
 import com.darcy.message.lib_app_status.receiver.RecentAppsAndHomeKeyReceiver
 import com.darcy.message.lib_app_status.receiver.ScreenStateReceiver
 import com.darcy.message.lib_app_status.receiver.UserPresentReceiver
+import com.darcy.message.lib_app_status.service.intentservice.CustomIntentService
+import com.darcy.message.lib_app_status.service.jobscheduler.CustomJobSchedulerService
+import com.darcy.message.lib_app_status.service.wormanager.CustomWorker
 import com.darcy.message.lib_app_status.utils.AssetsUtil
-import com.darcy.message.lib_app_status.utils.AutoStartUtil
 import com.darcy.message.lib_app_status.utils.DeveloperModeUtil
 import com.darcy.message.lib_app_status.utils.FilePreviewUtil
 import com.darcy.message.lib_app_status.utils.FileProviderUtil
@@ -44,6 +53,7 @@ import com.darcy.message.lib_common.exts.toasts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class TestAppStatusActivity : AppCompatActivity() {
     private val TAG = "TestAppStatusActivity"
@@ -92,7 +102,7 @@ class TestAppStatusActivity : AppCompatActivity() {
         resisterPreBack()
         checkBatteryOptimization()
         // 自启动管理
-        AutoStartUtil.openSettingsPage(context)
+//        AutoStartUtil.openSettingsPage(context)
     }
 
     private fun checkBatteryOptimization() {
@@ -326,6 +336,48 @@ class TestAppStatusActivity : AppCompatActivity() {
             DeveloperModeUtil.isDeveloperMode(context).also {
                 toasts("开发者模式: $it")
             }
+        }
+        binding.btnWorker.setOnClickListener {
+            // 创建任务约束
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+//            // 创建一次性任务
+//            val workRequest = OneTimeWorkRequestBuilder<CustomWorker>()
+//                .setConstraints(constraints)
+//                .addTag("one_time_worker")
+//                .build()
+//            // 提交任务
+//            WorkManager.getInstance(context).enqueue(workRequest)
+
+            // 创建重复任务
+            val periodicWorkRequest = PeriodicWorkRequestBuilder<CustomWorker>(
+                15, TimeUnit.MINUTES
+            )
+                .setConstraints(constraints)
+                .addTag("repeat_worker")
+                .build()
+            // 提交任务
+            WorkManager.getInstance(context).enqueue(periodicWorkRequest)
+        }
+        binding.btnJobScheduler.setOnClickListener {
+            // 创建任务约束
+            val jobInfo =
+                JobInfo.Builder(1000, ComponentName(context, CustomJobSchedulerService::class.java))
+                    .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                    .setPeriodic(1000 * 60 * 15)
+                    .setPersisted(true)
+                    .build()
+            // 提交任务
+            val jobscheduler =
+                context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            jobscheduler.schedule(jobInfo)
+//            jobscheduler.cancel(1000)
+
+        }
+        binding.btnIntentService.setOnClickListener {
+            startService(Intent(context, CustomIntentService::class.java))
         }
     }
 

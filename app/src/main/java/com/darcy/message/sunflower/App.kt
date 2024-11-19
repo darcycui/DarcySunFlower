@@ -1,6 +1,7 @@
 package com.darcy.message.sunflower
 
 import android.app.Application
+import android.content.res.Configuration
 import com.darcy.message.lib_app_status.crash.CustomUncaughtExceptionHandler
 import com.darcy.message.lib_app_status.listener.CustomActivityLifecycleListener
 import com.darcy.message.lib_common.app.AppHelper
@@ -10,7 +11,6 @@ import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_data_store.helper.DataStoreHelper
 import com.darcy.message.lib_db.db.DatabaseManager
 import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
-import com.darcy.message.lib_http.BuildConfig
 import com.darcy.message.lib_http.HttpManager
 import com.darcy.message.lib_http.client.impl.OKHttpHttpClient
 import com.darcy.message.lib_umeng.ReportManager
@@ -27,6 +27,12 @@ class App : Application() {
         super.onCreate()
         init()
         logV(message = "parent=$parent")
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // 执行配置改变
+        logV(message = "onConfigurationChanged of Application: $newConfig")
     }
 
     private fun init() {
