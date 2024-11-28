@@ -5,7 +5,6 @@ import android.hardware.Camera
 import android.hardware.Camera.PictureCallback
 import android.os.Bundle
 import android.view.SurfaceHolder
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.darcy.message.lib_camera.CameraPrams
 import com.darcy.message.lib_camera.databinding.LibCameraActivityCameraBinding
 import com.darcy.message.lib_common.exts.logI
+import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_permission.permission.PermissionUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
@@ -88,14 +88,14 @@ class TestCameraActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        checkCameraPermission(false)
+        checkCameraPermission()
         // 获取屏幕尺寸以获取最佳的相机预览尺寸
         getScreenSize()
         // 设置相机监听
         initListener()
     }
 
-    private fun checkCameraPermission(needOpenCamera: Boolean) {
+    private fun checkCameraPermission() {
         if (PermissionUtil.checkPermissions(context, listOf(android.Manifest.permission.CAMERA))) {
             openCamera()
         } else {
@@ -123,7 +123,7 @@ class TestCameraActivity : AppCompatActivity() {
                 height: Int
             ) {
                 mainScope.launch {
-                    delay(2_000)
+                    delay(1_000)
                     startCameraPreview(holder)
                 }
             }
@@ -138,53 +138,29 @@ class TestCameraActivity : AppCompatActivity() {
         })
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
         binding.btnCapture.setOnClickListener {
-            mCamera?.takePicture(null, null, pictureCallback)
+            mCamera?.autoFocus { success, camera ->
+                // 如果自动对焦成功，则拍照
+                if (success) {
+                    camera.takePicture(null, null, pictureCallback)
+                } else {
+                    logI("自动对焦失败")
+                    toasts("自动对焦失败")
+                }
+            }
         }
     }
 
     private fun startCameraPreview(holder: SurfaceHolder) {
         mCamera?.let {
-//            val parameters = it.parameters
-//            getPreviewSize(parameters)
-//            parameters.setPictureSize(previewWidth, previewHeight)
-//            // 设置自动对焦模式
-//            parameters.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
+            val parameters = it.parameters
+            getPreviewSize(parameters)
+            parameters.setPictureSize(previewWidth, previewHeight)
+            parameters.setPreviewSize(previewWidth, previewHeight)
+            // 设置自动对焦模式
+            parameters.focusMode = Camera.Parameters.FOCUS_MODE_AUTO
 //            parameters.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
-//            it.parameters = parameters
-            try {
-                it.setPreviewDisplay(holder)
-                it.startPreview()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    /**
-     * 打开相机
-     */
-    private fun openCamera() {
-        if (null == mCamera) {
-            // 假如摄像头开启成功则返回一个Camera对象
-            mCamera = Camera.open(0)
-            //预览画面默认是横屏的，需要旋转90度
-            mCamera?.setDisplayOrientation(mCameraRange)
-        }
-    }
-
-    /**
-     * 释放相机
-     */
-    private fun releaseCamera() {
-        mCamera?.let {
-            it.setPreviewCallback(null)
-            //停止预览
-            it.stopPreview()
-            it.lock()
-            //释放相机资源
-            it.release()
-            mCamera = null
+            it.parameters = parameters
+            resumeCamera()
         }
     }
 
@@ -253,6 +229,7 @@ class TestCameraActivity : AppCompatActivity() {
             first = false
             return
         }
+        openCamera()
         resumeCamera()
     }
 
@@ -264,6 +241,34 @@ class TestCameraActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
     }
+
+    /**
+     * 打开相机
+     */
+    private fun openCamera() {
+        if (null == mCamera) {
+            // 假如摄像头开启成功则返回一个Camera对象
+            mCamera = Camera.open(0)
+            //预览画面默认是横屏的，需要旋转90度
+            mCamera?.setDisplayOrientation(mCameraRange)
+        }
+    }
+
+    /**
+     * 释放相机
+     */
+    private fun releaseCamera() {
+        mCamera?.let {
+            it.setPreviewCallback(null)
+            //停止预览
+            it.stopPreview()
+            it.lock()
+            //释放相机资源
+            it.release()
+            mCamera = null
+        }
+    }
+
 
     private fun resumeCamera() {
         try {

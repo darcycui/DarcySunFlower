@@ -4,23 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "com.darcy.message.lib_jni"
+    namespace = "com.darcy.message.lib_repackage"
     compileSdk = Configs.compileSdks
-
-    // use .so in libs folder
-    sourceSets {
-        getByName("main") {
-            jniLibs.srcDirs("libs")
-        }
-    }
 
     defaultConfig {
         minSdk = Configs.minSdks
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_jni_"
     }
 
     buildTypes {
@@ -30,6 +21,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // todo Set the resource file prefix to prevent duplicate resource names
+            resourcePrefix = "lib_repackage_"
         }
     }
     compileOptions {
@@ -42,7 +35,6 @@ android {
 }
 
 dependencies {
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

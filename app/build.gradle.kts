@@ -106,7 +106,7 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            signingConfig = signingConfigs.getByName("debugSign")
+//            signingConfig = signingConfigs.getByName("debugSign")
             // network security config
             resValue("xml", "network_security_config", "@xml/network_security_config_debug")
 //            resValue("xml", "network_security_config", "@xml/network_security_config_release")
@@ -229,18 +229,20 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    api(project(":lib_common"))
-    api(project(":lib_theme"))
+    implementation(project(":lib_common"))
+    implementation(project(":lib_theme"))
     implementation(project(":lib_im"))
     implementation(project(":lib_db"))
-    api(project(":lib_ui"))
-    api(project(":lib_data_store"))
-    api(project(":lib_http"))
+    implementation(project(":lib_ui"))
+    implementation(project(":lib_data_store"))
+    implementation(project(":lib_http"))
     implementation(project(":lib_report"))
     implementation(project(":lib_jni"))
     implementation(project(":lib_security"))
     implementation(project(":lib_status"))
     implementation(project(":lib_camera"))
+    implementation(project(":lib_repackage"))
+    implementation(project(":lib_startup"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖

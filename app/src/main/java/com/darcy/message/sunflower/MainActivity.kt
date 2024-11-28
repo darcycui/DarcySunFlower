@@ -2,7 +2,9 @@ package com.darcy.message.sunflower
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.res.ResourcesCompat
 import com.darcy.message.lib_app_status.TestAppStatusActivity
 import com.darcy.message.lib_camera.camera1.activity.TestCameraActivity
 import com.darcy.message.lib_camera.camera1.activity.TestCameraBackgroundActivity
@@ -15,6 +17,9 @@ import com.darcy.message.lib_common.sparsearray.TestSparseArray
 import com.darcy.message.lib_common.sparsearray.TestSparseBooleanArray
 import com.darcy.message.lib_common.sparsearray.TestSparseIntArray
 import com.darcy.message.lib_common.sparsearray.TestSparseLongArray
+import com.darcy.message.lib_repackage.signature.SignatureHelper
+import com.darcy.message.lib_repackage.signature.hook.PackageManagerHooker
+import com.darcy.message.lib_startup.hook.InstrumentationHooker
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.base.mvp.test.TestMVPActivity
 import com.darcy.message.lib_ui.exts.startPage
@@ -96,12 +101,30 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnCameraBackground.setOnClickListener {
             startPage(TestCameraBackgroundActivity::class.java)
+
+            // 获取字体
+            val typeface = ResourcesCompat.getFont(context, R.font.app_font_family)
+            // 设置字体
+            (it as Button).typeface = typeface
         }
         binding.btnCameraReceiver.setOnClickListener {
             startPage(TestCameraReceiverActivity::class.java)
             startService(Intent(AppHelper.getAppContext(), MessageService::class.java))
         }
+        binding.btnSignature.setOnClickListener {
+            SignatureHelper.getAppSignature(context, context.packageName)
+            SignatureHelper.getAppSignature(context, "com.example.newhelloworld")
+            SignatureHelper.getAppSignature(context, "com.microsoft.emmx")
+        }
+        binding.btnSignatureHook.setOnClickListener {
+            PackageManagerHooker.hookPackageManager(context)
+        }
+        binding.btnInstrumentationHook.setOnClickListener {
+            InstrumentationHooker.hookInstrumentation(context)
+        }
     }
+
+
 
     override fun initListener() {
 
