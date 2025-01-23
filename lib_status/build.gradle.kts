@@ -56,5 +56,5 @@ dependencies {
     api (project(":lib_common"))
     api(project(":lib_permission"))
 
-    implementation ("androidx.work:work-runtime-ktx:2.8.0")
+    implementation (libs.androidx.work.runtime.ktx)
 }

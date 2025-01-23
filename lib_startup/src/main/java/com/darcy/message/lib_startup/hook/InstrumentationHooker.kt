@@ -1,5 +1,6 @@
 package com.darcy.message.lib_startup.hook
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.content.ComponentName
 import android.content.Context
@@ -19,8 +20,10 @@ import java.lang.reflect.Proxy
  * Hook Instrumentation to start activity
  */
 object InstrumentationHooker {
+    private var mInstance: Any? = null
 
-    fun hookInstrumentation(context: Context) {
+    @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
+    fun hookInstrumentation(context: Context, reset: Boolean = false) {
         try {
             logD("InstrumentationHooker start")
             val field: Field
@@ -45,23 +48,32 @@ object InstrumentationHooker {
                 iActivityManager = Class.forName("android.app.IActivityManager")
             }
             field.isAccessible = true
-            val taskManagerSingleton: Any = field.get(null)
+            val taskManagerSingleton: Any? = field.get(null)
 
             // 2 获取 taskManagerSingleton 中的原mInstance 也就是要代理的对象
             val singletonClass = Class.forName("android.util.Singleton")
             val mInstanceField: Field = singletonClass.getDeclaredField("mInstance")
             mInstanceField.isAccessible = true
             val getMethod = singletonClass.getDeclaredMethod("get")
-            val mInstance = getMethod.invoke(taskManagerSingleton) ?: return
+            if (mInstance == null) {
+                mInstance = getMethod.invoke(taskManagerSingleton) ?: return
+            }
+            if (mInstance == null){
+                throw RuntimeException("mInstance is null")
+            }
 
             // 3 创建代理proxy
             val proxy: Any = Proxy.newProxyInstance(
                 Thread.currentThread().contextClassLoader,
                 arrayOf<Class<*>>(iActivityManager),
-                AmsHookBinderInvocationHandler(context, mInstance)
+                AmsHookBinderInvocationHandler(context, mInstance!!)
             )
-            // 4 替换
-            mInstanceField.set(taskManagerSingleton, proxy)
+            // 4 替换/恢复
+            if (reset) {
+                mInstanceField.set(taskManagerSingleton, mInstance)
+            } else {
+                mInstanceField.set(taskManagerSingleton, proxy)
+            }
         } catch (e: Exception) {
             logE("InstrumentationHooker ERROR")
             e.print()
@@ -69,12 +81,17 @@ object InstrumentationHooker {
         logD("InstrumentationHooker SUCCESS")
     }
 
+    fun resetHook() {
+
+    }
+
 }
 
 //动态代理执行类
-class AmsHookBinderInvocationHandler(private val context: Context,private val obj: Any) : InvocationHandler {
+class AmsHookBinderInvocationHandler(private val context: Context, private val obj: Any) :
+    InvocationHandler {
     @Throws(Throwable::class)
-    override fun invoke(proxy: Any, method: Method, args: Array<Any>): Any {
+    override fun invoke(proxy: Any, method: Method, args: Array<Any>): Any? {
         if ("startActivity" == method.name) {
             val raw: Intent
             var index = 0

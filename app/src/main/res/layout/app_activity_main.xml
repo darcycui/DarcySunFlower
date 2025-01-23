@@ -171,6 +171,13 @@
             android:layout_height="wrap_content"
             android:text="Instrumentation Hook"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnInstrumentationHookReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Instrumentation Hook Reset"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </ScrollView>

@@ -122,6 +122,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         binding.btnInstrumentationHook.setOnClickListener {
             InstrumentationHooker.hookInstrumentation(context)
         }
+        binding.btnInstrumentationHookReset.setOnClickListener {
+            InstrumentationHooker.hookInstrumentation(context, reset = true)
+        }
     }
 
 
