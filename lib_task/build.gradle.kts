@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.darcy.message.lib_common"
+    namespace = "com.darcy.message.lib_task"
     compileSdk = Configs.compileSdks
 
     defaultConfig {
@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_common_"
+        resourcePrefix = "lib_db_"
     }
 
     buildTypes {
@@ -32,20 +32,16 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        // generate buildConfig
-        buildConfig = true
-    }
 }
 
 dependencies {
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     testImplementation(libs.mockk)
 
-    api (libs.kotlinx.coroutines.android)
-    api (libs.kotlinx.coroutines.core)
-    api (libs.xlog)
+    api (project(":lib_common"))
+
+    // XTask
+    implementation ("com.github.xuexiangjys.XTask:xtask-core:1.0.2")
 }
