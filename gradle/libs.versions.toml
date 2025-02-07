@@ -45,6 +45,7 @@ navigationFragmentKtx = "2.8.1"
 navigationUiKtx = "2.8.1"
 stringFogXor = "5.0.0"
 lifecycleRuntimeAndroid = "2.8.7"
+annotation = "1.9.1"
 
 [libraries]
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
@@ -101,6 +102,7 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 stringfog-xor = { module = "com.github.megatronking.stringfog:xor", version.ref = "stringFogXor" }
 androidx-lifecycle-runtime-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "lifecycleRuntimeAndroid" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

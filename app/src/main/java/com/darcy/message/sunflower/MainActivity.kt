@@ -17,6 +17,7 @@ import com.darcy.message.lib_common.sparsearray.TestSparseArray
 import com.darcy.message.lib_common.sparsearray.TestSparseBooleanArray
 import com.darcy.message.lib_common.sparsearray.TestSparseIntArray
 import com.darcy.message.lib_common.sparsearray.TestSparseLongArray
+import com.darcy.message.lib_login.ui.login.LoginActivity
 import com.darcy.message.lib_repackage.signature.SignatureHelper
 import com.darcy.message.lib_repackage.signature.hook.PackageManagerHooker
 import com.darcy.message.lib_startup.hook.InstrumentationHooker
@@ -124,6 +125,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnInstrumentationHookReset.setOnClickListener {
             InstrumentationHooker.hookInstrumentation(context, reset = true)
+        }
+        binding.btnLogin.setOnClickListener {
+            startPage(LoginActivity::class.java)
         }
     }
 

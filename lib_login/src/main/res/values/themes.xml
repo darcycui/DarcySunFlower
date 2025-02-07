@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="lib_login_Theme.Sunflower" parent="Theme.MaterialComponents.Light" />
+</resources>

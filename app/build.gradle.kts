@@ -243,6 +243,7 @@ dependencies {
     implementation(project(":lib_camera"))
     implementation(project(":lib_repackage"))
     implementation(project(":lib_startup"))
+    implementation(project(":lib_login"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
