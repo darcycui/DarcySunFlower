@@ -9,6 +9,9 @@ import com.darcy.message.lib_task.task.TaskId
 import com.darcy.message.lib_task.util.ThreadUtil
 import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * 模拟task执行过程抛出异常
+ */
 class TestTask2 : ITask {
     companion object {
         private val TAG = TestTask2::class.java.simpleName
@@ -19,7 +22,7 @@ class TestTask2 : ITask {
 
     override fun execute(): Result<String> {
         logV("$taskId execute start... ${Thread.currentThread()}")
-        ThreadUtil.sleep(1_000)
+        ThreadUtil.sleep(2_000)
         logV("$taskId execute end...")
         val a = 1 / 0
         return Result.success("$taskId success")

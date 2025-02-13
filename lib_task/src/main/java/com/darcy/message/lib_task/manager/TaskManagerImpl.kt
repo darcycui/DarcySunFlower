@@ -21,14 +21,18 @@ object TaskManagerImpl : ITaskManager {
     override fun addTask(task: ITask) {
         logD("$TAG addTask: $task")
         taskList.add(task)
-        taskTracker.setTaskStatus(task.getTaskId(), TaskStatus.Pending)
+        taskTracker.setTaskStatus(task, TaskStatus.Pending)
         task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Pending)
         iTaskEngine.execute(task)
     }
 
     @Synchronized
-    override fun addAllTaskParallel(taskList: List<ITask>) {
-        iTaskEngine.executeAllInParallel(taskList)
+    override fun addAllTaskParallelAllOf(taskList: List<ITask>) {
+        iTaskEngine.executeAllInParallelAllOf(taskList)
+    }
+
+    override fun addAllTaskParallelAnyOf(taskList: List<ITask>) {
+        iTaskEngine.executeAllInParallelAnyOf(taskList)
     }
 
     override fun addAllTaskSerial(taskList: List<ITask>) {
@@ -38,18 +42,22 @@ object TaskManagerImpl : ITaskManager {
     @Synchronized
     override fun cancelTask(task: ITask) {
         taskList.remove(task)
-        taskTracker.setTaskStatus(task.getTaskId(), TaskStatus.Canceled)
+        taskTracker.setTaskStatus(task, TaskStatus.Canceled)
         task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Canceled)
+    }
+
+    override fun cancelTasks(taskList: List<ITask>) {
+        taskList.forEach { task->
+            taskTracker.setTaskStatus(task, TaskStatus.Canceled)
+            task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Canceled)
+        }
     }
 
     @Synchronized
 
-    override fun cancelAllTask() {
-        taskList.forEach { task->
-            taskTracker.setTaskStatus(task.getTaskId(), TaskStatus.Canceled)
-            task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Canceled)
-        }
-        taskList.clear()
+    override fun clear() {
+        cancelTasks(this.taskList)
+        this.taskList.clear()
     }
 
     @Synchronized

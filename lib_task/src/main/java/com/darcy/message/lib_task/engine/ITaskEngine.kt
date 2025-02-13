@@ -14,9 +14,30 @@ interface ITaskEngine {
     fun executeAllInSerial(taskList: List<ITask>)
 
     /**
-     * 多个任务并行执行
+     * 多个任务并行执行 所有任务必须成功才算成功
      */
-    fun executeAllInParallel(taskList: List<ITask>)
+    fun executeAllInParallelAllOf(taskList: List<ITask>)
+
+    /**
+     * 多个任务并行执行 任意一个成功算成功
+     */
+    fun executeAllInParallelAnyOf(taskList: List<ITask>)
+
+    /**
+     * 取消任务
+     */
+    fun cancel(task: ITask)
+
+    /**
+     * 取消多个任务
+     */
+    fun cancelTasks(taskList: List<ITask>)
+
+
+    /**
+     * 取消所有任务
+     */
+    fun clear()
 
     /**
      * 添加任务

@@ -10,8 +10,12 @@ object TaskHelper: ITaskFacade {
         taskManager.addTask(task)
     }
 
-    override fun addAllTaskParallel(taskList: List<ITask>) {
-        taskManager.addAllTaskParallel(taskList)
+    override fun addAllTaskParallelAllOf(taskList: List<ITask>) {
+        taskManager.addAllTaskParallelAllOf(taskList)
+    }
+
+    override fun addAllTaskParallelAnyOf(taskList: List<ITask>) {
+        taskManager.addAllTaskParallelAnyOf(taskList)
     }
 
     override fun addAllTaskSerial(taskList: List<ITask>) {
@@ -22,8 +26,12 @@ object TaskHelper: ITaskFacade {
         taskManager.cancelTask(task)
     }
 
-    override fun cancelAllTask() {
-        taskManager.cancelAllTask()
+    override fun cancelTasks(taskList: List<ITask>) {
+        taskManager.cancelTasks(taskList)
+    }
+
+    override fun clear() {
+        taskManager.clear()
     }
 
     override fun enqueue(taskList: List<ITask>) {

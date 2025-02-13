@@ -39,14 +39,14 @@ class ThreadpoolTaskEngine : ITaskEngine {
     override fun execute(task: ITask) {
         val executor = getRealExecutor(listOf(task))
         executor?.execute {
-            logD("$TAG task:${task.getTaskId()} dispatcher:${task.getDispatcher()}")
-            if (taskTracker.getTaskStatus(task.getTaskId()) == TaskStatus.Canceled) {
-                logD("$TAG task:${task.getTaskId()} is canceled")
+            logD("$TAG task:${task} dispatcher:${task.getDispatcher()}")
+            if (taskTracker.getTaskStatus(task) == TaskStatus.Canceled) {
+                logD("$TAG task:${task} is canceled")
                 return@execute
             }
             runTask(task)
         } ?: {
-            logE("$TAG task:${task.getTaskId()} executor is null")
+            logE("$TAG task:${task} executor is null")
         }
     }
 
@@ -108,23 +108,23 @@ class ThreadpoolTaskEngine : ITaskEngine {
         it: Throwable
     ) {
         for (i in index + 1 until taskList.size) {
-            taskTracker.setTaskStatus(taskList[i].getTaskId(), TaskStatus.Error(it))
+            taskTracker.setTaskStatus(taskList[i], TaskStatus.Error(it))
             taskList[i].getTaskCallback()?.onTaskStatusChanged(taskList[i], TaskStatus.Error(it))
         }
     }
 
-    override fun executeAllInParallel(taskList: List<ITask>) {
+    override fun executeAllInParallelAllOf(taskList: List<ITask>) {
         if (taskList.isEmpty()) {
-            logE("$TAG taskList is empty")
+            logE("$TAG allOf taskList is empty")
             return
         }
         if (!DispatcherUtil.areDispatchersTheSame(taskList)) {
-            logE("$TAG taskList:${taskList.map { it.getDispatcher() }} dispatcher is not the same")
+            logE("$TAG allOf taskList:${taskList.map { it.getDispatcher() }} dispatcher is not the same")
             return
         }
         val executor = getRealExecutor(taskList)
         if (executor == null) {
-            logE("$TAG executeAllInParallel executor is null")
+            logE("$TAG executeAllInParallelAllOf executor is null")
             return
         }
         val allFutures = taskList.stream().map { task ->
@@ -135,11 +135,73 @@ class ThreadpoolTaskEngine : ITaskEngine {
 
         CompletableFuture.allOf(*allFutures.toTypedArray()).thenApply {
             for (future in allFutures) {
-                logD("Parallel future Result: ${future.get()}")
+                logD("$TAG allOf Parallel future Result: ${future.get()}")
             }
         }.thenAccept {
-            logD("Parallel:All tasks completed.")
+            logD("$TAG allOf Parallel:All tasks completed.")
         }
+    }
+
+    override fun executeAllInParallelAnyOf(taskList: List<ITask>) {
+
+        if (taskList.isEmpty()) {
+            logE("$TAG anyOf taskList is empty")
+            return
+        }
+        if (!DispatcherUtil.areDispatchersTheSame(taskList)) {
+            logE("$TAG anyOf taskList:${taskList.map { it.getDispatcher() }} dispatcher is not the same")
+            return
+        }
+        val executor = getRealExecutor(taskList)
+        if (executor == null) {
+            logE("$TAG executeAllInParallelAnyOf executor is null")
+            return
+        }
+        val allFutures = taskList.stream().map { task ->
+            CompletableFuture.supplyAsync({
+                runTask(task)
+            }, executor)
+        }.collect(Collectors.toList())
+
+        CompletableFuture.anyOf(*allFutures.toTypedArray()).whenComplete { result, exception ->
+            if (exception == null) {
+                logD("$TAG anyOf Parallel future result: $result")
+            } else {
+                logE("$TAG anyOf Parallel future exception: ${exception.message}")
+            }
+            for (future in allFutures) {
+                if (future.isDone) {
+                    logD("$TAG anyOf Parallel future isDone: ${future.get()}")
+                } else {
+                    logD("$TAG anyOf Parallel future is not done: $future")
+                    future.cancel(true)
+                }
+            }
+            taskList.forEach {
+                if (taskTracker.getTaskStatus(it) is TaskStatus.Success){
+                    logD("$TAG anyOf Parallel success task: ${it.getTaskId()}")
+                } else {
+                    cancel(it)
+                }
+            }
+        }.thenAccept {
+            logD("$TAG anyOf Parallel:All tasks completed.")
+        }
+    }
+
+    override fun cancel(task: ITask) {
+        taskTracker.setTaskStatus(task, TaskStatus.Canceled)
+        task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Canceled)
+    }
+
+    override fun cancelTasks(taskList: List<ITask>) {
+        taskList.forEach {
+            cancel(it)
+        }
+    }
+
+    override fun clear() {
+        TODO("Not yet implemented")
     }
 
     override fun enqueue(taskList: List<ITask>) {
@@ -165,19 +227,19 @@ class ThreadpoolTaskEngine : ITaskEngine {
     ): Result<String> {
         return kotlin.runCatching {
             start?.invoke()
-            taskTracker.setTaskStatus(task.getTaskId(), TaskStatus.Running)
+            taskTracker.setTaskStatus(task, TaskStatus.Running)
             task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Running)
             val result = task.execute()
             ResultUtil.parseResultStr(task.getTaskId(), result)
         }.onSuccess {
             success?.invoke(it)
-            taskTracker.setTaskStatus(task.getTaskId(), TaskStatus.Success(it))
+            taskTracker.setTaskStatus(task, TaskStatus.Success(it))
             task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Success(it))
         }.onFailure {
             val exception = RunTaskException(it)
             logE("$TAG execute error:$exception")
             error?.invoke(exception)
-            taskTracker.setTaskStatus(task.getTaskId(), TaskStatus.Error(it))
+            taskTracker.setTaskStatus(task, TaskStatus.Error(it))
             task.getTaskCallback()?.onTaskStatusChanged(task, TaskStatus.Error(it))
             throw exception
         }

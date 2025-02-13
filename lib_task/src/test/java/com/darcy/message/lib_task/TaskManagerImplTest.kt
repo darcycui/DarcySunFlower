@@ -4,6 +4,7 @@ import com.darcy.message.lib_common.exts.FOR_TEST
 import com.darcy.message.lib_task.task.ITask
 import com.darcy.message.lib_task.task.impl.TestTask1
 import com.darcy.message.lib_task.task.impl.TestTask2
+import com.darcy.message.lib_task.task.impl.TestTask3
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -50,7 +51,7 @@ class TaskManagerImplTest {
     }
 
     @Test
-    fun test_task2() {
+    fun test_task2_error() {
         runBlocking {
             println("test start")
             taskHelper.addTask(TestTask2())
@@ -63,7 +64,7 @@ class TaskManagerImplTest {
     fun test_task_in_serial() {
         runBlocking {
             println("test start")
-            val tasks :MutableList<ITask> = mutableListOf()
+            val tasks: MutableList<ITask> = mutableListOf()
             repeat(3) {
                 tasks.add(TestTask1())
             }
@@ -78,14 +79,27 @@ class TaskManagerImplTest {
     }
 
     @Test
-    fun test_task_in_parallel() {
+    fun test_task_in_parallel_allOf() {
         runBlocking {
             println("test start")
-            val tasks :MutableList<ITask> = mutableListOf()
+            val tasks: MutableList<ITask> = mutableListOf()
             repeat(10) {
                 tasks.add(TestTask1())
             }
-            taskHelper.addAllTaskParallel(tasks)
+            taskHelper.addAllTaskParallelAllOf(tasks)
+            println("test end")
+        }
+        Thread.sleep(10_000)
+    }
+
+    @Test
+    fun test_task_in_parallel_anyOf() {
+        runBlocking {
+            println("test start")
+            val tasks: MutableList<ITask> = mutableListOf()
+            tasks.add(TestTask1())
+            tasks.add(TestTask3())
+            taskHelper.addAllTaskParallelAnyOf(tasks)
             println("test end")
         }
         Thread.sleep(10_000)

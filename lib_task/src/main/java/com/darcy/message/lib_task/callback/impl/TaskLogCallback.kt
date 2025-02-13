@@ -12,22 +12,22 @@ class TaskLogCallback: ITaskCallback {
     override fun onTaskStatusChanged(task: ITask, status: TaskStatus) {
         when (status) {
             is TaskStatus.Pending -> {
-                logV("${task.getTaskId()} pending callback")
+                logV("${task} pending callback")
             }
             is TaskStatus.Running -> {
-                logV("${task.getTaskId()} running callback")
+                logV("${task} running callback")
             }
             is TaskStatus.Canceled -> {
-                logW("${task.getTaskId()} canceled callback")
+                logW("${task} canceled callback")
             }
             is TaskStatus.Success -> {
-                logI("${task.getTaskId()} success callback-->${status.result}")
+                logI("${task} success callback-->${status.result}")
             }
             is TaskStatus.Error -> {
-                logE("${task.getTaskId()} error callback: ${status.cause}")
+                logE("${task} error callback: ${status.cause}")
             }
             is TaskStatus.Unknown -> {
-                logE("${task.getTaskId()} unknown callback")
+                logE("${task} unknown callback")
             }
         }
     }
