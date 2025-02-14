@@ -39,6 +39,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        // generate buildConfig
+        buildConfig = true
+    }
 }
 
 dependencies {

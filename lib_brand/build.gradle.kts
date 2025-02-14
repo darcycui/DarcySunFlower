@@ -4,17 +4,16 @@ plugins {
 }
 
 android {
-    namespace = "com.darcy.message.lib_theme"
-    compileSdk = 34
+    namespace = "com.darcy.message.lib_brand"
+    compileSdk = Configs.compileSdks
 
     defaultConfig {
-        minSdk = 26
+        minSdk = Configs.minSdks
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
         // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_theme_"
+        resourcePrefix = "lib_brand_"
     }
 
     buildTypes {
@@ -33,8 +32,10 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-
     buildFeatures {
+        // 开启viewBinding
+        viewBinding = true
+        dataBinding = false
         // generate buildConfig
         buildConfig = true
     }
@@ -42,12 +43,10 @@ android {
 
 dependencies {
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    api (project(":lib_common"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

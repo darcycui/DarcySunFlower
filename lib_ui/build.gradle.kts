@@ -53,6 +53,7 @@ dependencies {
 
     api(project(":lib_common"))
     api(project(":lib_permission"))
+    api(project(":lib_brand"))
 
     api(libs.androidx.core.ktx)
     api(libs.androidx.appcompat)

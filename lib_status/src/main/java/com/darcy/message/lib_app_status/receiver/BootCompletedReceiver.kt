@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import com.darcy.message.lib_app_status.TestAppStatusActivity
 import com.darcy.message.lib_common.exts.logE
 
 
@@ -13,9 +12,9 @@ class BootCompletedReceiver : BroadcastReceiver() {
         logE("BootCompletedReceiver 开机自启动")
         if (intent.action == ACTION_BOOT_COMPLETED) {
             Toast.makeText(context, "开机自启动", Toast.LENGTH_SHORT).show()
-            val intentMain = Intent(context, TestAppStatusActivity::class.java)
-            intentMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intentMain)
+//            val intentMain = Intent(context, TestAppStatusActivity::class.java)
+//            intentMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//            context.startActivity(intentMain)
         }
     }
 

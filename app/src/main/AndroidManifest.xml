@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <queries>
         <package android:name="com.example.newhelloworld" />
         <package android:name="com.microsoft.emmx" />
@@ -57,6 +58,9 @@
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
+
+        <service android:name="com.darcy.message.sunflower.ui.notification.NotificationService"
+            android:foregroundServiceType="dataSync"/>
     </application>
 
 </manifest>
