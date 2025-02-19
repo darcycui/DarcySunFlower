@@ -25,6 +25,7 @@ import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.base.mvp.test.TestMVPActivity
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.mvi.ui.MVIActivity
+import com.darcy.message.lib_ui.mvvm.sticky.StickyLiveDataActivity
 import com.darcy.message.lib_ui.mvvm.ui.TestFragmentActivity
 import com.darcy.message.lib_ui.paging.ui.TestPagingActivity
 import com.darcy.message.sunflower.databinding.AppActivityMainBinding
@@ -47,6 +48,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
     }
 
     override fun initView() {
+        binding.stickyLiveData.setOnClickListener {
+            startPage(StickyLiveDataActivity::class.java)
+        }
         binding.btnRoom.setOnClickListener {
             startPage(RoomTestActivity::class.java)
         }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".mvvm.sticky.StickyLiveDataActivity">
+
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test sticky livedata" />
+
+    <Button
+        android:id="@+id/send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="send first"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/observe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="observe then"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/goSecondPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="go Second Page"
+        android:textAllCaps="false" />
+</LinearLayout>
