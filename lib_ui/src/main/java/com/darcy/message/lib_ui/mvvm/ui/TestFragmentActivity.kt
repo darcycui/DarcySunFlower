@@ -1,27 +1,33 @@
-package com.darcy.message.lib_ui.mvi.ui
+package com.darcy.message.lib_ui.mvvm.ui
 
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_ui.R
-import com.darcy.message.lib_ui.databinding.LibUiActivityTestBinding
 import com.darcy.message.lib_ui.base.BaseActivity
-import com.darcy.message.lib_ui.mvi.ui.fragment.TestFragmentA
-import com.darcy.message.lib_ui.mvi.ui.fragment.TestFragmentB
+import com.darcy.message.lib_ui.databinding.LibUiActivityTestBinding
+import com.darcy.message.lib_ui.mvvm.ui.fragment.TestFragmentA
+import com.darcy.message.lib_ui.mvvm.ui.fragment.TestFragmentB
+import com.darcy.message.lib_ui.mvvm.viewmodel.ActivityViewModel
 
 class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
+    companion object {
+        private const val FRAGMENT_A = "A"
+        private const val FRAGMENT_B = "B"
+    }
 
-    private val FRAGMENT_A = "A"
-    private val FRAGMENT_B = "B"
     private var fragmentA: Fragment? = null
     private var fragmentB: Fragment? = null
     private var currentFragment: Fragment? = null
     private var currentTag: String = ""
+
+    private val viewModel: ActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -40,7 +46,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
             showFragment(FRAGMENT_A)
         } else {
             currentTag = savedInstanceState.getString("currentTag", "")
-            logI( "$TAG onCreate currentTag=$currentTag")
+            logI("$TAG onCreate currentTag=$currentTag")
             restoreFragment(currentTag)
         }
     }
@@ -56,7 +62,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
             return
         }
         currentTag = persistentState?.getString("currentTagPersistent", "") ?: ""
-        logI( "$TAG onCreate2 currentTagPersistent=$currentTag")
+        logI("$TAG onCreate2 currentTagPersistent=$currentTag")
         restoreFragment(currentTag)
     }
 
@@ -94,7 +100,7 @@ class TestFragmentActivity : BaseActivity<LibUiActivityTestBinding>() {
         }.commitNow()
         currentFragment = fragment
         currentTag = tag
-     }
+    }
 
     override fun initView() {
         binding.tvA.setOnClickListener {

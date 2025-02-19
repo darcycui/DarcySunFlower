@@ -28,7 +28,7 @@
             android:name=".base.mvp.test.TestMVPActivity"
             android:exported="false" />
         <activity
-            android:name=".mvi.ui.TestFragmentActivity"
+            android:name=".mvvm.ui.TestFragmentActivity"
             android:exported="false"
             android:persistableMode="persistAcrossReboots" />
         <activity

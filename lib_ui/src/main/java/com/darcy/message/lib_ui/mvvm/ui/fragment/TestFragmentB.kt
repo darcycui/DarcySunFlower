@@ -1,10 +1,12 @@
-package com.darcy.message.lib_ui.mvi.ui.fragment
+package com.darcy.message.lib_ui.mvvm.ui.fragment
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.darcy.message.lib_ui.databinding.LibUiFragmentABinding
+import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_ui.base.BaseFragment
+import com.darcy.message.lib_ui.databinding.LibUiFragmentABinding
+import com.darcy.message.lib_ui.mvvm.viewmodel.ActivityViewModel
 
 class TestFragmentB : BaseFragment<LibUiFragmentABinding>() {
 
@@ -12,7 +14,8 @@ class TestFragmentB : BaseFragment<LibUiFragmentABinding>() {
         fun newInstance() = TestFragmentB()
     }
 
-    private val viewModel: TestViewModelA by viewModels()
+    // 使用activity的viewModel
+    private val viewModel: ActivityViewModel by viewModels({ requireActivity() })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,10 @@ class TestFragmentB : BaseFragment<LibUiFragmentABinding>() {
     }
 
     override fun initListener() {
+        viewModel.countLiveData.observe(this) {
+            logI(message = "BBB countLiveData=$it")
+            binding.message.text = "count=$it"
+        }
     }
 
     override fun initData() {

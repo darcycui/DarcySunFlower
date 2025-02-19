@@ -2,24 +2,14 @@ package com.darcy.message.lib_ui.mvi.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.darcy.message.lib_common.exts.toasts
-import com.darcy.message.lib_ui.databinding.LibUiActivityMviactivityBinding
 import com.darcy.message.lib_ui.base.BaseActivity
+import com.darcy.message.lib_ui.databinding.LibUiActivityMviactivityBinding
 import com.darcy.message.lib_ui.exts.showSnackBar
-import com.darcy.message.lib_ui.mvi.bean.NewsItem
-import com.darcy.message.lib_ui.mvi.state.MainViewIntent
-import com.darcy.message.lib_ui.mvi.state.MainViewEvent
-import com.darcy.message.lib_ui.mvi.state.MainViewState
-import com.darcy.message.lib_ui.mvi.state.common.FetchStatus
-import com.darcy.message.lib_ui.exts.observeEvent
-import com.darcy.message.lib_ui.exts.observeState
 import com.darcy.message.lib_ui.mvi.bean.UserBean
 import com.darcy.message.lib_ui.mvi.intent.MainUiIntent
 import com.darcy.message.lib_ui.mvi.state.LoginUiState
 import com.darcy.message.lib_ui.mvi.state.NewsUiState
-import com.darcy.message.lib_ui.mvi.viewmodel.MainViewModel
 import com.darcy.message.lib_ui.mvi.viewmodel.MainViewModel2
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map

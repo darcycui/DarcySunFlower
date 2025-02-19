@@ -25,7 +25,7 @@ import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.lib_ui.base.mvp.test.TestMVPActivity
 import com.darcy.message.lib_ui.exts.startPage
 import com.darcy.message.lib_ui.mvi.ui.MVIActivity
-import com.darcy.message.lib_ui.mvi.ui.TestFragmentActivity
+import com.darcy.message.lib_ui.mvvm.ui.TestFragmentActivity
 import com.darcy.message.lib_ui.paging.ui.TestPagingActivity
 import com.darcy.message.sunflower.databinding.AppActivityMainBinding
 import com.darcy.message.sunflower.lib_security.TestSecurityActivity

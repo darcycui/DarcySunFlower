@@ -3,7 +3,6 @@ package com.darcy.message.lib_http.client.factory
 import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
-import com.darcy.message.lib_http.client.impl.okhttp.CertPinnerHelper
 import com.darcy.message.lib_http.client.impl.okhttp.TrustCertHelper
 import com.darcy.message.lib_http.client.impl.okhttp.VerifyHostHelper
 import com.darcy.message.lib_http.config.CALL_TIMEOUT
@@ -11,15 +10,9 @@ import com.darcy.message.lib_http.config.CONNECT_TIMEOUT
 import com.darcy.message.lib_http.config.READ_TIMEOUT
 import com.darcy.message.lib_http.config.WRITE_TIMEOUT
 import com.darcy.message.lib_http.interceptor.impl.KeyInterceptor
-import okhttp3.CertificatePinner
 import okhttp3.Dispatcher
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import java.io.IOException
-import java.net.Proxy
-import java.net.ProxySelector
-import java.net.SocketAddress
-import java.net.URI
 import java.util.concurrent.TimeUnit
 
 object OkHttpFactory {
@@ -53,25 +46,25 @@ object OkHttpFactory {
 //                }
 //            })
             .apply {
-                // 1.trust build in cert only
-////                val sslSocketPair = TrustCertHelper.createTrustAllSSLSocketFactory()
-//                val sslSocketPair = TrustCertHelper.createTrustBuildInSSLSocketFactoryPair(AppHelper.getAppContext())
-//                sslSocketPair.let { pair ->
-//                    if (pair.first != null && pair.second != null) {
-//                        sslSocketFactory(pair.first!!, pair.second!!)
-//                        println(message = "sslSocketFactory enabled")
-//                        logI(message = "sslSocketFactory enabled")
-//                    } else {
-//                        println(message = "sslSocketFactory is null")
-//                        logE(message = "sslSocketFactory is null")
-//                        throw IllegalStateException("sslSocketFactory is null")
-//                    }
-//                }
+                 // 1.trust build in cert only
+//                val sslSocketPair = TrustCertHelper.createTrustAllSSLSocketFactory()
+                val sslSocketPair = TrustCertHelper.createTrustBuildInSSLSocketFactoryPair(AppHelper.getAppContext())
+                sslSocketPair.let { pair ->
+                    if (pair.first != null && pair.second != null) {
+                        sslSocketFactory(pair.first!!, pair.second!!)
+                        println(message = "sslSocketFactory enabled")
+                        logI(message = "sslSocketFactory enabled")
+                    } else {
+                        println(message = "sslSocketFactory is null")
+                        logE(message = "sslSocketFactory is null")
+                        throw IllegalStateException("sslSocketFactory is null")
+                    }
+                }
             }
             // 2.verify host
-//            .hostnameVerifier(VerifyHostHelper())
+            .hostnameVerifier(VerifyHostHelper())
             // 3.add CertificatePinner(can't used for self-signed cert)
-            .certificatePinner(CertPinnerHelper.createCertPinner())
+//            .certificatePinner(CertPinnerHelper.createCertPinner())
             .build()
     }
 }
