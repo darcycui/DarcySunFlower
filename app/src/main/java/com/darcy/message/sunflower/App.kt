@@ -64,8 +64,8 @@ class App : Application() {
 
     // DB
     private fun initDatabase() {
-        DatabaseManager.init(this, ItemRoomDatabase.getDatabase(this))
-//        CipherDatabaseHelper.init(this)
+//        DatabaseManager.init(this, ItemRoomDatabase.getDatabase(this))
+        DatabaseManager.init(this, ItemRoomDatabase.getCipherDatabase(this))
     }
 
 
