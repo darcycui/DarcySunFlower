@@ -1,4 +1,9 @@
 pluginManagement {
+    plugins {
+        // [GitHub] https://github.com/google/ksp
+//        id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false
+    }
+
     repositories {
         maven ("https://maven.aliyun.com/repository/public")
         maven("https://maven.aliyun.com/repository/google")

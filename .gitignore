@@ -14,6 +14,8 @@
 .cxx
 local.properties
 .idea/
+#自Kotlin 2.0.0以来，名为“.kotlin”的文件夹是在编译时创建的
+.kotlin
 
 /JustForCodeIndexModuleDebug
 /JustForCodeIndexModuleRelease

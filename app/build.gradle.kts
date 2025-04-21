@@ -8,7 +8,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     // stringfog
     id("stringfog")
@@ -227,7 +228,8 @@ dependencies {
 
     // hilt di
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+//    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(project(":lib_common"))
     implementation(project(":lib_theme"))

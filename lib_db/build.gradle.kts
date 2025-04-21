@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -14,10 +15,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         // 设置room schema导出目录
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas")
-            }
+//        kapt {
+//            arguments {
+//                arg("room.schemaLocation", "$projectDir/schemas")
+//            }
+//        }
+//        kapt arguments 怎么迁移到ksp ???
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
         }
         // todo Set the resource file prefix to prevent duplicate resource names
         resourcePrefix = "lib_db_"
@@ -53,7 +58,8 @@ dependencies {
 
     api (project(":lib_common"))
     // todo: use KSP instead of kapt
-    kapt (libs.androidx.room.compiler)
+//    kapt (libs.androidx.room.compiler)
+    ksp (libs.androidx.room.compiler)
     api (libs.androidx.room.runtime)
     api (libs.androidx.room.ktx)
 
