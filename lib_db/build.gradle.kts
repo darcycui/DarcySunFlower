@@ -20,7 +20,7 @@ android {
 //                arg("room.schemaLocation", "$projectDir/schemas")
 //            }
 //        }
-//        kapt arguments 怎么迁移到ksp ???
+//        添加ksp arg
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
