@@ -8,6 +8,7 @@ fragmentKtx = "1.6.0"
 mockk = "1.13.5"
 stringFogPlugin = "5.2.0"
 kotlin = "2.1.0"
+core = "1.12.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -103,6 +104,7 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 stringfog-xor = { module = "com.github.megatronking.stringfog:xor", version.ref = "stringFogXor" }
 androidx-lifecycle-runtime-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-android", version.ref = "lifecycleRuntimeAndroid" }
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

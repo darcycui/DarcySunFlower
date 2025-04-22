@@ -34,6 +34,20 @@
         android:textAllCaps="false"
         android:text="Login_10" />
 
+    <Button
+        android:id="@+id/btnDNS"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="DNS" />
+
+    <Button
+        android:id="@+id/btnNetworkType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="NetworkType" />
+
     <TextView
         android:id="@+id/tvInfo"
         android:layout_width="match_parent"
