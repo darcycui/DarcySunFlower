@@ -21,17 +21,17 @@ object PermissionUtil {
     }
 
     fun requestPermissions(
-        context: ComponentActivity,
+        componentActivity: ComponentActivity,
         permissions: List<String>,
         onGranted: () -> Unit,
         onDenied: (shouldShowRequestPermissionRationale: Boolean) -> Unit
     ) {
-        if (checkPermissions(context, permissions)) {
+        if (checkPermissions(componentActivity, permissions)) {
             onGranted()
             return
         }
         // use ActivityResultLauncher to request permission
-        context.requestPermissionsByLauncher(permissions.toTypedArray(), onGranted, onDenied)
+        componentActivity.requestPermissionsByLauncher(permissions.toTypedArray(), onGranted, onDenied)
     }
 }
 
