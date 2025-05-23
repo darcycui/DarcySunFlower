@@ -2,7 +2,6 @@ package com.darcy.message.lib_ui.notification
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
@@ -11,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT
 import androidx.activity.ComponentActivity
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.darcy.message.lib_brand.BrandHelper
@@ -31,14 +31,16 @@ object NotificationHelper {
         notification: (context: Context) -> Unit = ::sendNotification
     ) {
         println("NotificationUtil.show")
-        NotificationUtil.checkNotificationPermission(context,
+        NotificationUtil.checkNotificationPermission(
+            context,
             onGranted = {
                 context.toasts("has Permission")
                 notification.invoke(context)
             }, onDenied = {
                 context.toasts("has no Permission")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    PermissionUtil.requestPermissions(context,
+                    PermissionUtil.requestPermissions(
+                        context,
                         listOf(Manifest.permission.POST_NOTIFICATIONS),
                         onGranted = {
                             context.toasts("Permission granted")
@@ -74,7 +76,8 @@ object NotificationHelper {
         notification: (context: Context) -> Unit = ::sendFullScreenNotification
     ) {
 //        NotificationUtil.openSettings(context, ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT)
-        NotificationUtil.checkFullScreenNotificationPermission(context,
+        NotificationUtil.checkFullScreenNotificationPermission(
+            context,
             onGranted = {
                 context.toasts("FullScreenNotification granted")
                 notification.invoke(context)
@@ -100,12 +103,12 @@ object NotificationHelper {
         val name = "Channel Name"
         val descriptionText = "Channel Description"
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel("channel_id", name, importance).apply {
-            description = descriptionText
-        }
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+        val channel =
+            NotificationChannelCompat.Builder("${context.packageName}:channel_id", importance)
+                .setName(name)
+                .setDescription(descriptionText)
+                .build()
+        NotificationManagerCompat.from(context).createNotificationChannel(channel)
 
         // 创建回退栈
         val stackBuilder: TaskStackBuilder = TaskStackBuilder.create(context)
@@ -129,23 +132,21 @@ object NotificationHelper {
             .setContentIntent(pendingIntent)
 
         // 发送通知
-        with(NotificationManagerCompat.from(context)) {
-            notify(0, builder.build())
-        }
+        NotificationManagerCompat.from(context).notify(0, builder.build())
     }
 
     @SuppressLint("MissingPermission")
     private fun sendFullScreenNotification(context: Context) {
         // 创建通知渠道
-        val name = "Channel Name2"
-        val descriptionText = "Channel Description2"
+        val name = "Channel Name Full"
+        val descriptionText = "Channel Description Full"
         val importance = NotificationManager.IMPORTANCE_HIGH
-        val channel = NotificationChannel("channel_id2", name, importance).apply {
-            description = descriptionText
-        }
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
+        val channel =
+            NotificationChannelCompat.Builder("${context.packageName}:channel_id_full", importance)
+                .setName(name)
+                .setDescription(descriptionText)
+                .build()
+        NotificationManagerCompat.from(context).createNotificationChannel(channel)
 
         // 创建点击通知后打开的 Activity 的 Intent
         val intent = Intent(context, FullScreenNotificationActivity::class.java).apply {
@@ -176,11 +177,8 @@ object NotificationHelper {
             builder.setContentIntent(fullScreenPendingIntent)
         }
 
-
         // 发送通知
-        with(NotificationManagerCompat.from(context)) {
-            notify(1, builder.build())
-        }
+        NotificationManagerCompat.from(context).notify(1, builder.build())
     }
 
 }
