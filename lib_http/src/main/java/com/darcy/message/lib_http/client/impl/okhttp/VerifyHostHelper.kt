@@ -11,11 +11,11 @@ class VerifyHostHelper : HostnameVerifier {
     private val TAG = this::class.java.simpleName
     override fun verify(hostname: String?, session: SSLSession?): Boolean {
         logW("VerifyHostHelper:verify")
-        if (hostname == "10.0.0.200") {
+        if (hostname == "apis.juhe.cn") {
             logV("hostname=$hostname ==>verify SUCCESS by default")
             return true
         }
-        if (hostname == "www.baidu.com") {
+        if (hostname == "darcycui.com.cn") {
             logV("hostname=$hostname ==>verify SUCCESS by default")
             return true
         }

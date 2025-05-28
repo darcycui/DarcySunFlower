@@ -27,7 +27,7 @@ pluginManagement {
             }
         }
         google()
-//        mavenCentral()
+        mavenCentral()
         gradlePluginPortal()
     }
 }
@@ -50,7 +50,7 @@ dependencyResolutionManagement {
         // umeng
         maven ("https://repo1.maven.org/maven2/")
         google()
-//        mavenCentral()
+        mavenCentral()
     }
 }
 

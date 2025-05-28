@@ -249,7 +249,7 @@ dependencies {
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
-    implementation(libs.codelocator.core)
+//    implementation(libs.codelocator.core)
     // stringfog
     implementation(libs.stringfog.xor)
 }

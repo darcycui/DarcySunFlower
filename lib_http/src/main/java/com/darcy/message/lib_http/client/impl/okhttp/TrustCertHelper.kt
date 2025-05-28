@@ -53,9 +53,8 @@ object TrustCertHelper {
 
             //1、获取证书 keyStore
             var keyStore: KeyStore? = null
-//            val bksName = "darcyBKS.bks"
-//            val bksName = "weixinBKS.bks"
-            val bksName = "login_10.bks"
+//            val bksName = "juheBKS.bks"
+            val bksName = "test2BKS.bks"
             //证书密码（没有密码传 null）
             val bksPassword = "123456"
             context.resources.assets.open(bksName).use { inputStream ->

@@ -15,10 +15,16 @@
         android:text="CheckHttpProxy" />
 
     <Button
-        android:id="@+id/btnHttp"
+        android:id="@+id/btnHttpJuhe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TestHttp" />
+        android:text="TestHttpJeHe" />
+
+    <Button
+        android:id="@+id/btnHttpDarcy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TestHttpDarcy" />
 
     <Button
         android:id="@+id/btnTestHttpEBPF"

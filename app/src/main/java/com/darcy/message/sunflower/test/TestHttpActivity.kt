@@ -27,6 +27,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         super.onCreate(savedInstanceState)
         DNSUtil.registerNetworkCallback(this)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         DNSUtil.unregisterNetworkCallback(this)
@@ -37,8 +38,18 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         binding.btnCheckHttpProxy.setOnClickListener {
             checkHttpProxy()
         }
-        binding.btnHttp.setOnClickListener {
-            doHttpRequest()
+        binding.btnHttpJuhe.setOnClickListener {
+            doHttpRequest(
+                "https://apis.juhe.cn", "/ip/ipNewV3", mapOf(
+                    "ip" to "114.215.154.101",
+                    "key" to "f128bfc760193c5762c5c3be2a6051d8"
+                ), false
+            )
+        }
+        binding.btnHttpDarcy.setOnClickListener {
+            doHttpRequest(
+                "https://darcycui.com.cn", "/users/all", mapOf(), false
+            )
         }
         binding.btnTestHttpEBPF.setOnClickListener {
             doEBPF()
@@ -62,8 +73,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
     }
 
     private fun doDNS() {
-        DNSUtil.getDnsServers(applicationContext, callback = {
-            type, servers ->
+        DNSUtil.getDnsServers(applicationContext, callback = { type, servers ->
             logD("type $type, servers $servers")
             toasts("type $type, servers $servers")
         })
@@ -132,17 +142,14 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         }
     }
 
-    private fun doHttpRequest() {
+    private fun doHttpRequest(
+        baseUrl: String,
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean
+    ) {
         scope.launch {
-            HttpManager.doGet<IPEntity>(
-                //            baseUrl = "https://apis.juhe.cn",
-                path = "/ip/ipNewV3",
-                params = mapOf(
-                    "ip" to "114.215.154.101",
-                    "key" to "f128bfc760193c5762c5c3be2a6051d8"
-                ),
-                useCache = false
-            ) {
+            HttpManager.doGet<IPEntity>(baseUrl, path, params, useCache) {
                 start {
                     println("start")
                 }
