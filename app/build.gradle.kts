@@ -246,6 +246,7 @@ dependencies {
     implementation(project(":lib_repackage"))
     implementation(project(":lib_startup"))
     implementation(project(":lib_login"))
+    implementation(project(":lib_websocket"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖

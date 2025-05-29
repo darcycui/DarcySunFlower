@@ -1,4 +1,4 @@
-package com.darcy.message.lib_http.client.impl.okhttp
+package com.darcy.lib_websocket.certificate
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -94,6 +94,13 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/btnWebSocket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WebSocketActivity"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/btnMvp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

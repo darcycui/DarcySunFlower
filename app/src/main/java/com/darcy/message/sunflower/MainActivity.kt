@@ -34,6 +34,7 @@ import com.darcy.message.sunflower.test.DataStoreActivity
 import com.darcy.message.sunflower.test.RoomTestActivity
 import com.darcy.message.sunflower.test.TestHttpActivity
 import com.darcy.message.sunflower.test.TestJniActivity
+import com.darcy.message.sunflower.test.TestWebSocketActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
 import com.darcy.message.sunflower.ui.notification.NotificationActivity
@@ -74,6 +75,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         }
         binding.btnHttp.setOnClickListener {
             startPage(TestHttpActivity::class.java)
+        }
+        binding.btnWebSocket.setOnClickListener {
+            startPage(TestWebSocketActivity::class.java)
         }
         binding.btnMvp.setOnClickListener {
             startPage(TestMVPActivity::class.java)
