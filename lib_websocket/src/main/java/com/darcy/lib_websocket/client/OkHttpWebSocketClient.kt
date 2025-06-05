@@ -1,15 +1,19 @@
 package com.darcy.lib_websocket.client
 
 import android.content.Context
+import com.darcy.lib_network.okhttp.factory.OkHttpFactory
 import com.darcy.lib_websocket.bean.MessageBean
-import com.darcy.lib_websocket.factory.OkHttpFactory
+import com.darcy.lib_websocket.heartbeat.HeartbeatHelper
+import com.darcy.lib_websocket.heartbeat.PING
+import com.darcy.lib_websocket.heartbeat.PONG
 import com.darcy.lib_websocket.json.GsonTransferImpl
 import com.darcy.lib_websocket.json.IJsonTransfer
-import com.darcy.lib_websocket.listener.DefaultWebSocketListener
-import com.darcy.lib_websocket.listener.IWebSocketListener
+import com.darcy.lib_websocket.listener.DefaultInnerListener
+import com.darcy.lib_websocket.listener.IOuterListener
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
+import com.darcy.message.lib_common.exts.logV
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.WebSocket
@@ -38,8 +42,9 @@ class OkHttpWebSocketClient : IWebSocketClient {
     private var webSocket: WebSocket? = null
     private var fromUser = ""
     private var url: String = ""
-    private var outerListener: IWebSocketListener? = null
+    private var outerListener: IOuterListener? = null
     private val iJsonTransfer: IJsonTransfer = GsonTransferImpl.getInstance()
+    private val heartbeatHelper = HeartbeatHelper(this)
 
     override fun init(context: Context, url: String, fromUser: String) {
         if (client != null && webSocket != null) {
@@ -53,21 +58,44 @@ class OkHttpWebSocketClient : IWebSocketClient {
         logI("$TAG init")
     }
 
+    private fun setupWebsocket(url: String) {
+        if (client == null) {
+            client = OkHttpFactory.create()
+        }
+        if (webSocket == null) {
+            val request = Request.Builder().url(url).build()
+            webSocket = client?.newWebSocket(request, DefaultInnerListener(this))
+        }
+    }
+
     override fun connect() {
         if (client != null && webSocket != null) {
+            logD("$TAG already connected")
             return
         }
-        val request = Request.Builder().url(url).build()
-        webSocket = client?.newWebSocket(request, DefaultWebSocketListener(this))
+        setupWebsocket(url)
         logD("$TAG connect")
     }
 
     override fun disconnect() {
-        webSocket?.close(1000, "disconnect...")
+        webSocket?.let {
+            it.close(1000, "normal disconnect...")
+            heartbeatHelper.stop()
+            webSocket = null
+        }
         logD("$TAG disconnect")
     }
 
     override fun send(message: String, toUser: String) {
+        if (webSocket == null) {
+            logE("websocket is null.")
+            return
+        }
+        if (PING  == message) {
+            logV("$TAG send ping...")
+            webSocket?.send(message)
+            return
+        }
         val messageBean = MessageBean(
             from = fromUser,
             to = toUser,
@@ -92,9 +120,14 @@ class OkHttpWebSocketClient : IWebSocketClient {
     override fun onOpen() {
         logD("$TAG onOpen")
         outerListener?.onOpen()
+        heartbeatHelper.start(10_000, 5_000)
     }
 
     override fun onReceive(message: String) {
+        if (PONG == message) {
+            logV("$TAG receive pong...")
+            heartbeatHelper.clearPongTimeoutJob()
+        }
         logD("$TAG receive message: $message")
         outerListener?.onMessage(message)
     }
@@ -107,14 +140,18 @@ class OkHttpWebSocketClient : IWebSocketClient {
     override fun onFailure(errorMessage: String) {
         logE("$TAG onFailure: $errorMessage")
         outerListener?.onFailure(errorMessage)
+        webSocket = null
+        heartbeatHelper.stop()
     }
 
     override fun onClosed() {
         logD("$TAG onClosed")
         outerListener?.onClosed()
+        webSocket = null
+        heartbeatHelper.stop()
     }
 
-    override fun setListener(listener: IWebSocketListener) {
+    override fun setOuterListener(listener: IOuterListener) {
         this.outerListener = listener
     }
 }
