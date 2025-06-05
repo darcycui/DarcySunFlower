@@ -1,4 +1,4 @@
-package com.darcy.message.lib_http.client.impl.okhttp
+package com.darcy.lib_network.okhttp.safety
 
 import okhttp3.CertificatePinner
 

@@ -1,4 +1,4 @@
-package com.darcy.lib_websocket.config
+package com.darcy.lib_network.okhttp.config
 
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.print

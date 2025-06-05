@@ -52,6 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     api (project(":lib_common"))
+    api (project(":lib_network_okhttp"))
 
     api(libs.retrofit)
     api(libs.retrofit.converter.gson)

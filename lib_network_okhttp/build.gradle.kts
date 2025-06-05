@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.darcy.lib_websocket"
+    namespace = "com.darcy.lib_network"
     compileSdk = Configs.compileSdks
 
     defaultConfig {
@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         // todo Set the resource file prefix to prevent duplicate resource names
-        resourcePrefix = "lib_websocket_"
+        resourcePrefix = "lib_network_"
     }
 
     buildTypes {
@@ -40,14 +40,12 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     api (project(":lib_common"))
-    api (project(":lib_network_okhttp"))
-
     api(libs.okhttp3.okhttp)
     api(libs.okhttp3.logging.interceptor)
-    implementation(libs.gson)
 }

@@ -1,4 +1,4 @@
-package com.darcy.message.lib_http.exts
+package com.darcy.lib_network.okhttp.exts
 
 import android.content.Context
 import android.net.ConnectivityManager

@@ -35,6 +35,7 @@ fun <T> String.gsonToBean(): T? {
     }
 }
 
+
 inline fun <reified T> String.jsonToBean(): T {
     return json.decodeFromString<T>(this)
 }
@@ -53,7 +54,7 @@ fun <T> BaseResult<T>?.isSuccess(): Boolean {
 
 fun <T> BaseResult<T>?.getHttpErrorMessage(): HttpCode {
     if (this == null) return HttpCode.EmptyError
-    return when(this.error_code){
+    return when (this.error_code) {
         HttpCode.Success.code.toString() -> HttpCode.Success
         HttpCode.ClientError.code.toString() -> HttpCode.ClientError
         HttpCode.ServerError.code.toString() -> HttpCode.ServerError

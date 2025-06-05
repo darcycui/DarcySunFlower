@@ -1,8 +1,8 @@
-package com.darcy.message.lib_http.interceptor.impl
+package com.darcy.lib_network.okhttp.interceptor.impl
 
+import com.darcy.lib_network.okhttp.exts.hasNetwork
 import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_common.exts.logV
-import com.darcy.message.lib_http.exts.hasNetwork
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response

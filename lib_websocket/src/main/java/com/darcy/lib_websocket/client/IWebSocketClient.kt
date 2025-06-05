@@ -1,7 +1,7 @@
 package com.darcy.lib_websocket.client
 
 import android.content.Context
-import com.darcy.lib_websocket.listener.IWebSocketListener
+import com.darcy.lib_websocket.listener.IOuterListener
 
 interface IWebSocketClient {
     fun init(context: Context, url: String, fromUser: String)
@@ -15,5 +15,5 @@ interface IWebSocketClient {
     fun onReceive(bytes: ByteArray)
     fun onFailure(errorMessage: String)
     fun onClosed()
-    fun setListener(listener: IWebSocketListener)
+    fun setOuterListener(listener: IOuterListener)
 }

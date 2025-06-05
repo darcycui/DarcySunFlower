@@ -1,6 +1,6 @@
-package com.darcy.message.lib_http.interceptor.impl
+package com.darcy.lib_network.okhttp.interceptor.impl
 
-import com.darcy.message.lib_http.interceptor.IInterceptor
+import com.darcy.lib_network.okhttp.interceptor.IInterceptor
 import okhttp3.Interceptor
 import okhttp3.Response
 

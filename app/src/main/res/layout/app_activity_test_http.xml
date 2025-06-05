@@ -21,10 +21,16 @@
         android:text="TestHttpJeHe" />
 
     <Button
-        android:id="@+id/btnHttpDarcy"
+        android:id="@+id/btnHttpDarcyIP"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TestHttpDarcy" />
+        android:text="TestHttpDarcy-IP" />
+
+    <Button
+        android:id="@+id/btnHttpDarcyServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TestHttpDarcy-Server" />
 
     <Button
         android:id="@+id/btnTestHttpEBPF"

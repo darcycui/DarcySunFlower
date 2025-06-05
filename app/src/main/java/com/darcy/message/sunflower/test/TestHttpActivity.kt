@@ -46,7 +46,12 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
                 ), false
             )
         }
-        binding.btnHttpDarcy.setOnClickListener {
+        binding.btnHttpDarcyIP.setOnClickListener {
+            doHttpRequest(
+                "https://10.0.0.241", "/users/all", mapOf(), false
+            )
+        }
+        binding.btnHttpDarcyServer.setOnClickListener {
             doHttpRequest(
                 "https://darcycui.com.cn", "/users/all", mapOf(), false
             )

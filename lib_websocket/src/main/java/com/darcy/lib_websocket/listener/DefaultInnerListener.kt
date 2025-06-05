@@ -10,11 +10,11 @@ import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
 
-class DefaultWebSocketListener(
+class DefaultInnerListener(
     private val iWebSocketClient: IWebSocketClient
 ) : WebSocketListener() {
     companion object {
-        private val TAG = DefaultWebSocketListener::class.java.simpleName
+        private val TAG = DefaultInnerListener::class.java.simpleName
     }
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)

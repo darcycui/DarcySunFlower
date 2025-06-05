@@ -1,6 +1,6 @@
 package com.darcy.lib_websocket.listener
 
-interface IWebSocketListener {
+interface IOuterListener {
     fun onOpen()
     fun onMessage(message: String)
     fun onMessage(bytes: ByteArray)

@@ -3,7 +3,7 @@ package com.darcy.lib_websocket
 import android.content.Context
 import com.darcy.lib_websocket.client.IWebSocketClient
 import com.darcy.lib_websocket.client.OkHttpWebSocketClient
-import com.darcy.lib_websocket.listener.IWebSocketListener
+import com.darcy.lib_websocket.listener.IOuterListener
 
 object WebsocketManager {
     private val TAG = WebsocketManager::class.java.simpleName
@@ -39,8 +39,9 @@ object WebsocketManager {
         iWebSocketClient.reconnect()
     }
 
-    fun setListener(listener: IWebSocketListener) {
-        iWebSocketClient.setListener(listener)
+    //设置外部监听
+    fun setOuterListener(listener: IOuterListener) {
+        iWebSocketClient.setOuterListener(listener)
     }
 
 }

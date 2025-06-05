@@ -1,7 +1,7 @@
 package com.darcy.message.lib_http.client.impl
 
+import com.darcy.lib_network.okhttp.factory.OkHttpFactory
 import com.darcy.message.lib_http.client.IHttpClient
-import com.darcy.message.lib_http.client.factory.OkHttpFactory
 import com.darcy.message.lib_http.exts.gsonToBean
 import com.darcy.message.lib_http.exts.toFormBody
 import com.darcy.message.lib_http.exts.toUrlEncodedString

@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.darcy.lib_websocket.WebsocketManager
+import com.darcy.lib_websocket.listener.IOuterListener
 import com.darcy.message.sunflower.R
 import com.darcy.message.sunflower.databinding.AppActivityTestWebSocketBinding
 import kotlinx.coroutines.launch
@@ -17,8 +18,9 @@ class TestWebSocketActivity : AppCompatActivity() {
     }
     private var count = 0
     private val fromUser = "Android"
-    private val toUser = "three-to-harmony"
-    private val url = "wss://darcycui.com.cn:7443/person"
+    private val toUser = "three-to-android"
+    private val url = "wss://10.0.0.241:7443/person"
+//    private val url = "wss://darcycui.com.cn:7443/person"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +35,14 @@ class TestWebSocketActivity : AppCompatActivity() {
         initData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        WebsocketManager.disconnect()
+    }
+
     private fun initData() {
         WebsocketManager.init(this, url, fromUser)
-        WebsocketManager.setListener(object : com.darcy.lib_websocket.listener.IWebSocketListener {
+        WebsocketManager.setOuterListener(object : IOuterListener {
             override fun onOpen() {
                 setupUI(" 已连接")
             }
