@@ -30,3 +30,14 @@ plugins {
     alias(libs.plugins.androidLibrary) apply false
     id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false
 }
+
+// build.gradle.kts
+// 根 build.gradle.kts
+subprojects {
+    // 在 subprojects 闭包内配置
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        compilerOptions.freeCompilerArgs.addAll(
+            listOf("-opt-in=kotlinx.serialization.InternalSerializationApi")
+        )
+    }
+}

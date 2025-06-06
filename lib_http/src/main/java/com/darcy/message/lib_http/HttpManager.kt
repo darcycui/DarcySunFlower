@@ -1,5 +1,6 @@
 package com.darcy.message.lib_http
 
+import com.darcy.message.lib_common.exts.logW
 import com.darcy.message.lib_http.client.IHttpClient
 import com.darcy.message.lib_http.request.CommonRequestAction
 
@@ -20,9 +21,11 @@ object HttpManager : IHttpClient {
      */
     fun init(httpClient: IHttpClient) {
         this.httpClient = httpClient
+        logW("HttpManager init httpClient-->${httpClient}")
     }
 
     override suspend fun <T> doGet(
+        clazz: Class<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -30,10 +33,11 @@ object HttpManager : IHttpClient {
         block: CommonRequestAction<T>.() -> Unit
     ) {
         checkHttpClientInit()
-        httpClient?.doGet(baseUrl, path, params, useCache, block)
+        httpClient?.doGet(clazz, baseUrl, path, params, useCache, block)
     }
 
     override suspend fun <T> doPost(
+        clazz: Class<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -41,7 +45,7 @@ object HttpManager : IHttpClient {
         block: CommonRequestAction<T>.() -> Unit
     ) {
         checkHttpClientInit()
-        httpClient?.doPost(baseUrl, path, params, useCache, block)
+        httpClient?.doPost(clazz, baseUrl, path, params, useCache, block)
     }
 
     private fun checkHttpClientInit() {

@@ -5,6 +5,7 @@ import com.darcy.message.lib_http.request.CommonRequestAction
 
 interface IHttpClient {
     suspend fun <T> doGet(
+        clazz: Class<T>,
         baseUrl: String = HttpConfig.getBaseHttpUrl(),
         path: String,
         params: Map<String, String>,
@@ -13,6 +14,7 @@ interface IHttpClient {
     )
 
     suspend fun <T> doPost(
+        clazz: Class<T>,
         baseUrl: String = HttpConfig.getBaseHttpUrl(),
         path: String,
         params: Map<String, String>,

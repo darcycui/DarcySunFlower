@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 android {
@@ -31,6 +32,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+        freeCompilerArgs += listOf("-opt-in=kotlinx.serialization.InternalSerializationApi")
     }
     buildFeatures {
         // generate buildConfig
@@ -42,6 +44,11 @@ android {
             isReturnDefaultValues = true
         }
     }
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    compilerOptions.freeCompilerArgs.addAll(
+        listOf("-opt-in=kotlinx.serialization.InternalSerializationApi")
+    )
 }
 
 dependencies {

@@ -9,15 +9,27 @@ open class CommonRequestAction<T> {
     var start: (() -> Unit)? = null
 
     /**
-     * http request
+     * object http request
      */
     var request: (suspend () -> BaseResult<T>?)? = null
         private set
 
     /**
-     * http request success
+     * list http request
+     */
+    var requestList: (suspend () -> BaseResult<List<T>>?)? = null
+        private set
+
+    /**
+     * object http request success
      */
     var success: ((BaseResult<T>?) -> Unit)? = null
+        private set
+
+    /**
+     * list http request success
+     */
+    var successList: ((BaseResult<List<T>>?) -> Unit)? = null
 
     /**
      * http request error
@@ -39,8 +51,16 @@ open class CommonRequestAction<T> {
         request = block
     }
 
+    fun requestList(block: (suspend () -> BaseResult<List<T>>?)?) {
+        requestList = block
+    }
+
     fun success(block: ((BaseResult<T>?) -> Unit)) {
         success = block
+    }
+
+    fun successList(block: ((BaseResult<List<T>>?) -> Unit)) {
+        successList = block
     }
 
     fun error(block: (String) -> Unit) {

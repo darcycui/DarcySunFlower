@@ -16,6 +16,7 @@ class OkHttpClientTest {
         runBlocking {
             initHttpManager()
             HttpManager.doGet<IPEntity>(
+                IPEntity::class.java,
 //            baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
@@ -45,6 +46,7 @@ class OkHttpClientTest {
         runBlocking {
             initHttpManager()
             HttpManager.doPost<IPEntity>(
+                IPEntity::class.java,
 //            baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
@@ -75,6 +77,7 @@ class OkHttpClientTest {
         runBlocking {
             initHttpManager()
             HttpManager.doGet<IPEntity>(
+                IPEntity::class.java,
                 baseUrl = "http://10.0.0.193:8080",
                 path = "/customers",
                 params = mapOf()

@@ -1,6 +1,7 @@
 package com.darcy.message.lib_common.xlog
 
 import android.content.Context
+import com.darcy.message.lib_common.exts.FOR_TEST
 import com.darcy.message.lib_common.exts.LOG_TAG
 import com.darcy.message.lib_common.exts.print
 import com.elvishew.xlog.LogConfiguration
@@ -15,6 +16,9 @@ import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 
 object XLogHelper {
+    fun forTest() {
+        FOR_TEST = true
+    }
     fun init(context: Context, isDebug: Boolean) {
 //    initRelease(context)
         kotlin.runCatching {

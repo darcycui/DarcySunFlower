@@ -1,10 +1,12 @@
 package com.darcy.message.lib_http.client.impl
 
 import com.darcy.lib_network.okhttp.factory.OkHttpFactory
+import com.darcy.message.lib_common.exts.logW
 import com.darcy.message.lib_http.client.IHttpClient
-import com.darcy.message.lib_http.exts.gsonToBean
 import com.darcy.message.lib_http.exts.toFormBody
 import com.darcy.message.lib_http.exts.toUrlEncodedString
+import com.darcy.message.lib_http.parser.IJsonParser
+import com.darcy.message.lib_http.parser.impl.GsonParserImpl
 import com.darcy.message.lib_http.request.CommonRequestAction
 import okhttp3.Call
 import okhttp3.Callback
@@ -20,12 +22,16 @@ object OKHttpHttpClient : IHttpClient {
     private val okHttpClient: OkHttpClient by lazy {
         OkHttpFactory.create()
     }
+    private val jsonParser: IJsonParser by lazy {
+        GsonParserImpl()
+    }
 
     fun okHttpClient(): OkHttpClient {
         return okHttpClient
     }
 
     override suspend fun <T> doGet(
+        clazz: Class<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -39,10 +45,11 @@ object OKHttpHttpClient : IHttpClient {
 //                .header("Cache-Control", if (useCache) "" else "no-cache")
                 .get()
                 .build()
-        internalRequest(request, action)
+        internalRequest<T>(clazz, request, action)
     }
 
     override suspend fun <T> doPost(
+        clazz: Class<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -60,13 +67,15 @@ object OKHttpHttpClient : IHttpClient {
                 .header("Content-Type", "application/json;charset=utf-8")
                 .post(formBody)
                 .build()
-        internalRequest(request, action)
+        internalRequest<T>(clazz, request, action)
     }
 
     private fun <T> internalRequest(
+        clazz: Class<T>,
         request: Request,
         action: CommonRequestAction<T>,
     ) {
+        logW("OkHttpClient http request")
         action.start?.invoke()
         okHttpClient.newCall(request).apply {
             enqueue(object : Callback {
@@ -76,7 +85,9 @@ object OKHttpHttpClient : IHttpClient {
                 }
 
                 override fun onResponse(call: Call, response: Response) {
-                    action.success?.invoke(response.gsonToBean<T>())
+                    val jsonString = response.body?.string() ?: "{}"
+                    jsonParser.toBean(jsonString, clazz, action.success, action.successList)
+//                    action.success?.invoke(jsonString.jsonStringToObject<BaseResult<T>>())
                     action.finish?.invoke()
                 }
             })

@@ -1,14 +1,12 @@
 package com.darcy.message.lib_http
 
-import android.util.Log
+import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_http.entity.IPEntity
 import com.darcy.message.lib_http.entity.IPEntityAll
 import com.darcy.message.lib_http.entity.base.BaseResult
-import com.darcy.message.lib_http.exts.gsonToBean
-import com.darcy.message.lib_http.exts.json
-import com.darcy.message.lib_http.exts.jsonToBean
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import com.darcy.message.lib_http.exts.parser.jsonBeanToJsonString
+import com.darcy.message.lib_http.exts.parser.jsonStringToObject
+import org.junit.Before
 import org.junit.Test
 
 class KotlinxSerializationTest {
@@ -31,28 +29,20 @@ class KotlinxSerializationTest {
     "Province":"台湾"
   }
 }"""
-    val jsonStringAll2 = """{
-  "resultcode":"200",
-  "error_code":"0",
-  "reason":"success",
-  "result":{
-    "Country":"中国",
-    "Province":"台湾",
-    "City":"台北",
-    "District":"",
-    "Isp":"台湾学术网"
-  }
-}"""
+    @Before
+    fun init() {
+        XLogHelper.forTest()
+    }
 
     @Test
     fun testToJSON() {
         // 测试转换为JSON
         val responseResult: IPEntity = IPEntity("台北", "中国", "District", "台湾学术网", "台湾")
-        val responseAll: IPEntityAll = IPEntityAll("200", "查询成功", "SUCCESS", responseResult)
-        json.encodeToString(responseResult).also {
+        val responseAll: IPEntityAll = IPEntityAll(200, 200, "SUCCESS", responseResult)
+        responseResult.jsonBeanToJsonString().also {
             println("responseResult-->json: $it")
         }
-        json.encodeToString(responseAll).also {
+        responseAll.jsonBeanToJsonString().also {
             println("responseFull-->json: $it")
         }
 
@@ -61,48 +51,34 @@ class KotlinxSerializationTest {
     @Test
     fun testToBean() {
         // 测试转换为实体
-        json.decodeFromString<IPEntity>(jsonStringResult).also {
+        jsonStringResult.jsonStringToObject<IPEntity>().also {
             println("jsonStringResult-->IPEntity: $it")
         }
-        json.decodeFromString<IPEntityAll>(jsonStringAll).also {
+        jsonStringAll.jsonStringToObject<IPEntityAll>().also {
             println("jsonStringAll-->IPEntityAll: $it")
         }
-        json.decodeFromString<BaseResult<IPEntity>>(jsonStringAll).also {
+        jsonStringAll.jsonStringToObject<BaseResult<IPEntity>>().also {
             println("jsonStringAll-->BaseResult<IPEntity>: $it")
-        }
-
-        json.decodeFromString<IPEntityAll>(jsonStringAll2).also {
-            println("jsonStringAll2-->IPEntityAll: $it")
-        }
-        json.decodeFromString<BaseResult<IPEntity>>(jsonStringAll2).also {
-            println("jsonStringAll2-->BaseResult<IPEntity>: $it")
-        }
-        jsonStringAll2.jsonToBean<BaseResult<IPEntity>>().also {
-            println("jsonStringAll2-->jsonToBean: $it")
-        }
-
-        jsonStringAll2.gsonToBean<BaseResult<IPEntity>>().also {
-            println("jsonStringAll-->gsonToBean: $it")
         }
     }
 
     /**
-     * fixme NullPointerException: Parameter specified as non-null is null: method kotlinx.serialization.SerializersKt__SerializersKt.serializer, parameter type
+     * fixme 如何在非 inline 函数中获取泛型的实际类型
      */
     @Test
     fun testTParamToBean() {
+//        doGet<BaseResult<IPEntity>>()
         preFun<IPEntity>()
-
     }
 
-    private fun <T> preFun() {
+    inline fun <reified T> preFun() {
         doGet<BaseResult<T>>()
     }
 
     inline fun <reified T> doGet() {
-        val responseStr = jsonStringAll2
+        val responseStr = jsonStringAll
         println("responseStr=:$responseStr")
-        val result = responseStr.jsonToBean<T>().also {
+        val result = responseStr.jsonStringToObject<T>().also {
             println("BaseResult=:$it")
         }
         println("success+++")

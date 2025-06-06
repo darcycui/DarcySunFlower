@@ -7,6 +7,9 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_http.HttpManager
 import com.darcy.message.lib_http.entity.IPEntity
+import com.darcy.message.lib_http.entity.UserEntity
+import com.darcy.message.lib_http.service.impl.DarcyApiService
+import com.darcy.message.lib_http.service.impl.JuHeApiService
 import com.darcy.message.lib_http.utils.DNSUtil
 import com.darcy.message.lib_http.utils.NetworkTypeUtil
 import com.darcy.message.lib_ui.base.BaseActivity
@@ -39,7 +42,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
             checkHttpProxy()
         }
         binding.btnHttpJuhe.setOnClickListener {
-            doHttpRequest(
+            doJuheHttpRequest(
                 "https://apis.juhe.cn", "/ip/ipNewV3", mapOf(
                     "ip" to "114.215.154.101",
                     "key" to "f128bfc760193c5762c5c3be2a6051d8"
@@ -47,12 +50,12 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
             )
         }
         binding.btnHttpDarcyIP.setOnClickListener {
-            doHttpRequest(
+            doDarcyHttpRequest(
                 "https://10.0.0.241", "/users/all", mapOf(), false
             )
         }
         binding.btnHttpDarcyServer.setOnClickListener {
-            doHttpRequest(
+            doDarcyHttpRequest(
                 "https://darcycui.com.cn", "/users/all", mapOf(), false
             )
         }
@@ -63,21 +66,95 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
             doLogin()
         }
         binding.btnDNS.setOnClickListener {
-            doDNS()
+            getDNS()
         }
         binding.btnNetworkType.setOnClickListener {
-            doNetWorkType()
+            checkNetWorkType()
         }
     }
 
-    private fun doNetWorkType() {
+    private fun doJuheHttpRequest(
+        baseUrl: String,
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean
+    ) {
+        scope.launch {
+            HttpManager.doGet<IPEntity>(
+                IPEntity::class.java, baseUrl, path, params, useCache
+            ) {
+                start {
+                    println("start")
+                }
+                request {
+                    println("request:")
+                    val api = JuHeApiService.api()
+                    api.checkIP("110.110.110.110")
+//                    null
+                }
+                success {
+                    println("success:$it")
+                    println("success result:${it?.result}")
+                    println("success result:${it?.result?.city}")
+                    println("success result:${it?.result!!::class.java.simpleName}")
+                    showResult(it.toString())
+                }
+                error {
+                    println("error:$it")
+                    showResult(it)
+                }
+                finish {
+                    println("finish")
+                }
+            }
+        }
+    }
+
+    private fun doDarcyHttpRequest(
+        baseUrl: String,
+        path: String,
+        params: Map<String, String>,
+        useCache: Boolean
+    ) {
+        scope.launch {
+            HttpManager.doGet<UserEntity>(
+                UserEntity::class.java, baseUrl, path, params, useCache
+            ) {
+                start {
+                    println("start")
+                }
+                requestList {
+                    println("request:")
+                    val api = DarcyApiService.api()
+                    api.getUsers()
+//                    null
+                }
+                successList {
+                    println("success:$it")
+                    println("success result:${it?.result}")
+                    println("success result:${it?.result?.get(0)?.name}")
+                    println("success result:${it?.result!!::class.java.simpleName}")
+                    showResult(it.toString())
+                }
+                error {
+                    println("error:$it")
+                    showResult(it)
+                }
+                finish {
+                    println("finish")
+                }
+            }
+        }
+    }
+
+    private fun checkNetWorkType() {
         NetworkTypeUtil.getNetworkType(applicationContext).also {
             logD("网络类型 $it")
             toasts("网络类型 $it")
         }
     }
 
-    private fun doDNS() {
+    private fun getDNS() {
         DNSUtil.getDnsServers(applicationContext, callback = { type, servers ->
             logD("type $type, servers $servers")
             toasts("type $type, servers $servers")
@@ -87,6 +164,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
     private fun doLogin() {
         scope.launch {
             HttpManager.doGet<String>(
+                String::class.java,
                 baseUrl = "https://www.baidu.com",
                 path = "/",
                 //                    baseUrl = "https://10.0.0.200",
@@ -119,6 +197,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
     private fun doEBPF() {
         scope.launch {
             HttpManager.doGet<String>(
+                String::class.java,
                 baseUrl = "https://api.github.com",
                 path = "/search/repositories",
                 params = mapOf(
@@ -132,38 +211,6 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
                 //            request {
                 //                println("request:")
                 //            }
-                success {
-                    println("success:$it")
-                    showResult(it.toString())
-                }
-                error {
-                    println("error:$it")
-                    showResult(it)
-                }
-                finish {
-                    println("finish")
-                }
-            }
-        }
-    }
-
-    private fun doHttpRequest(
-        baseUrl: String,
-        path: String,
-        params: Map<String, String>,
-        useCache: Boolean
-    ) {
-        scope.launch {
-            HttpManager.doGet<IPEntity>(baseUrl, path, params, useCache) {
-                start {
-                    println("start")
-                }
-                request {
-                    println("request:")
-                    //                        val api = JuHeApiService.api()
-                    //                        api.checkIP("110.110.110.110")
-                    null
-                }
                 success {
                     println("success:$it")
                     showResult(it.toString())

@@ -17,7 +17,9 @@ class RetrofitHttpClientTest {
         runBlocking {
             val api = JuHeApiService.api()
             initHttpManager()
-            HttpManager.doGet<IPEntity>(path = "", params = mapOf()) {
+            HttpManager.doGet<IPEntity>(
+                IPEntity::class.java, path = "", params = mapOf()
+            ) {
                 start {
                     println("start")
                 }
@@ -43,7 +45,9 @@ class RetrofitHttpClientTest {
         runBlocking {
             val api = JuHeApiService.api()
             initHttpManager()
-            HttpManager.doPost<IPEntity>(path = "", params = mapOf()) {
+            HttpManager.doPost<IPEntity>(
+                IPEntity::class.java, path = "", params = mapOf()
+            ) {
                 start {
                     println("start")
                 }

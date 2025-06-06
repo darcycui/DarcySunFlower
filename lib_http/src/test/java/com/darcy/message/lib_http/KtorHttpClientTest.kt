@@ -17,6 +17,7 @@ class KtorHttpClientTest {
         runBlocking {
             initHttpManager()
             HttpManager.doGet<IPEntity>(
+                IPEntity::class.java,
                 baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(
@@ -47,6 +48,7 @@ class KtorHttpClientTest {
         runBlocking {
             initHttpManager()
             HttpManager.doPost<IPEntity>(
+                IPEntity::class.java,
                 baseUrl = "https://apis.juhe.cn",
                 path = "/ip/ipNewV3",
                 params = mapOf(

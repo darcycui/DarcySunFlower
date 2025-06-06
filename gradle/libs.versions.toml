@@ -9,6 +9,7 @@ gsonVersion = "2.10.1"
 mockk = "1.13.5"
 stringFogPlugin = "5.2.0"
 kotlin = "2.1.0"
+kotlinOld = "1.9.23"
 core = "1.12.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
@@ -114,5 +115,8 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidxNavigation = { id = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "androidxNavigation" }
+#kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinOld" }
+
 
 
