@@ -13,6 +13,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     // stringfog
     id("stringfog")
+    alias(libs.plugins.kotlinxSerialization)
 }
 apply(plugin = "stringfog")
 configure<StringFogExtension> {
@@ -237,7 +238,7 @@ dependencies {
     implementation(project(":lib_db"))
     implementation(project(":lib_ui"))
     implementation(project(":lib_data_store"))
-    implementation(project(":lib_http"))
+    api(project(":lib_http"))
     implementation(project(":lib_report"))
     implementation(project(":lib_jni"))
     implementation(project(":lib_security"))

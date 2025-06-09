@@ -1,5 +1,6 @@
 package com.darcy.message.lib_http.entity
 
+import com.darcy.message.lib_http.entity.base.IEntity
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
 
@@ -9,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class UserEntity(
     val id: Long = -1L,
     val name: String = "",
-){
+) : IEntity {
     override fun toString(): String {
         return "UserEntity(id=$id, name='$name')"
     }

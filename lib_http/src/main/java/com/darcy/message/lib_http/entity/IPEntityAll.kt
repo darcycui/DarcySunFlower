@@ -1,5 +1,6 @@
 package com.darcy.message.lib_http.entity
 
+import com.darcy.message.lib_http.entity.base.IEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.SerialName
@@ -20,4 +21,4 @@ data class IPEntityAll(
     val reason: String = "",
 
     val result: IPEntity
-)
+): IEntity

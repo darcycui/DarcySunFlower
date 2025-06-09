@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.serialization.serializer
 
 
 class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
@@ -81,7 +82,12 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
     ) {
         scope.launch {
             HttpManager.doGet<IPEntity>(
-                IPEntity::class.java, baseUrl, path, params, useCache
+                IPEntity::class.java,
+                serializer<IPEntity>(),
+                baseUrl,
+                path,
+                params,
+                useCache
             ) {
                 start {
                     println("start")
@@ -118,7 +124,12 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
     ) {
         scope.launch {
             HttpManager.doGet<UserEntity>(
-                UserEntity::class.java, baseUrl, path, params, useCache
+                UserEntity::class.java,
+                serializer<UserEntity>(),
+                baseUrl,
+                path,
+                params,
+                useCache
             ) {
                 start {
                     println("start")
@@ -165,6 +176,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         scope.launch {
             HttpManager.doGet<String>(
                 String::class.java,
+                serializer<String>(),
                 baseUrl = "https://www.baidu.com",
                 path = "/",
                 //                    baseUrl = "https://10.0.0.200",
@@ -198,6 +210,7 @@ class TestHttpActivity : BaseActivity<AppActivityTestHttpBinding>() {
         scope.launch {
             HttpManager.doGet<String>(
                 String::class.java,
+                serializer<String>(),
                 baseUrl = "https://api.github.com",
                 path = "/search/repositories",
                 params = mapOf(

@@ -8,6 +8,7 @@ import com.darcy.message.lib_http.exts.toUrlEncodedString
 import com.darcy.message.lib_http.parser.IJsonParser
 import com.darcy.message.lib_http.parser.impl.GsonParserImpl
 import com.darcy.message.lib_http.request.CommonRequestAction
+import kotlinx.serialization.KSerializer
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -32,6 +33,7 @@ object OKHttpHttpClient : IHttpClient {
 
     override suspend fun <T> doGet(
         clazz: Class<T>,
+        kSerializer: KSerializer<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -50,6 +52,7 @@ object OKHttpHttpClient : IHttpClient {
 
     override suspend fun <T> doPost(
         clazz: Class<T>,
+        kSerializer: KSerializer<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -86,7 +89,7 @@ object OKHttpHttpClient : IHttpClient {
 
                 override fun onResponse(call: Call, response: Response) {
                     val jsonString = response.body?.string() ?: "{}"
-                    jsonParser.toBean(jsonString, clazz, action.success, action.successList)
+                    jsonParser.toBean(jsonString, clazz, null, action.success, action.successList)
 //                    action.success?.invoke(jsonString.jsonStringToObject<BaseResult<T>>())
                     action.finish?.invoke()
                 }

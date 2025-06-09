@@ -5,6 +5,7 @@ import com.darcy.message.lib_http.client.IHttpClient
 import com.darcy.message.lib_http.exts.exception.getHttpErrorMessage
 import com.darcy.message.lib_http.exts.isSuccess
 import com.darcy.message.lib_http.request.CommonRequestAction
+import kotlinx.serialization.KSerializer
 import okhttp3.OkHttpClient
 
 object RetrofitHttpClient : IHttpClient {
@@ -14,6 +15,7 @@ object RetrofitHttpClient : IHttpClient {
 
     override suspend fun <T> doGet(
         clazz: Class<T>,
+        kSerializer: KSerializer<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -25,6 +27,7 @@ object RetrofitHttpClient : IHttpClient {
 
     override suspend fun <T> doPost(
         clazz: Class<T>,
+        kSerializer: KSerializer<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,

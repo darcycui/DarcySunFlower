@@ -3,6 +3,7 @@ package com.darcy.message.lib_http
 import com.darcy.message.lib_common.exts.logW
 import com.darcy.message.lib_http.client.IHttpClient
 import com.darcy.message.lib_http.request.CommonRequestAction
+import kotlinx.serialization.KSerializer
 
 /**
  * Created by Darcy
@@ -26,6 +27,7 @@ object HttpManager : IHttpClient {
 
     override suspend fun <T> doGet(
         clazz: Class<T>,
+        kSerializer: KSerializer<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -33,11 +35,12 @@ object HttpManager : IHttpClient {
         block: CommonRequestAction<T>.() -> Unit
     ) {
         checkHttpClientInit()
-        httpClient?.doGet(clazz, baseUrl, path, params, useCache, block)
+        httpClient?.doGet(clazz, kSerializer, baseUrl, path, params, useCache, block)
     }
 
     override suspend fun <T> doPost(
         clazz: Class<T>,
+        kSerializer: KSerializer<T>,
         baseUrl: String,
         path: String,
         params: Map<String, String>,
@@ -45,7 +48,7 @@ object HttpManager : IHttpClient {
         block: CommonRequestAction<T>.() -> Unit
     ) {
         checkHttpClientInit()
-        httpClient?.doPost(clazz, baseUrl, path, params, useCache, block)
+        httpClient?.doPost(clazz, kSerializer, baseUrl, path, params, useCache, block)
     }
 
     private fun checkHttpClientInit() {

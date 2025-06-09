@@ -71,6 +71,6 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.ktor.serialization.gson)
     implementation(libs.ktor.client.logging)
-    implementation(libs.kotlinx.serialization.core)
-    implementation(libs.kotlinx.serialization.json)
+    api(libs.kotlinx.serialization.core)
+    api(libs.kotlinx.serialization.json)
 }

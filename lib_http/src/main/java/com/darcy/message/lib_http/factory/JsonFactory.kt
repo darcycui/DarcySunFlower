@@ -12,7 +12,6 @@ object JsonFactory {
             coerceInputValues = true
             serializersModule = SerializersModule {
                 // 注册BaseResult的上下文序列化器 KSerializer
-//                contextual(BaseResult::class) {}
             }
         }
     }
