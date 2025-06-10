@@ -69,7 +69,14 @@ object KtorHttpClient : IHttpClient {
         action: CommonRequestAction<T>
     ) {
         logW("KtorHttpClient http request")
-        jsonParser.toBean(jsonString, null, kSerializer, action.success, action.successList)
+        jsonParser.toBean(
+            jsonString,
+            null,
+            kSerializer,
+            action.success,
+            action.successList,
+            action.error
+        )
         action.finish?.invoke()
     }
 }

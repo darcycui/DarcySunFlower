@@ -16,7 +16,8 @@ class GsonParserImpl : IJsonParser {
         clazz: Class<T>?,
         kSerializer: KSerializer<T>?,
         success: ((BaseResult<T>?) -> Unit)?,
-        successList: ((BaseResult<List<T>>?) -> Unit)?
+        successList: ((BaseResult<List<T>>?) -> Unit)?,
+        error: ((String) -> Unit)?
     ) {
         val jsonObject: JsonObject = JsonParser.parseString(json).asJsonObject
         // 根据result字段判断是object还是array
@@ -27,6 +28,7 @@ class GsonParserImpl : IJsonParser {
                     success?.invoke(json.gsonStringToObject2(clazz))
                 } ?: run {
                     logE("resultElement is JsonObject, but clazz is null")
+                    error?.invoke("resultElement is JsonObject, but clazz is null")
                 }
             }
 
@@ -35,6 +37,7 @@ class GsonParserImpl : IJsonParser {
                     successList?.invoke(json.gsonStringToList(clazz))
                 } ?: run {
                     logE("resultElement is JsonArray, but clazz is null")
+                    error?.invoke("resultElement is JsonArray, but clazz is null")
                 }
             }
 

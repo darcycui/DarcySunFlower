@@ -89,7 +89,14 @@ object OKHttpHttpClient : IHttpClient {
 
                 override fun onResponse(call: Call, response: Response) {
                     val jsonString = response.body?.string() ?: "{}"
-                    jsonParser.toBean(jsonString, clazz, null, action.success, action.successList)
+                    jsonParser.toBean(
+                        jsonString,
+                        clazz,
+                        null,
+                        action.success,
+                        action.successList,
+                        action.error
+                    )
 //                    action.success?.invoke(jsonString.jsonStringToObject<BaseResult<T>>())
                     action.finish?.invoke()
                 }

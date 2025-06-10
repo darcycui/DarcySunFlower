@@ -15,7 +15,8 @@ class JsonParserImpl : IJsonParser {
         clazz: Class<T>?,
         kSerializer: KSerializer<T>?,
         success: ((BaseResult<T>?) -> Unit)?,
-        successList: ((BaseResult<List<T>>?) -> Unit)?
+        successList: ((BaseResult<List<T>>?) -> Unit)?,
+        error: ((String) -> Unit)?
     ) {
         // 解析时先转换为 JsonElement
         val jsonElement = kotlinxJson.parseToJsonElement(json)
@@ -32,6 +33,7 @@ class JsonParserImpl : IJsonParser {
                     )
                 } ?: run {
                     logE("json is JsonObject but kSerializer is null")
+                    error?.invoke("json is JsonObject but kSerializer is null")
                 }
             }
 
@@ -43,6 +45,7 @@ class JsonParserImpl : IJsonParser {
                     )
                 } ?: run {
                     logE("json is JsonArray but kSerializer is null")
+                    error?.invoke("json is JsonArray but kSerializer is null")
                 }
             }
 
