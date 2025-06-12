@@ -19,8 +19,8 @@ class TestWebSocketActivity : AppCompatActivity() {
     private var count = 0
     private val fromUser = "Android"
     private val toUser = "three-to-android"
-    private val url = "wss://10.0.0.241:7443/person"
-//    private val url = "wss://darcycui.com.cn:7443/person"
+//    private val url = "wss://10.0.0.241:7443/person"
+    private val url = "wss://darcycui.com.cn:7443/person"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,29 +44,37 @@ class TestWebSocketActivity : AppCompatActivity() {
         WebsocketManager.init(this, url, fromUser)
         WebsocketManager.setOuterListener(object : IOuterListener {
             override fun onOpen() {
-                setupUI(" 已连接")
+                setupUI("已连接")
+            }
+
+            override fun onSend(message: String) {
+                setupUI("发送: $message")
+            }
+
+            override fun onSend(bytes: ByteArray) {
+                setupUI("收到: ${bytes.toString(Charsets.UTF_8)}")
             }
 
             override fun onMessage(message: String) {
-                setupUI("${binding.tvInfo.text}\n 收到: $message")
+                setupUI("收到: $message")
             }
 
             override fun onMessage(bytes: ByteArray) {
             }
 
             override fun onFailure(errorMessage: String) {
-                setupUI("${binding.tvInfo.text}\n $errorMessage")
+                setupUI(errorMessage)
             }
 
             override fun onClosed() {
-                setupUI("${binding.tvInfo.text}\n 已断开")
+                setupUI("已断开")
             }
         })
     }
 
     private fun setupUI(text: String) {
         lifecycleScope.launch {
-            binding.tvInfo.text = text
+            binding.tvInfo.text = "${binding.tvInfo.text}\n $text"
         }
     }
 
@@ -78,7 +86,6 @@ class TestWebSocketActivity : AppCompatActivity() {
             btnSend.setOnClickListener {
                 count++
                 WebsocketManager.send("hello-$count", toUser)
-                setupUI("${binding.tvInfo.text}\n 发送: hello-$count")
             }
             btnDisconnect.setOnClickListener {
                 WebsocketManager.disconnect()

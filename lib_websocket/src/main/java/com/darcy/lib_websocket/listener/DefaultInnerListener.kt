@@ -1,6 +1,6 @@
 package com.darcy.lib_websocket.listener
 
-import com.darcy.lib_websocket.client.IWebSocketClient
+import com.darcy.lib_websocket.client.OkHttpWebSocketClient
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
@@ -11,7 +11,7 @@ import okhttp3.WebSocketListener
 import okio.ByteString
 
 class DefaultInnerListener(
-    private val iWebSocketClient: IWebSocketClient
+    private val iWebSocketClient: OkHttpWebSocketClient
 ) : WebSocketListener() {
     companion object {
         private val TAG = DefaultInnerListener::class.java.simpleName
@@ -25,13 +25,13 @@ class DefaultInnerListener(
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         logD("$TAG onMessage: $text")
-        iWebSocketClient.onReceive(text)
+        iWebSocketClient.onMessage(text)
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
         super.onMessage(webSocket, bytes)
         logD("$TAG onMessage: ${bytes.string(Charsets.UTF_8)}")
-        iWebSocketClient.onReceive(bytes.toByteArray())
+        iWebSocketClient.onMessage(bytes.toByteArray())
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {

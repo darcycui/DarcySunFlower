@@ -10,10 +10,5 @@ interface IWebSocketClient {
     fun send(message: String, toUser: String)
     fun send(bytes: ByteArray)
     fun reconnect()
-    fun onOpen()
-    fun onReceive(message: String)
-    fun onReceive(bytes: ByteArray)
-    fun onFailure(errorMessage: String)
-    fun onClosed()
     fun setOuterListener(listener: IOuterListener)
 }

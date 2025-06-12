@@ -22,7 +22,7 @@ import java.nio.ByteBuffer
 import java.time.LocalDateTime
 
 
-class OkHttpWebSocketClient : IWebSocketClient {
+class OkHttpWebSocketClient : IWebSocketClient, IOuterListener {
     companion object {
         private val TAG = OkHttpWebSocketClient::class.java.simpleName
         private var mInstance: OkHttpWebSocketClient? = null
@@ -44,7 +44,7 @@ class OkHttpWebSocketClient : IWebSocketClient {
     private var url: String = ""
     private var outerListener: IOuterListener? = null
     private val iJsonTransfer: IJsonTransfer = GsonTransferImpl.getInstance()
-    private val heartbeatHelper = HeartbeatHelper(this)
+    private val heartbeatHelper = HeartbeatHelper.getInstance(this)
 
     override fun init(context: Context, url: String, fromUser: String) {
         if (client != null && webSocket != null) {
@@ -80,7 +80,6 @@ class OkHttpWebSocketClient : IWebSocketClient {
     override fun disconnect() {
         webSocket?.let {
             it.close(1000, "normal disconnect...")
-            heartbeatHelper.stop()
             webSocket = null
         }
         logD("$TAG disconnect")
@@ -91,9 +90,10 @@ class OkHttpWebSocketClient : IWebSocketClient {
             logE("websocket is null.")
             return
         }
-        if (PING  == message) {
+        if (PING == message) {
             logV("$TAG send ping...")
             webSocket?.send(message)
+            onSend(message)
             return
         }
         val messageBean = MessageBean(
@@ -103,12 +103,14 @@ class OkHttpWebSocketClient : IWebSocketClient {
             createTime = LocalDateTime.now().toString()
         )
         val jsonMessage = iJsonTransfer.toJson(messageBean)
-        webSocket?.send(jsonMessage)
         logD("$TAG send message: $jsonMessage")
+        webSocket?.send(jsonMessage)
+        onSend(jsonMessage)
     }
 
     override fun send(bytes: ByteArray) {
         webSocket?.send(ByteBuffer.wrap(bytes).toByteString())
+        onSend(bytes)
     }
 
     override fun reconnect() {
@@ -123,7 +125,15 @@ class OkHttpWebSocketClient : IWebSocketClient {
         heartbeatHelper.start(10_000, 5_000)
     }
 
-    override fun onReceive(message: String) {
+    override fun onSend(message: String) {
+        outerListener?.onSend(message)
+    }
+
+    override fun onSend(bytes: ByteArray) {
+        outerListener?.onSend(bytes)
+    }
+
+    override fun onMessage(message: String) {
         if (PONG == message) {
             logV("$TAG receive pong...")
             heartbeatHelper.clearPongTimeoutJob()
@@ -132,7 +142,7 @@ class OkHttpWebSocketClient : IWebSocketClient {
         outerListener?.onMessage(message)
     }
 
-    override fun onReceive(bytes: ByteArray) {
+    override fun onMessage(bytes: ByteArray) {
         logD("$TAG receive bytes: ${bytes.contentToString()}")
         outerListener?.onMessage(bytes)
     }
