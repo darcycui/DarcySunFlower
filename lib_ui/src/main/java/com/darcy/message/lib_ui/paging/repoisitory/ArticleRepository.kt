@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
-val firstArticleCreatedTime = LocalDateTime.now()
+val firstArticleCreatedTime: LocalDateTime = LocalDateTime.now()
 
 /**
  * Repository class that mimics fetching [Article] instances from an asynchronous source.

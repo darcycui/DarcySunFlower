@@ -10,7 +10,7 @@ import com.darcy.message.sunflower.ui.list.bean.ListBean
 import kotlinx.coroutines.delay
 import kotlin.math.max
 
-private const val START_KEY: Int = 2
+private const val START_KEY: Int = 1
 
 const val ITEMS_PER_PAGE = 10
 
