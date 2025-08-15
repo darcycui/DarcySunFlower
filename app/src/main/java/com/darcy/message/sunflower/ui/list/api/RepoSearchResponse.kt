@@ -18,12 +18,16 @@ package com.darcy.message.sunflower.ui.list.api
 
 import com.darcy.message.lib_db.tables.Repo
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
 /**
  * Data class to hold repo responses from searchRepo API calls.
  */
+@Serializable
 data class RepoSearchResponse(
-    @SerializedName("total_count") val total: Int = 0,
-    @SerializedName("items") val items: List<Repo> = emptyList(),
-    val nextPage: Int? = null
+    @SerializedName("total_count")
+    val total: Int = 0,
+
+//    @Contextual
+    @SerializedName("items") val items: List<Repo> = emptyList()
 )

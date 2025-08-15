@@ -7,19 +7,18 @@ import androidx.room.RoomDatabase
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_db.db.IDatabase
 import com.darcy.message.lib_db.db.sqlcipher.CustomCipherSQLiteHook
-import com.darcy.message.lib_db.migrations.ItemMigration1To2
-import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_db.migrations.RepoMigration1To2
 import com.darcy.message.lib_db.tables.RemoteKeys
 import com.darcy.message.lib_db.tables.Repo
 import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 import java.nio.charset.StandardCharsets
 
 @Database(
-    entities = [Item::class, Repo::class, RemoteKeys::class],
+    entities = [Repo::class, RemoteKeys::class],
     version = 1,
     exportSchema = true
 )
-abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
+abstract class RepoRoomDatabase : RoomDatabase(), IDatabase {
 
     override fun show() {
         logD(message = "This is ItemRoomDatabase.")
@@ -27,17 +26,17 @@ abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
 
     companion object {
         @Volatile
-        private var INSTANCE: ItemRoomDatabase? = null
+        private var INSTANCE: RepoRoomDatabase? = null
 
-        fun getDatabase(context: Context): ItemRoomDatabase {
+        fun getDatabase(context: Context): RepoRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 // use default sqlite database
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ItemRoomDatabase::class.java,
+                    RepoRoomDatabase::class.java,
                     "item_database"
                 ).fallbackToDestructiveMigration() // fallback strategy
-                    .addMigrations(ItemMigration1To2()) // migrations
+                    .addMigrations(RepoMigration1To2()) // migrations
 //                    .allowMainThreadQueries() // mai thread use
                     .build()
                 INSTANCE = instance
@@ -45,7 +44,7 @@ abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
             }
         }
 
-        fun getCipherDatabase(context: Context): ItemRoomDatabase {
+        fun getCipherDatabase(context: Context): RepoRoomDatabase {
             // load sqlcipher native library
             System.loadLibrary("sqlcipher")
             return INSTANCE ?: synchronized(this) {
@@ -57,10 +56,10 @@ abstract class ItemRoomDatabase : RoomDatabase(), IDatabase {
                 )
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ItemRoomDatabase::class.java,
+                    RepoRoomDatabase::class.java,
                     "item_cipher_database"
                 ).fallbackToDestructiveMigration() // fallback strategy
-                    .addMigrations(ItemMigration1To2()) // migrations
+                    .addMigrations(RepoMigration1To2()) // migrations
                     .openHelperFactory(factory) // use custom factory
 //                    .allowMainThreadQueries() // mai thread use
                     .build()

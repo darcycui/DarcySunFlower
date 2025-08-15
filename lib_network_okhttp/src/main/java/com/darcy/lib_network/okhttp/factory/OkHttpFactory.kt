@@ -4,6 +4,7 @@ import com.darcy.lib_network.okhttp.config.CALL_TIMEOUT
 import com.darcy.lib_network.okhttp.config.CONNECT_TIMEOUT
 import com.darcy.lib_network.okhttp.config.READ_TIMEOUT
 import com.darcy.lib_network.okhttp.config.WRITE_TIMEOUT
+import com.darcy.lib_network.okhttp.exception.CustomEventListener
 import com.darcy.lib_network.okhttp.interceptor.impl.KeyInterceptor
 import com.darcy.lib_network.okhttp.safety.TrustCertHelper
 import com.darcy.lib_network.okhttp.safety.VerifyHostHelper
@@ -14,10 +15,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
+import javax.net.ssl.X509TrustManager
 
 object OkHttpFactory {
     fun create(): OkHttpClient {
         return OkHttpClient.Builder()
+            // 全局异常处理
+            .eventListenerFactory { CustomEventListener() }
             // set timeout
             .callTimeout(CALL_TIMEOUT, TimeUnit.MILLISECONDS)
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
@@ -48,7 +52,9 @@ object OkHttpFactory {
             .apply {
                  // 1.trust build in cert only
 //                val sslSocketPair = TrustCertHelper.createTrustAllSSLSocketFactory()
-                val trustManager = TrustCertHelper.createTrustBuildIn()
+//                // trust all cert
+//                val trustManager = TrustCertHelper.createTrustBuildIn()
+                val trustManager: X509TrustManager? = TrustCertHelper.createTrustAll()
                 trustManager?.let {
                     val sslContext = SSLContext.getInstance("TLS")
                     sslContext.init(null, arrayOf(trustManager), java.security.SecureRandom())

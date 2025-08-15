@@ -11,22 +11,23 @@ import javax.net.ssl.SSLSession
  * 域名校验
  */
 class VerifyHostHelper : HostnameVerifier {
-    private val TAG = this::class.java.simpleName
+    companion object {
+        private val TAG = this::class.java.simpleName
+    }
+
+    private val whiteList: List<String> = listOf(
+        "apis.juhe.cn",
+        "api.github.com",
+        "darcycui.com.cn",
+    )
+
     override fun verify(hostname: String?, session: SSLSession?): Boolean {
         logW("$TAG verify")
         if (hostname == null || hostname.isEmpty() || hostname.isBlank()) {
             logW("$TAG hostname is null")
             return false
         }
-        if (hostname == "apis.juhe.cn") {
-            logV("$TAG hostname=$hostname ==>verify SUCCESS by default")
-            return true
-        }
-        if (hostname == "darcycui.com.cn") {
-            logV("$TAG hostname=$hostname ==>verify SUCCESS by default")
-            return true
-        }
-        if (isPrivateIPv4(hostname)) {
+        if (hostname in whiteList) {
             logV("$TAG hostname=$hostname ==>verify SUCCESS by default")
             return true
         }

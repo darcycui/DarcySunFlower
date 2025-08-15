@@ -3,7 +3,7 @@ package com.darcy.message.lib_db.db
 import android.content.Context
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logI
-import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_db.tables.Repo
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -25,7 +25,7 @@ object DatabaseManager {
         GlobalScope.launch {
             repeat(50) { count ->
                 logI(message = "insert item $count")
-                getDatabase().itemDao().insert(Item(count, "TomJerry $count", count.toDouble(), 100))
+                getDatabase().itemDao().insert(Repo(count, "Android $count", "描述:$count", 100))
                     .also { result ->
                         logI(message = "insert item $count result=$result")
                     }

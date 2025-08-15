@@ -9,7 +9,7 @@ class LoadStateFooterAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<LoadStateViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
-        (holder as LoadStateViewHolder).bindState(loadState)
+        holder.bindState(loadState)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {

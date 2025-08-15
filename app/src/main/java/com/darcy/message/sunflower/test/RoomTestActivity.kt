@@ -1,29 +1,21 @@
 package com.darcy.message.sunflower.test
 
-import android.content.Context
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_db.db.DatabaseManager
-import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_db.tables.Repo
 import com.darcy.message.lib_ui.base.BaseActivity
-import com.darcy.message.sunflower.R
 import com.darcy.message.sunflower.databinding.AppActivityRoomTestBinding
 import com.darcy.message.sunflower.test.adapter.RoomAdapter
 import com.darcy.message.sunflower.test.viewmodel.RoomViewModel
-import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
 import com.darcy.message.sunflower.ui.list.bean.ListBean
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
@@ -50,12 +42,12 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
                 DatabaseManager.testDB(context)
             }
             btnAdd.setOnClickListener {
-                viewModel.insertItem(Item(count, "Tom-$count", count.toDouble()))
+                viewModel.insertItem(Repo(count, "Tom-$count", "描述:$count"))
                 count++
             }
             btnDelete.setOnClickListener {
                 val finalCount = count - 1
-                viewModel.deleteItem(Item(finalCount, "Tom-$finalCount", finalCount.toDouble()))
+                viewModel.deleteItem(Repo(finalCount, "Tom-$finalCount", "描述:$finalCount"))
             }
             btnDeleteAll.setOnClickListener {
                 viewModel.deleteItemAll()

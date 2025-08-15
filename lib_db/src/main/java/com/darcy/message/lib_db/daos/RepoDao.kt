@@ -30,7 +30,7 @@ interface RepoDao {
     @Query(
         "SELECT * FROM repos WHERE " +
                 "name LIKE :queryString OR description LIKE :queryString " +
-                "ORDER BY stargazers_count DESC, name ASC"
+                "ORDER BY starCount DESC, name ASC"
     )
     suspend fun getRepos(queryString: String): List<Repo>?
 
@@ -40,12 +40,9 @@ interface RepoDao {
     @Query(
         "SELECT * FROM repos WHERE " +
                 "name LIKE :queryString OR description LIKE :queryString " +
-                "ORDER BY stargazers_count DESC, name ASC"
+                "ORDER BY starCount DESC, name ASC"
     )
     fun reposByName(queryString: String): PagingSource<Int, Repo>
-
-    @Query("SELECT * FROM repos")
-    fun reposByName(): PagingSource<Int, Repo>
 
     @Query("DELETE FROM repos")
     suspend fun clearRepos()

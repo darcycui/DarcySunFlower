@@ -1,9 +1,7 @@
 package com.darcy.message.sunflower.ui.detail
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
@@ -59,7 +57,7 @@ class DetailActivity : BaseActivity<AppActivityDetailBinding>() {
             viewModel.getItemDetailLiveData(1).observe(this@DetailActivity) {
                 it?.let {
                     logD(message = "item-->$it")
-                    binding.tvInfo.text = it.itemName
+                    binding.tvInfo.text = it.name
                 } ?: run {
                     logE(message = "item is null")
                 }

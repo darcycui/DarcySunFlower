@@ -1,6 +1,8 @@
 package com.darcy.message.lib_http.client.impl
 
+import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logW
+import com.darcy.message.lib_common.exts.print
 import com.darcy.message.lib_http.client.IHttpClient
 import com.darcy.message.lib_http.client.factory.KtorFactory
 import com.darcy.message.lib_http.exts.toFormDataContent
@@ -18,6 +20,7 @@ import io.ktor.http.contentType
 import kotlinx.serialization.KSerializer
 
 object KtorHttpClient : IHttpClient {
+    private val TAG = KtorHttpClient.javaClass.simpleName
     private val ktorClient = KtorFactory.create()
     private val jsonParser: IJsonParser by lazy {
         JsonParserImpl()
@@ -32,14 +35,19 @@ object KtorHttpClient : IHttpClient {
         useCache: Boolean,
         block: CommonRequestAction<T>.() -> Unit
     ) {
-        val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
-        val url = baseUrl + path + "?" + params.toUrlEncodedString()
-        action.start?.invoke()
-        val responseStr: String = ktorClient.get(url) {
-            this.header("User-Agent", "Android Client by Ktor")
-        }.body()
-        // darcyRefactor: 使用自定义 KSerializer 解析 json
-        internalRequest(kSerializer, responseStr, action)
+        try {
+            val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
+            val url = baseUrl + path + "?" + params.toUrlEncodedString()
+            action.start?.invoke()
+            val responseStr: String = ktorClient.get(url) {
+                this.header("User-Agent", "Android Client by Ktor")
+            }.body()
+            // darcyRefactor: 使用自定义 KSerializer 解析 json
+            internalRequest(kSerializer, responseStr, action)
+        } catch (e: Exception) {
+            logE("$TAG doGet ERROR: ${e.message}")
+            e.print()
+        }
     }
 
     override suspend fun <T> doPost(
@@ -51,16 +59,21 @@ object KtorHttpClient : IHttpClient {
         useCache: Boolean,
         block: CommonRequestAction<T>.() -> Unit
     ) {
-        val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
-        val url = baseUrl + path
-        val formDataContent = params.toFormDataContent()
-        action.start?.invoke()
-        val jsonString: String = ktorClient.post(url) {
-            this.header("User-Agent", "Android Client by Ktor")
-            contentType(ContentType.Application.FormUrlEncoded)
-            setBody(formDataContent)
-        }.body()
-        internalRequest(kSerializer, jsonString, action)
+        try {
+            val action: CommonRequestAction<T> = CommonRequestAction<T>().apply(block)
+            val url = baseUrl + path
+            val formDataContent = params.toFormDataContent()
+            action.start?.invoke()
+            val jsonString: String = ktorClient.post(url) {
+                this.header("User-Agent", "Android Client by Ktor")
+                contentType(ContentType.Application.FormUrlEncoded)
+                setBody(formDataContent)
+            }.body()
+            internalRequest(kSerializer, jsonString, action)
+        } catch (e: Exception) {
+            logE("$TAG doPost ERROR: ${e.message}")
+            e.print()
+        }
     }
 
     private fun <T> internalRequest(

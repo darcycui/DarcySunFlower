@@ -10,9 +10,9 @@ import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_common.xlog.XLogHelper
 import com.darcy.message.lib_data_store.helper.DataStoreHelper
 import com.darcy.message.lib_db.db.DatabaseManager
-import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
+import com.darcy.message.lib_db.db.impl.RepoRoomDatabase
 import com.darcy.message.lib_http.HttpManager
-import com.darcy.message.lib_http.client.impl.KtorHttpClient
+import com.darcy.message.lib_http.client.impl.RetrofitHttpClient
 import com.darcy.message.lib_umeng.ReportManager
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import dagger.hilt.android.HiltAndroidApp
@@ -65,15 +65,15 @@ class App : Application() {
     // DB
     private fun initDatabase() {
 //        DatabaseManager.init(this, ItemRoomDatabase.getDatabase(this))
-        DatabaseManager.init(this, ItemRoomDatabase.getCipherDatabase(this))
+        DatabaseManager.init(this, RepoRoomDatabase.getCipherDatabase(this))
     }
 
 
     // Http
     private fun initHttp() {
 //        HttpManager.init(OKHttpHttpClient)
-//        HttpManager.init(RetrofitHttpClient)
-        HttpManager.init(KtorHttpClient)
+        HttpManager.init(RetrofitHttpClient)
+//        HttpManager.init(KtorHttpClient)
     }
 
     override fun onLowMemory() {

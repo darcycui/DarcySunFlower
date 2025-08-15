@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
 //    id("kotlin-kapt")
     id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 android {
@@ -68,4 +69,6 @@ dependencies {
     implementation (libs.androidx.room.paging)
     implementation (libs.sqlcipher.android)
     debugImplementation (libs.glance)
+    implementation(libs.retrofit.converter.gson)
+    api(libs.kotlinx.serialization.core)
 }

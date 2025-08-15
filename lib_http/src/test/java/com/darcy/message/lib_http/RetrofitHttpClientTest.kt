@@ -4,6 +4,7 @@ import com.darcy.message.lib_http.client.impl.RetrofitHttpClient
 import com.darcy.message.lib_http.entity.IPEntity
 import com.darcy.message.lib_http.service.impl.JuHeApiService
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.serializer
 import org.junit.Test
 
 class RetrofitHttpClientTest {
@@ -18,7 +19,9 @@ class RetrofitHttpClientTest {
             val api = JuHeApiService.api()
             initHttpManager()
             HttpManager.doGet<IPEntity>(
-                IPEntity::class.java, path = "", params = mapOf()
+                IPEntity::class.java,
+                serializer<IPEntity>(),
+                path = "", params = mapOf()
             ) {
                 start {
                     println("start")
@@ -46,7 +49,9 @@ class RetrofitHttpClientTest {
             val api = JuHeApiService.api()
             initHttpManager()
             HttpManager.doPost<IPEntity>(
-                IPEntity::class.java, path = "", params = mapOf()
+                IPEntity::class.java,
+                serializer<IPEntity>(),
+                path = "", params = mapOf()
             ) {
                 start {
                     println("start")

@@ -1,11 +1,11 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "2ed23697562fb11d4219f9d51ae621d8",
+    "version": 2,
+    "identityHash": "af267bed93941861757b26c05e84fae7",
     "entities": [
       {
-        "tableName": "Item",
+        "tableName": "repos",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `stargazers_count` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -31,64 +31,6 @@
             "columnName": "stargazers_count",
             "affinity": "INTEGER",
             "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        }
-      },
-      {
-        "tableName": "repos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `full_name` TEXT NOT NULL, `description` TEXT, `html_url` TEXT NOT NULL, `stargazers_count` INTEGER NOT NULL, `forks_count` INTEGER NOT NULL, `language` TEXT, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "full_name",
-            "columnName": "full_name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "html_url",
-            "columnName": "html_url",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "stargazers_count",
-            "columnName": "stargazers_count",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "forks_count",
-            "columnName": "forks_count",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "language",
-            "columnName": "language",
-            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -129,7 +71,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2ed23697562fb11d4219f9d51ae621d8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'af267bed93941861757b26c05e84fae7')"
     ]
   }
 }

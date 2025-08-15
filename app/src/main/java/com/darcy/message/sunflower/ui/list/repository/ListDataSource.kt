@@ -5,12 +5,12 @@ import androidx.paging.PagingState
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_db.daos.ItemDao
-import com.darcy.message.lib_db.tables.Item
+import com.darcy.message.lib_db.tables.Repo
 import com.darcy.message.sunflower.ui.list.bean.ListBean
 import kotlinx.coroutines.delay
 import kotlin.math.max
 
-private const val START_KEY: Int = 1
+private const val START_KEY: Int = 0
 
 const val ITEMS_PER_PAGE = 10
 
@@ -87,8 +87,8 @@ class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>
         }
     }
 
-    private fun createDetailBeanList(itemList: List<Item>): List<ListBean> {
-        return itemList.map { ListBean().generate(it) }
+    private fun createDetailBeanList(repoList: List<Repo>): List<ListBean> {
+        return repoList.map { ListBean().generate(it) }
     }
 
     companion object {

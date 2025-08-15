@@ -10,6 +10,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.darcy.message.lib_common.exts.logD
+import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityListBinding
@@ -113,23 +114,29 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
 
     private suspend fun load() {
         logD(message = "Load Data Once")
-        // 1.from custom PageSource
-//        viewModel.itemsPaging.collectLatest { pagingData->
+//        // 1.from Room PageSource
+//        viewModel.itemsPagingFromRoom.collectLatest { pagingData->
 //            logD(message = "data-->$pagingData")
 //            adapter.submitData(pagingData)
 //        }
-
-        // 2.from Room PageSource
-        viewModel.itemsPagingFromRoom.collectLatest { pagingData ->
-            logD(message = "data from room-->$pagingData")
-            adapter.submitData(pagingData)
-        }
-
-        // 3.from RemoteMediator PageSource // darcyRefactor tobe continued
-//        viewModel.itemsPagingFromRoomAndHttp.collectLatest { pagingData ->
-//            logE(message = "data from room and http-->${pagingData}")
+//
+//        // 2.from Room Dao
+//        viewModel.itemsPagingFromRoomDao.collectLatest { pagingData ->
+//            logD(message = "data from room-->$pagingData")
 //            adapter.submitData(pagingData)
 //        }
+//
+//        // 3.from Http PageSource
+//        viewModel.itemsPagingFromHttp.collectLatest { pagingData ->
+//            logD(message = "data from http-->$pagingData")
+//            adapter.submitData(pagingData)
+//        }
+//
+        // 4.from RemoteMediator // darcyRefactor tobe continued
+        viewModel.itemsPagingFromRoomAndHttp.collectLatest { pagingData ->
+            logE(message = "data from room and http-->${pagingData}")
+            adapter.submitData(pagingData)
+        }
     }
 
     override fun initView() {

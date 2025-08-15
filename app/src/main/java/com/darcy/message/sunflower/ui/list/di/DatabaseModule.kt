@@ -1,11 +1,10 @@
 package com.darcy.message.sunflower.ui.list.di
 
-import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.daos.RemoteKeysDao
 import com.darcy.message.lib_db.daos.RepoDao
 import com.darcy.message.lib_db.db.DatabaseManager
-import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
+import com.darcy.message.lib_db.db.impl.RepoRoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,24 +24,24 @@ object DatabaseModule {
      */
     @Provides
     @Singleton
-    fun provideItemDatabase(): ItemRoomDatabase =
-        DatabaseManager.getDatabase() as ItemRoomDatabase
+    fun provideItemDatabase(): RepoRoomDatabase =
+        DatabaseManager.getDatabase() as RepoRoomDatabase
 
     /**
      * Provides the itemDao.
      */
     @Provides
-    fun provideItemDao(database: ItemRoomDatabase): ItemDao = database.itemDao()
+    fun provideItemDao(database: RepoRoomDatabase): ItemDao = database.itemDao()
 
     /**
      * Provides the repoDao.
      */
     @Provides
-    fun provideRepoDao(database: ItemRoomDatabase): RepoDao = database.reposDao()
+    fun provideRepoDao(database: RepoRoomDatabase): RepoDao = database.reposDao()
 
     /**
      * Provides the remoteKeysDao.
      */
     @Provides
-    fun provideRemoteKeysDao(database: ItemRoomDatabase): RemoteKeysDao = database.remoteKeysDao()
+    fun provideRemoteKeysDao(database: RepoRoomDatabase): RemoteKeysDao = database.remoteKeysDao()
 }

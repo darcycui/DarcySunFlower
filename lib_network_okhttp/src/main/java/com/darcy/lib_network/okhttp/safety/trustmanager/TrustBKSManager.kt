@@ -20,7 +20,7 @@ object TrustBKSManager {
         context: Context,
         bksNames: List<String>,
         passwords: List<String>
-    ): X509TrustManager {
+    ): X509TrustManager? {
         // 创建合并的 KeyStore
         val mergedKeyStore = KeyStore.getInstance("BKS")
         mergedKeyStore.load(null, null)
@@ -48,7 +48,9 @@ object TrustBKSManager {
             .filter { tm: TrustManager? -> tm is X509TrustManager }
             .map<X509TrustManager?> { tm: TrustManager? -> tm as X509TrustManager }
             .findFirst()
-            .orElseThrow<IllegalStateException?>(Supplier { IllegalStateException("No X509TrustManager found") })
+            .orElseThrow<IllegalStateException?>(
+                Supplier { IllegalStateException("No X509TrustManager found") }
+            )
     }
 
     // 将 KeyStore 内容添加到目标 KeyStore

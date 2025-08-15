@@ -1,39 +1,43 @@
-/*
- * Copyright (C) 2018 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.darcy.message.lib_db.tables
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.darcy.message.lib_common.entity.IDataEntity
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
-/**
- * Immutable model class for a Github repo that holds all the information about a repository.
- * Objects of this type are received from the Github API, therefore all the fields are annotated
- * with the serialized name.
- * This class also defines the Room repos table, where the repo [id] is the primary key.
- */
 @Entity(tableName = "repos")
+@Serializable
 data class Repo(
     @PrimaryKey
-    val id: Long,
-    val name: String,
-    val full_name: String,
-    val description: String?,
-    val html_url: String,
-    val stargazers_count: Int,
-    val forks_count: Int,
-    val language: String?
-)
+    @ColumnInfo(name = "id")
+    @SerializedName("id")
+    val id: Int = 0,
+
+    @ColumnInfo(name = "name")
+    @SerializedName("name")
+    var name: String,
+
+    @ColumnInfo(name = "description")
+    @SerializedName("description")
+    var description: String,
+
+    @ColumnInfo(name = "starCount")
+    @SerializedName("stargazers_count")
+    var starCount: Int = 100
+
+) : IDataEntity {
+    override fun equals(other: Any?): Boolean {
+        return if (other is Repo){
+            other.id == this.id
+        } else {
+            false
+        }
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
+}

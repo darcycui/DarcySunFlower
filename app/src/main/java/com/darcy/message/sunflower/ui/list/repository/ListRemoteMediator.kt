@@ -8,13 +8,13 @@ import androidx.room.withTransaction
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 import com.darcy.message.lib_common.exts.logV
-import com.darcy.message.lib_db.db.impl.ItemRoomDatabase
+import com.darcy.message.lib_db.db.impl.RepoRoomDatabase
 import com.darcy.message.lib_db.tables.RemoteKeys
 import com.darcy.message.lib_db.tables.Repo
+import com.darcy.message.sunflower.ui.list.api.FakeApi
 import com.darcy.message.sunflower.ui.list.api.GithubService
-import com.darcy.message.sunflower.ui.list.api.TestApi
 
-private const val START_KEY: Int = 1
+private const val START_PAGE_INDEX: Int = 1
 
 /**
  * mediator for local database data and remote http data
@@ -22,12 +22,16 @@ private const val START_KEY: Int = 1
  */
 @OptIn(ExperimentalPagingApi::class)
 class ListRemoteMediator(
-    private val testApi: TestApi,
+    private val query: String,
+    private val fakeApi: FakeApi,
     private val gitApi: GithubService,
-    private val database: ItemRoomDatabase
+    private val database: RepoRoomDatabase
 ) : RemoteMediator<Int, Repo>() {
     override suspend fun initialize(): InitializeAction {
-        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        // 初始化时 等待网络数据刷新本地数据
+//        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        // 初始化时 不刷新本地数据
+        return InitializeAction.SKIP_INITIAL_REFRESH
     }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repo>): MediatorResult {
@@ -37,20 +41,18 @@ class ListRemoteMediator(
                 LoadType.REFRESH -> {
                     logV(message = "LoadType=Refresh")
                     val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKey?.nextKey?.minus(1) ?: START_KEY
+                    remoteKey?.nextKey?.minus(1) ?: START_PAGE_INDEX
                 }
 
                 LoadType.PREPEND -> {
                     logI(message = "LoadType=Prepend")
-                    return MediatorResult.Success(endOfPaginationReached = true)
-//                    val remoteKey = getRemoteKeyForFirstItem(state)
-//                    val preKey = remoteKey?.prevKey
-//                    if (preKey == null) {
-//                        return MediatorResult.Success(
-//                            endOfPaginationReached = remoteKey != null
-//                        )
-//                    }
-//                    preKey
+                    //return MediatorResult.Success(endOfPaginationReached = true)
+                    val remoteKey = getRemoteKeyForFirstItem(state)
+                    val preKey = remoteKey?.prevKey
+                    if (preKey == null) {
+                        return MediatorResult.Success(endOfPaginationReached = remoteKey != null)
+                    }
+                    preKey
                 }
 
                 LoadType.APPEND -> {
@@ -58,42 +60,31 @@ class ListRemoteMediator(
                     val nextKey = remoteKey?.nextKey
                     logE(message = "LoadType=Append nextKey=$nextKey")
                     if (nextKey == null) {
-                        return MediatorResult.Success(
-                            endOfPaginationReached = remoteKey != null
-                        )
+                        return MediatorResult.Success(endOfPaginationReached = remoteKey != null)
                     }
                     nextKey
                 }
-
-                else -> {
-                    logV(message = "LoadType=LoadTypeUnknown")
-                    START_KEY
-                }
             }
             logE(message = "page=$page")
-//            val items = testApi.getNews(page, state.config.pageSize)
-            val items = testApi.getRepos(page, state.config.pageSize)
-//            val items = gitApi.searchRepos("Android", page, state.config.pageSize).items.also {
-//                logV(message = "items=${it}")
-//            }
+//            val items = fakeApi.getRepos(page, state.config.pageSize)
+            val items = gitApi.searchRepos(query, page, state.config.pageSize).items.also {
+                logV(message = "items=${it}")
+            }
             val endOfPaginationReached = items.isEmpty()
             database.withTransaction {
-                // clear all tables in the database
+                // 清空数据
                 if (loadType == LoadType.REFRESH) {
                     database.remoteKeysDao().clearRemoteKeys()
                     database.reposDao().clearRepos()
                 }
-                val prevKey = if (page == START_KEY) null else page - 1
+                // 插入数据
+                val prevKey = if (page == START_PAGE_INDEX) null else page - 1
                 val nextKey = if (endOfPaginationReached) null else page + 1
                 val keys = items.map {
                     RemoteKeys(itemId = it.id.toLong(), prevKey = prevKey, nextKey = nextKey)
                 }
-                logI(message = "current keys=$keys")
-                database.remoteKeysDao().insertAll(keys).also {
-                    logI(message = "insert keys count=${it.size}")
-                }
+                database.remoteKeysDao().insertAll(keys)
                 database.reposDao().insertAll(items)
-                    .also { logI(message = "insert repos count=${it.size}") }
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
 

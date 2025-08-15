@@ -9,9 +9,8 @@ class ListViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(detailBean: ListBean) {
         binding.run {
-            tvName.text = "${detailBean.id} ${detailBean.name}"
-            // keep only 2 decimal places
-            tvPrice.text = String.format("%.2f", detailBean.time)
+            tvName.text = detailBean.name
+            tvPrice.text = detailBean.description
         }
     }
 }

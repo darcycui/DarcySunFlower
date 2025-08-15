@@ -55,12 +55,13 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:textSize="14sp"
-                android:text="当前剩余时长:" />
+                android:text="PS:" />
 
             <TextView
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLines="3"
                 android:layout_marginStart="5dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
