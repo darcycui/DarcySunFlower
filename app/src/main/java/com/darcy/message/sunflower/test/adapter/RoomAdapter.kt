@@ -2,20 +2,16 @@ package com.darcy.message.sunflower.test.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.sunflower.databinding.AppDetailItemBinding
 import com.darcy.message.sunflower.ui.list.adapter.viewholder.ListViewHolder
-import com.darcy.message.sunflower.ui.list.bean.ListBean
+import com.darcy.message.sunflower.ui.list.bean.UiModel
 import javax.inject.Inject
 
 class RoomAdapter @Inject constructor() : RecyclerView.Adapter<ListViewHolder>() {
-    private val data: MutableList<ListBean> = mutableListOf()
+    private val data: MutableList<UiModel> = mutableListOf()
 
-    fun setData(list: List<ListBean>) {
+    fun setData(list: List<UiModel>) {
         data.clear()
         data.addAll(list)
         notifyDataSetChanged()
@@ -26,7 +22,7 @@ class RoomAdapter @Inject constructor() : RecyclerView.Adapter<ListViewHolder>()
         holder.bind(bean)
     }
 
-    private fun getItem(position: Int): ListBean {
+    private fun getItem(position: Int): UiModel {
         return data[position]
     }
 

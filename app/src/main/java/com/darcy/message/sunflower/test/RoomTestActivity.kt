@@ -11,7 +11,7 @@ import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityRoomTestBinding
 import com.darcy.message.sunflower.test.adapter.RoomAdapter
 import com.darcy.message.sunflower.test.viewmodel.RoomViewModel
-import com.darcy.message.sunflower.ui.list.bean.ListBean
+import com.darcy.message.sunflower.ui.list.bean.UiModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,7 +75,7 @@ class RoomTestActivity : BaseActivity<AppActivityRoomTestBinding>() {
     private suspend fun queryItems() {
         val items = viewModel.getItems()
         withContext(Dispatchers.Main) {
-            adapters.setData(items?.map { ListBean().generate(it) } ?: listOf())
+            adapters.setData(items?.map { UiModel().generate(it) } ?: listOf())
         }
     }
 

@@ -10,7 +10,7 @@ import kotlinx.coroutines.CompletableDeferred
  * repo 网络数据源
  */
 class RepoPagingSource(
-    private val query: String = "Android",
+    private val query: String,
     private val repoRepository: RepoRepository = RepoRepository(GithubService.api())
 ) : PagingSource<Int, Repo>() {
     // 刷新键用于在初始加载后对 PagingSource.load 进行后续刷新调用

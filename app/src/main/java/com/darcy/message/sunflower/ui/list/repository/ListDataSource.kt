@@ -6,16 +6,16 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_db.daos.ItemDao
 import com.darcy.message.lib_db.tables.Repo
-import com.darcy.message.sunflower.ui.list.bean.ListBean
+import com.darcy.message.sunflower.ui.list.bean.UiModel
 import kotlinx.coroutines.delay
 import kotlin.math.max
 
-private const val START_KEY: Int = 0
+private const val START_KEY: Int = 1
 
-const val ITEMS_PER_PAGE = 10
+const val ITEMS_PER_PAGE = 30
 
-class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>() {
-    override fun getRefreshKey(state: PagingState<Int, ListBean>): Int? {
+class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, UiModel>() {
+    override fun getRefreshKey(state: PagingState<Int, UiModel>): Int? {
 //        val anchorPosition = state.anchorPosition ?: return null
 //        val article = state.closestItemToPosition(anchorPosition) ?: return null
 //        val refreshKey = article.id - (state.config.pageSize / 2)
@@ -29,7 +29,7 @@ class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>
      */
     private fun ensureValidKey(key: Int) = max(START_KEY, key)
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ListBean> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UiModel> {
         try {
             // get page number
             val page = when (params) {
@@ -87,8 +87,8 @@ class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, ListBean>
         }
     }
 
-    private fun createDetailBeanList(repoList: List<Repo>): List<ListBean> {
-        return repoList.map { ListBean().generate(it) }
+    private fun createDetailBeanList(repoList: List<Repo>): List<UiModel> {
+        return repoList.map { UiModel().generate(it) }
     }
 
     companion object {

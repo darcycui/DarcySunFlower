@@ -29,9 +29,9 @@ class ListRemoteMediator(
 ) : RemoteMediator<Int, Repo>() {
     override suspend fun initialize(): InitializeAction {
         // 初始化时 等待网络数据刷新本地数据
-//        return InitializeAction.LAUNCH_INITIAL_REFRESH
+        return InitializeAction.LAUNCH_INITIAL_REFRESH
         // 初始化时 不刷新本地数据
-        return InitializeAction.SKIP_INITIAL_REFRESH
+//        return InitializeAction.SKIP_INITIAL_REFRESH
     }
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Repo>): MediatorResult {

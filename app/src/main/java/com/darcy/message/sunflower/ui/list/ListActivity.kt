@@ -1,30 +1,39 @@
 package com.darcy.message.sunflower.ui.list
 
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.darcy.message.lib_common.exts.logD
-import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logV
 import com.darcy.message.lib_ui.base.BaseActivity
 import com.darcy.message.sunflower.databinding.AppActivityListBinding
-import com.darcy.message.sunflower.ui.list.adapter.ListAdapter
-import com.darcy.message.sunflower.ui.list.adapter.LoadStateFooterAdapter
+import com.darcy.message.sunflower.ui.list.adapter.ReposAdapter
+import com.darcy.message.sunflower.ui.list.adapter.ReposLoadStateAdapter
 import com.darcy.message.sunflower.ui.list.bean.IWork
 import com.darcy.message.sunflower.ui.list.bean.Parent
 import com.darcy.message.sunflower.ui.list.bean.Son
+import com.darcy.message.sunflower.ui.list.bean.UiModel
 import com.darcy.message.sunflower.ui.list.di.EverywhereInject
 import com.darcy.message.sunflower.ui.list.di.WorkModule
 import com.darcy.message.sunflower.ui.list.viewmodel.ListViewModel
+import com.darcy.message.sunflower.ui.list.viewmodel.UiAction
+import com.darcy.message.sunflower.ui.list.viewmodel.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,16 +43,16 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
     // inject ViewModel
     private val viewModel: ListViewModel by viewModels()
 
-    private val adapter = ListAdapter()
+    private val adapter = ReposAdapter()
 
     // concat the header and footer
     private val fullAdapter =
         adapter.withLoadStateHeaderAndFooter(
-            header = LoadStateFooterAdapter(retry = {
+            header = ReposLoadStateAdapter(retry = {
                 logD(message = "header retry")
                 adapter.retry()
             }),
-            footer = LoadStateFooterAdapter(retry = {
+            footer = ReposLoadStateAdapter(retry = {
                 logD(message = "footer retry")
                 adapter.retry()
             })
@@ -76,6 +85,12 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         viewModel.logD(message = "DetailActivity on Create")
         testInject()
         initListener()
+        // bind the state
+        binding.bindState(
+            uiState = viewModel.uiState,
+            pagingData = viewModel.pagingDataFlow,
+            uiActions = viewModel.uiAction
+        )
     }
 
     private fun initObservers() {
@@ -104,41 +119,6 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         }
     }
 
-    override fun initData() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                load()
-            }
-        }
-    }
-
-    private suspend fun load() {
-        logD(message = "Load Data Once")
-//        // 1.from Room PageSource
-//        viewModel.itemsPagingFromRoom.collectLatest { pagingData->
-//            logD(message = "data-->$pagingData")
-//            adapter.submitData(pagingData)
-//        }
-//
-//        // 2.from Room Dao
-//        viewModel.itemsPagingFromRoomDao.collectLatest { pagingData ->
-//            logD(message = "data from room-->$pagingData")
-//            adapter.submitData(pagingData)
-//        }
-//
-//        // 3.from Http PageSource
-//        viewModel.itemsPagingFromHttp.collectLatest { pagingData ->
-//            logD(message = "data from http-->$pagingData")
-//            adapter.submitData(pagingData)
-//        }
-//
-        // 4.from RemoteMediator // darcyRefactor tobe continued
-        viewModel.itemsPagingFromRoomAndHttp.collectLatest { pagingData ->
-            logE(message = "data from room and http-->${pagingData}")
-            adapter.submitData(pagingData)
-        }
-    }
-
     override fun initView() {
         val context = context
         binding.recyclerView.apply {
@@ -156,6 +136,142 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
     }
 
     override fun initListener() {
-        initObservers()
+    }
+
+    override fun initData() {
+    }
+
+    private fun AppActivityListBinding.bindState(
+        uiState: StateFlow<UiState>,
+        pagingData: Flow<PagingData<UiModel>>,
+        uiActions: (UiAction) -> Unit
+    ) {
+        val repoAdapter = ReposAdapter()
+        val header = ReposLoadStateAdapter { repoAdapter.retry() }
+        recyclerView.adapter = repoAdapter.withLoadStateHeaderAndFooter(
+            header = header,
+            footer = ReposLoadStateAdapter { repoAdapter.retry() }
+        )
+        bindSearch(
+            uiState = uiState,
+            onQueryChanged = uiActions
+        )
+        bindList(
+            header = header,
+            repoAdapter = repoAdapter,
+            uiState = uiState,
+            pagingData = pagingData,
+            onScrollChanged = uiActions
+        )
+    }
+
+    private fun AppActivityListBinding.bindSearch(
+        uiState: StateFlow<UiState>,
+        onQueryChanged: (UiAction.Search) -> Unit
+    ) {
+        searchRepo.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                updateRepoListFromInput(onQueryChanged)
+                true
+            } else {
+                false
+            }
+        }
+        searchRepo.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateRepoListFromInput(onQueryChanged)
+                true
+            } else {
+                false
+            }
+        }
+
+        lifecycleScope.launch {
+            uiState
+                .map { it.query }
+                .distinctUntilChanged()
+                .collect(searchRepo::setText)
+        }
+    }
+
+
+    private fun AppActivityListBinding.updateRepoListFromInput(onQueryChanged: (UiAction.Search) -> Unit) {
+        searchRepo.text.trim().let {
+            if (it.isNotEmpty()) {
+                recyclerView.scrollToPosition(0)
+                onQueryChanged(UiAction.Search(query = it.toString()))
+            }
+        }
+    }
+
+    private fun AppActivityListBinding.bindList(
+        header: ReposLoadStateAdapter,
+        repoAdapter: ReposAdapter,
+        uiState: StateFlow<UiState>,
+        pagingData: Flow<PagingData<UiModel>>,
+        onScrollChanged: (UiAction.Scroll) -> Unit
+    ) {
+        retry.setOnClickListener { repoAdapter.retry() }
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy != 0) onScrollChanged(UiAction.Scroll(currentQuery = uiState.value.query))
+            }
+        })
+        val notLoading = repoAdapter.loadStateFlow
+            .asRemotePresentationState()
+            .map { it == RemotePresentationState.PRESENTED }
+
+        val hasNotScrolledForCurrentSearch = uiState
+            .map { it.hasNotScrolledForCurrentSearch }
+            .distinctUntilChanged()
+
+        val shouldScrollToTop = combine(
+            notLoading,
+            hasNotScrolledForCurrentSearch,
+            Boolean::and
+        )
+            .distinctUntilChanged()
+
+        lifecycleScope.launch {
+            pagingData.collectLatest(repoAdapter::submitData)
+        }
+
+        lifecycleScope.launch {
+            shouldScrollToTop.collect { shouldScroll ->
+                if (shouldScroll) recyclerView.scrollToPosition(0)
+            }
+        }
+
+        lifecycleScope.launch {
+            repoAdapter.loadStateFlow.collect { loadState ->
+                // Show a retry header if there was an error refreshing, and items were previously
+                // cached OR default to the default prepend state
+                header.loadState = loadState.mediator
+                    ?.refresh
+                    ?.takeIf { it is LoadState.Error && repoAdapter.itemCount > 0 }
+                    ?: loadState.prepend
+
+                val isListEmpty =
+                    loadState.refresh is LoadState.NotLoading && repoAdapter.itemCount == 0
+                // show empty list
+                emptyList.isVisible = isListEmpty
+                // Only show the list if refresh succeeds, either from the the local db or the remote.
+                recyclerView.isVisible =
+                    loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
+                // Show loading spinner during initial load or refresh.
+                loading.isVisible = loadState.mediator?.refresh is LoadState.Loading
+                // Show the retry state if initial load or refresh fails.
+                retry.isVisible =
+                    loadState.mediator?.refresh is LoadState.Error && repoAdapter.itemCount == 0
+                // Toast on any error, regardless of whether it came from RemoteMediator or PagingSource
+                val errorState = loadState.source.append as? LoadState.Error
+                    ?: loadState.source.prepend as? LoadState.Error
+                    ?: loadState.append as? LoadState.Error
+                    ?: loadState.prepend as? LoadState.Error
+                errorState?.let {
+                    Toast.makeText(context, "Whoops ${it.error}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }

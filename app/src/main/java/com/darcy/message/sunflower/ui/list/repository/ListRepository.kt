@@ -23,13 +23,13 @@ class ListRepository @Inject constructor(
         pagingSourceFactory = { ListDataSource(itemDao) }
     ).flow
 
-    fun getItemsPagingFromHttp(query: String = "Android") = Pager(
+    fun getItemsPagingFromHttp(query: String) = Pager(
         config = buildPagingConfig(),
         // create pagingSource by RepoPagingSource
         pagingSourceFactory = { RepoPagingSource(query, RepoRepository(GithubService.api())) }
     ).flow
 
-    fun getItemsPagingFromRoomDao(query: String = "Android") = Pager(
+    fun getItemsPagingFromRoomDao(query: String) = Pager(
         config = buildPagingConfig(),
         // create pagingSource by itemDao
 //        pagingSourceFactory = { itemDao.getItemsPagingSourceASC() }
@@ -37,7 +37,7 @@ class ListRepository @Inject constructor(
     ).flow
 
     @OptIn(ExperimentalPagingApi::class)
-    fun getPagingFromRoomAndHttp(query: String = "Android") = Pager(
+    fun getPagingFromRoomAndHttp(query: String) = Pager(
         config = buildPagingConfig(),
         // create pagingSource by repoDao
         pagingSourceFactory = { repoDao.reposByName("%$query%") },
@@ -47,7 +47,7 @@ class ListRepository @Inject constructor(
 
     private fun buildPagingConfig(): PagingConfig = PagingConfig(
         pageSize = ITEMS_PER_PAGE,
-        initialLoadSize = 1 * ITEMS_PER_PAGE,
+        initialLoadSize = 3 * ITEMS_PER_PAGE, // 默认 3 * ITEMS_PER_PAGE
         enablePlaceholders = false
     )
 }

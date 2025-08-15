@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class RepoRepository @Inject constructor(private val api: GithubService) {
     suspend fun getRepos(
-        query: String = "Android",
+        query: String,
         page: Int,
         itemsPerPage: Int
     ): RepoSearchResponse? {
@@ -25,7 +25,7 @@ class RepoRepository @Inject constructor(private val api: GithubService) {
     }
 
     suspend fun getReposNew(
-        query: String = "Android",
+        query: String,
         page: Int,
         itemsPerPage: Int,
         onSuccess: (BaseResult<RepoSearchResponse>?) -> Unit,

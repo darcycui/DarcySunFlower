@@ -5,7 +5,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import com.darcy.message.sunflower.ui.list.adapter.viewholder.LoadStateViewHolder
 
-class LoadStateFooterAdapter(private val retry: () -> Unit) :
+class ReposLoadStateAdapter(private val retry: () -> Unit) :
     LoadStateAdapter<LoadStateViewHolder>() {
 
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
