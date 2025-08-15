@@ -13,7 +13,8 @@ import kotlinx.coroutines.flow.scan
 /**
  * An enum representing the status of items in the as fetched by the
  * [Pager] when used with a [RemoteMediator]
- * 参考链接 https://developer.android.google.cn/codelabs/android-paging?hl=zh-cn#3
+ * 参考链接-示例代码  https://developer.android.google.cn/codelabs/android-paging?hl=zh-cn#3
+ * 参考链接-文档  https://developer.android.google.cn/topic/libraries/architecture/paging/v3-network-db?hl=zh-cn
  */
 enum class RemotePresentationState {
     INITIAL, REMOTE_LOADING, SOURCE_LOADING, PRESENTED
