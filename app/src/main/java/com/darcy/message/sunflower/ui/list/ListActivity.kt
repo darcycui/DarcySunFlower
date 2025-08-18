@@ -93,32 +93,6 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         )
     }
 
-    private fun initObservers() {
-        binding.btnRefresh.setOnClickListener {
-            adapter.refresh()
-        }
-        lifecycleScope.launch {
-            adapter.loadStateFlow.distinctUntilChanged().collect { loadState ->
-                when (loadState.refresh) {
-                    is LoadState.Loading -> {
-                        logD(message = "refresh loading")
-                    }
-
-                    is LoadState.NotLoading -> {
-                        logD(message = "refresh not loading")
-                    }
-
-                    is LoadState.Error -> {
-                        logD(message = "refresh error")
-                    }
-                }
-                binding.loading.isVisible = loadState.refresh is LoadState.Loading
-                binding.retry.isVisible = loadState.refresh is LoadState.Error
-                binding.recyclerView.isVisible = loadState.refresh is LoadState.NotLoading
-            }
-        }
-    }
-
     override fun initView() {
         val context = context
         binding.recyclerView.apply {
@@ -128,10 +102,6 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
             // add divider by itemDecoration
             val decoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
             addItemDecoration(decoration)
-        }
-
-        binding.retry.setOnClickListener {
-            adapter.retry()
         }
     }
 
@@ -148,6 +118,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
     ) {
         val repoAdapter = ReposAdapter()
         val header = ReposLoadStateAdapter { repoAdapter.retry() }
+        // 设置页眉页脚
         recyclerView.adapter = repoAdapter.withLoadStateHeaderAndFooter(
             header = header,
             footer = ReposLoadStateAdapter { repoAdapter.retry() }
@@ -169,7 +140,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         uiState: StateFlow<UiState>,
         onQueryChanged: (UiAction.Search) -> Unit
     ) {
-        searchRepo.setOnEditorActionListener { _, actionId, _ ->
+        searchRepoEdit.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 updateRepoListFromInput(onQueryChanged)
                 true
@@ -177,7 +148,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
                 false
             }
         }
-        searchRepo.setOnKeyListener { _, keyCode, event ->
+        searchRepoEdit.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 updateRepoListFromInput(onQueryChanged)
                 true
@@ -188,15 +159,17 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
 
         lifecycleScope.launch {
             uiState
-                .map { it.query }
+                .map {
+                    it.query
+                }
                 .distinctUntilChanged()
-                .collect(searchRepo::setText)
+                .collect(searchRepoEdit::setText)
         }
     }
 
 
     private fun AppActivityListBinding.updateRepoListFromInput(onQueryChanged: (UiAction.Search) -> Unit) {
-        searchRepo.text.trim().let {
+        searchRepoEdit.text.trim().let {
             if (it.isNotEmpty()) {
                 recyclerView.scrollToPosition(0)
                 onQueryChanged(UiAction.Search(query = it.toString()))
@@ -211,6 +184,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         pagingData: Flow<PagingData<UiModel>>,
         onScrollChanged: (UiAction.Scroll) -> Unit
     ) {
+        btnRefresh.setOnClickListener { repoAdapter.refresh() }
         retry.setOnClickListener { repoAdapter.retry() }
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -219,30 +193,35 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
         })
         val notLoading = repoAdapter.loadStateFlow
             .asRemotePresentationState()
-            .map { it == RemotePresentationState.PRESENTED }
+            .map {
+                it == RemotePresentationState.PRESENTED
+            }
 
         val hasNotScrolledForCurrentSearch = uiState
-            .map { it.hasNotScrolledForCurrentSearch }
-            .distinctUntilChanged()
+            .map {
+                it.hasNotScrolledForCurrentSearch
+            }.distinctUntilChanged()
 
         val shouldScrollToTop = combine(
             notLoading,
             hasNotScrolledForCurrentSearch,
             Boolean::and
-        )
-            .distinctUntilChanged()
+        ).distinctUntilChanged()
 
         lifecycleScope.launch {
+            // darcyRefactor: 显示分页数据
             pagingData.collectLatest(repoAdapter::submitData)
         }
 
         lifecycleScope.launch {
+            // darcyRefactor: 滚动到顶部
             shouldScrollToTop.collect { shouldScroll ->
                 if (shouldScroll) recyclerView.scrollToPosition(0)
             }
         }
 
         lifecycleScope.launch {
+            // darcyRefactor: 显示加载状态
             repoAdapter.loadStateFlow.collect { loadState ->
                 // Show a retry header if there was an error refreshing, and items were previously
                 // cached OR default to the default prepend state
@@ -259,7 +238,7 @@ class ListActivity : BaseActivity<AppActivityListBinding>() {
                 recyclerView.isVisible =
                     loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
                 // Show loading spinner during initial load or refresh.
-                loading.isVisible = loadState.mediator?.refresh is LoadState.Loading
+                progress.isVisible = loadState.mediator?.refresh is LoadState.Loading
                 // Show the retry state if initial load or refresh fails.
                 retry.isVisible =
                     loadState.mediator?.refresh is LoadState.Error && repoAdapter.itemCount == 0

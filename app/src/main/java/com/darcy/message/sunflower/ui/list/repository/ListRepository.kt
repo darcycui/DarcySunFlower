@@ -47,6 +47,8 @@ class ListRepository @Inject constructor(
 
     private fun buildPagingConfig(): PagingConfig = PagingConfig(
         pageSize = ITEMS_PER_PAGE,
+        prefetchDistance = ITEMS_PER_PAGE,
+        maxSize = 5 * ITEMS_PER_PAGE,
         initialLoadSize = 3 * ITEMS_PER_PAGE, // 默认 3 * ITEMS_PER_PAGE
         enablePlaceholders = false
     )

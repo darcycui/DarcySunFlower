@@ -39,7 +39,7 @@ class ListViewModel @Inject constructor(
     // UI状态
     val uiState: StateFlow<UiState>
 
-    // 分页数据
+    // 分页数据 (内存缓存)
     val pagingDataFlow: Flow<PagingData<UiModel>>
 
     init {
@@ -47,32 +47,34 @@ class ListViewModel @Inject constructor(
         val initialQuery: String = savedStateHandle[LAST_SEARCH_QUERY] ?: DEFAULT_QUERY
         val lastQueryScrolled: String = savedStateHandle[LAST_QUERY_SCROLLED] ?: DEFAULT_QUERY
         val actionStateFlow = MutableSharedFlow<UiAction>()
-        // 搜索
+        // 转换为搜索流
         val searches = actionStateFlow.filterIsInstance<UiAction.Search>().distinctUntilChanged()
             .onStart {
                 emit(UiAction.Search(initialQuery))
             }
-        // 滚动
+        // 转换为滚动流
         val queriesScrolled =
             actionStateFlow.filterIsInstance<UiAction.Scroll>()
                 .distinctUntilChanged()
-                .shareIn(
+                .shareIn( // 创建一个共享流 热流 重放次数1
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
                     replay = 1
                 ).onStart {
                     emit(UiAction.Scroll(lastQueryScrolled))
                 }
-        // 分页数据
+        // 分页数据 // darcyRefactor: 为每个搜索创建新的分页数据流
+        // darcyRefactor:转换过程 Flow<PagingData<UiModel.Search>>--PagingData<UiAction.Search>--Flow<PagingData<UiModel>>
         pagingDataFlow = searches.flatMapLatest {
             searchRepo(it.query)
-        }.cachedIn(viewModelScope)
+        }.cachedIn(viewModelScope)  // darcyRefactor: 缓存到 viewModelScope
 
-        // UI状态
+        // UI状态 (包括搜索 滚动行为对应的UI状态)
         uiState = combine(searches, queriesScrolled, ::Pair)
             .map { (search, scroll) ->
                 UiState(
-                    query = search.query, lastQueryScrolled = scroll.currentQuery,
+                    query = search.query,
+                    lastQueryScrolled = scroll.currentQuery,
                     hasNotScrolledForCurrentSearch = scroll.currentQuery != search.query
                 )
             }.stateIn(
@@ -144,11 +146,12 @@ class ListViewModel @Inject constructor(
                 UiModel().generate(item)
             }
         }.cachedIn(viewModelScope)
-
 }
 
 sealed class UiAction {
+    // 搜索
     data class Search(val query: String) : UiAction()
+    // 滚动
     data class Scroll(val currentQuery: String) : UiAction()
 }
 

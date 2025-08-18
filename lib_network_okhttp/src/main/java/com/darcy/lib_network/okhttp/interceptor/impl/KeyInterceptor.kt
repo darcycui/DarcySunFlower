@@ -20,11 +20,12 @@ class KeyInterceptor : IInterceptor, Interceptor {
 
         var key = headers["key"]
         println("-->key1: $key")
-        if (key.isNullOrEmpty()) {
-            request = request.newBuilder()
-                .addHeader("key", "f128bfc760193c5762c5c3be2a6051d8")
-                .build()
-        }
+        request = request.newBuilder()
+            // 聚合api key
+            .addHeader("key", "f128bfc760193c5762c5c3be2a6051d8")
+            // github api token
+            .addHeader("Authorization", "token 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")
+            .build()
         key = request.headers["key"]
         println("-->key2: $key")
         return chain.proceed(request)

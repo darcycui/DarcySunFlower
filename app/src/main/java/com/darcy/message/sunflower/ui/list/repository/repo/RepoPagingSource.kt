@@ -2,6 +2,7 @@ package com.darcy.message.sunflower.ui.list.repository.repo
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_db.tables.Repo
 import com.darcy.message.sunflower.ui.list.api.GithubService
 import kotlinx.coroutines.CompletableDeferred
@@ -17,10 +18,12 @@ class RepoPagingSource(
     override  fun getRefreshKey(state: PagingState<Int, Repo>): Int? {
 //        return null
         // 获取最接近最近访问的索引的页面的上一个键（如果 previous 为 null，则为 next 键）
-        return state.anchorPosition?.let { anchorPosition ->
+        val refreshKey = state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+        logD("refreshKey: $refreshKey")
+        return refreshKey
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repo> {

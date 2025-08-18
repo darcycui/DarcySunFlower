@@ -10,9 +10,9 @@ import com.darcy.message.sunflower.ui.list.bean.UiModel
 import javax.inject.Inject
 
 class ReposAdapter @Inject constructor() :
-    PagingDataAdapter<UiModel, ListViewHolder>(Item_DIFF_CALLBACK) {
+    PagingDataAdapter<UiModel, ListViewHolder>(ITEM_DIFF_CALLBACK) {
     companion object {
-        private val Item_DIFF_CALLBACK = object : DiffUtil.ItemCallback<UiModel>() {
+        private val ITEM_DIFF_CALLBACK = object : DiffUtil.ItemCallback<UiModel>() {
             override fun areItemsTheSame(oldItem: UiModel, newItem: UiModel): Boolean {
                 return oldItem.id == newItem.id
             }

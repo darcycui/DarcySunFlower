@@ -47,11 +47,6 @@ class ListDataSource(private val itemDao: ItemDao) : PagingSource<Int, UiModel>(
                     logV(message = "Append")
                     params.key
                 }
-
-                else -> {
-                    logV(message = "Unknown")
-                    START_KEY
-                }
             }
 
             // repository layer request data

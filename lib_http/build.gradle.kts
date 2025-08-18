@@ -32,6 +32,7 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+        // darcyRefactor: 实验性API 添加编译参数
         freeCompilerArgs += listOf("-opt-in=kotlinx.serialization.InternalSerializationApi")
     }
     buildFeatures {

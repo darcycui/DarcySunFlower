@@ -40,8 +40,9 @@ class ListRemoteMediator(
             val page = when (loadType) {
                 LoadType.REFRESH -> {
                     logV(message = "LoadType=Refresh")
-                    val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
-                    remoteKey?.nextKey?.minus(1) ?: START_PAGE_INDEX
+//                    val remoteKey = getRemoteKeyClosestToCurrentPosition(state)
+//                    remoteKey?.nextKey?.minus(1) ?: START_PAGE_INDEX
+                    START_PAGE_INDEX
                 }
 
                 LoadType.PREPEND -> {

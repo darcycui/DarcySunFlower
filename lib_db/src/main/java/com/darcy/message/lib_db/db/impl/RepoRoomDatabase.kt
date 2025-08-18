@@ -35,7 +35,7 @@ abstract class RepoRoomDatabase : RoomDatabase(), IDatabase {
                     context.applicationContext,
                     RepoRoomDatabase::class.java,
                     "item_database"
-                ).fallbackToDestructiveMigration() // fallback strategy
+                ).fallbackToDestructiveMigration(true) // fallback strategy
                     .addMigrations(RepoMigration1To2()) // migrations
 //                    .allowMainThreadQueries() // mai thread use
                     .build()
@@ -58,7 +58,7 @@ abstract class RepoRoomDatabase : RoomDatabase(), IDatabase {
                     context.applicationContext,
                     RepoRoomDatabase::class.java,
                     "item_cipher_database"
-                ).fallbackToDestructiveMigration() // fallback strategy
+                ).fallbackToDestructiveMigration(true) // fallback strategy
                     .addMigrations(RepoMigration1To2()) // migrations
                     .openHelperFactory(factory) // use custom factory
 //                    .allowMainThreadQueries() // mai thread use
