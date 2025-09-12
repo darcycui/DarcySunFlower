@@ -1,20 +1,7 @@
 pluginManagement {
-    plugins {
-        // [GitHub] https://github.com/google/ksp
-//        id("com.google.devtools.ksp") version "2.1.0-1.0.29" apply false
-    }
 
     repositories {
         maven ("https://maven.aliyun.com/repository/public")
-        // 使用 repo1 maven 代替 mavenCentral, 注释mavenCentral()
-//        maven("https://repo1.maven.org/maven2") {
-//            // 禁用元数据重定向 强制只从此仓库解析
-//            metadataSources {
-//                mavenPom()
-//                artifact()
-//                ignoreGradleMetadataRedirection()
-//            }
-//        }
         maven("https://maven.aliyun.com/repository/google")
         maven("https://maven.aliyun.com/repository/jcenter")
         maven("https://maven.aliyun.com/repository/gradle-plugin")
@@ -32,25 +19,23 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    // 注意这块改为 PREFER_SETTINGS
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+
+    val storageUrl: String = System.getenv("FLUTTER_STORAGE_BASE_URL") ?: "https://storage.googleapis.com"
+
     repositories {
         maven ("https://maven.aliyun.com/repository/public")
-        // 使用 repo1 maven 代替 mavenCentral, 注释mavenCentral()
-//        maven("https://repo1.maven.org/maven2") {
-//            // 禁用元数据重定向 强制只从此仓库解析
-//            metadataSources {
-//                mavenPom()
-//                artifact()
-//                ignoreGradleMetadataRedirection()
-//            }
-//        }
         maven("https://maven.aliyun.com/repository/google")
         maven("https://maven.aliyun.com/repository/jcenter")
         maven("https://maven.aliyun.com/repository/gradle-plugin")
+        maven("https://jitpack.io")
         // umeng
         maven ("https://repo1.maven.org/maven2/")
         google()
         mavenCentral()
+        // flutter 库
+        maven("$storageUrl/download.flutter.io")
     }
 }
 
@@ -76,3 +61,8 @@ include(":lib_login")
 include(":lib_brand")
 include(":lib_websocket")
 include(":lib_network_okhttp")
+include(":lib_flutter")
+
+// flutter 库
+val filePath = settingsDir.parentFile.toString() + "/flutter_module/.android/include_flutter.groovy"
+apply(from = File(filePath))

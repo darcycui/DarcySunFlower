@@ -110,7 +110,7 @@ android {
             isShrinkResources = false
 //            signingConfig = signingConfigs.getByName("debugSign")
             // network security config
-            resValue("xml", "network_security_config", "@xml/network_security_config_debug")
+            resValue("xml", "network_security_config", "@xml/app_network_security_config_debug")
 //            resValue("xml", "network_security_config", "@xml/network_security_config_release")
         }
         release {
@@ -123,7 +123,7 @@ android {
             )
             signingConfig = signingConfigs.getByName("releaseSign")
             // network security config
-            resValue("xml", "network_security_config", "@xml/network_security_config_release")
+            resValue("xml", "network_security_config", "@xml/app_network_security_config_release")
         }
     }
 
@@ -254,6 +254,8 @@ dependencies {
 //    implementation(libs.codelocator.core)
     // stringfog
     implementation(libs.stringfog.xor)
+    // flutter
+    api(project(":lib_flutter"))
 }
 
 // disable dependency verification foe one library

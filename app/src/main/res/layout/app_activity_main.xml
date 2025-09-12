@@ -21,6 +21,20 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/call_flutter_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="拉起 另一个Flutter App"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/innerFlutterPage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="内置Flutter页面"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/stickyLiveData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

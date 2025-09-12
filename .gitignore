@@ -20,3 +20,4 @@ local.properties
 /JustForCodeIndexModuleDebug
 /JustForCodeIndexModuleRelease
 codeLocator.gradle
+*.apk

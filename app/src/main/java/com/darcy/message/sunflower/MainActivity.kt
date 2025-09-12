@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
+import com.darcy.lib_flutter.activity.FlutterActivityHelper
+import com.darcy.lib_flutter.preload.FlutterPreloadHelper
 import com.darcy.message.lib_app_status.TestAppStatusActivity
 import com.darcy.message.lib_camera.camera1.activity.TestCameraActivity
 import com.darcy.message.lib_camera.camera1.activity.TestCameraBackgroundActivity
@@ -49,6 +51,23 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
     }
 
     override fun initView() {
+        binding.innerFlutterPage.setOnClickListener {
+//            FlutterActivityHelper.startFlutterActivity(this)
+            FlutterActivityHelper.startFlutterActivity(
+                this,
+                FlutterPreloadHelper.FLUTTER_ENGINE_ID_1,
+                "/")
+        }
+        binding.callFlutterApp.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND).also {
+                it.addCategory(Intent.CATEGORY_DEFAULT)
+                it.type = "text/plain"
+                it.putExtra(Intent.EXTRA_TEXT, "Tom and Jerry")
+            }
+            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+            println("FlutterActivity发送:$text")
+            startActivity(intent)
+        }
         binding.stickyLiveData.setOnClickListener {
             startPage(StickyLiveDataActivity::class.java)
         }
@@ -138,7 +157,6 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
             startPage(LoginActivity::class.java)
         }
     }
-
 
 
     override fun initListener() {
