@@ -8,7 +8,7 @@
         android:title="@string/app_pref_general_title_test">
         <Preference
             android:enabled="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/app_ic_launcher"
             android:key="@string/app_pref_general_key_test_item1"
             android:selectable="true"
             android:summary="@string/app_pref_general_summary_test_summary1"
@@ -19,7 +19,7 @@
         </Preference>
         <Preference
             android:enabled="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/app_ic_launcher"
             android:key="@string/app_pref_general_key_test_item2"
             android:selectable="true"
             android:summary="@string/app_pref_general_summary_test_summary2"
@@ -28,7 +28,7 @@
         </Preference>
         <Preference
             android:enabled="false"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/app_ic_launcher"
             android:key="@string/app_pref_general_key_test_item3"
             android:selectable="false"
             android:summary="@string/app_pref_general_summary_test_summary3"
@@ -42,19 +42,19 @@
         android:title="@string/app_pref_general_title_test"
         app:initialExpandedChildrenCount="0">
         <Preference
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/app_ic_launcher"
             android:key="@string/app_pref_general_key_test_item1"
             android:selectable="true"
             android:summary="@string/app_pref_general_summary_test_summary1"
             android:title="@string/app_pref_general_title_test_item1" />
         <Preference
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/app_ic_launcher"
             android:key="@string/app_pref_general_key_test_item2"
             android:selectable="true"
             android:summary="@string/app_pref_general_summary_test_summary2"
             android:title="@string/app_pref_general_title_test_item2" />
         <Preference
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/app_ic_launcher"
             android:key="@string/app_pref_general_key_test_item3"
             android:selectable="false"
             android:summary="@string/app_pref_general_summary_test_summary3"
