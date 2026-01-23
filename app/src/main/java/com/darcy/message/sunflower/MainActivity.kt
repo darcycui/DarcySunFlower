@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
+import com.darcy.lib_file.hardlink.HardLinkHelper
+import com.darcy.lib_file.softlink.SoftLinkHelper
 import com.darcy.lib_flutter.activity.FlutterActivityHelper
 import com.darcy.lib_flutter.preload.FlutterPreloadHelper
 import com.darcy.message.lib_app_status.TestAppStatusActivity
@@ -15,6 +17,7 @@ import com.darcy.message.lib_camera.camera1.service.MessageService
 import com.darcy.message.lib_common.app.AppHelper
 import com.darcy.message.lib_common.arraymap.TestArrayMap
 import com.darcy.message.lib_common.arraymap.TestArraySet
+import com.darcy.message.lib_common.exts.toasts
 import com.darcy.message.lib_common.sparsearray.TestSparseArray
 import com.darcy.message.lib_common.sparsearray.TestSparseBooleanArray
 import com.darcy.message.lib_common.sparsearray.TestSparseIntArray
@@ -40,6 +43,7 @@ import com.darcy.message.sunflower.test.TestWebSocketActivity
 import com.darcy.message.sunflower.ui.detail.DetailActivity
 import com.darcy.message.sunflower.ui.list.ListActivity
 import com.darcy.message.sunflower.ui.notification.NotificationActivity
+import java.io.File
 
 
 class MainActivity : BaseActivity<AppActivityMainBinding>() {
@@ -50,13 +54,38 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
+    private lateinit var sourceFile: File
     override fun initView() {
-        binding.innerFlutterPage.setOnClickListener {
-//            FlutterActivityHelper.startFlutterActivity(this)
-            FlutterActivityHelper.startFlutterActivity(
-                this,
-                FlutterPreloadHelper.FLUTTER_ENGINE_ID_1,
-                "/")
+        binding.fileCopy.setOnClickListener {
+            // assets文件video.mp4 复制到私有目录
+            val fileFolder = filesDir
+//            val fileFolder = getExternalFilesDir("file")
+            val destFile = File(fileFolder, "video.mp4")
+            sourceFile = destFile
+            assets.open("video.mp4").use { inputStream ->
+                destFile.outputStream().use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                    toasts("复制成功")
+                }
+            }
+        }
+        binding.hardLink.setOnClickListener {
+            val src = sourceFile.absolutePath
+            val dest = File(filesDir, "hardlink").absolutePath
+//            HardLinkHelper.hardLink(src, dest)
+//            val isHardLink = HardLinkHelper.checkHardLink(src)
+            HardLinkHelper.hardLink2(src, dest)
+            val isHardLink = HardLinkHelper.checkHardLink2(src,  dest)
+            toasts("hard link: $isHardLink")
+        }
+        binding.softLink.setOnClickListener {
+            val src = sourceFile.absolutePath
+            val dest = File(filesDir, "softlink").absolutePath
+//            SoftLinkHelper.softLink(src, dest)
+//            val isHardLink = SoftLinkHelper.checkSoftLink(src)
+            SoftLinkHelper.softLink2(src, dest)
+            val isSoftLink = SoftLinkHelper.checkSoftLink2(dest)
+            toasts("soft link: $isSoftLink")
         }
         binding.callFlutterApp.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).also {
@@ -67,6 +96,26 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
             val text = intent.getStringExtra(Intent.EXTRA_TEXT)
             println("FlutterActivity发送:$text")
             startActivity(intent)
+        }
+        binding.innerFlutterPageNoCache.setOnClickListener {
+            FlutterActivityHelper.startFlutterActivity(this, null, "")
+        }
+        binding.innerFlutterCacheDestroy.setOnClickListener {
+            FlutterPreloadHelper.destroyEngine(FlutterPreloadHelper.FLUTTER_ENGINE_ID_1)
+        }
+        binding.innerFlutterCacheCheck.setOnClickListener {
+            if (FlutterPreloadHelper.hasCachedEngine(FlutterPreloadHelper.FLUTTER_ENGINE_ID_1)) {
+                toasts("Flutter Engine 已缓存")
+            } else {
+                toasts("Flutter Engine 未缓存")
+            }
+        }
+        binding.innerFlutterPageCached.setOnClickListener {
+            FlutterActivityHelper.startFlutterActivity(
+                this,
+                FlutterPreloadHelper.FLUTTER_ENGINE_ID_1,
+                "/"
+            )
         }
         binding.stickyLiveData.setOnClickListener {
             startPage(StickyLiveDataActivity::class.java)

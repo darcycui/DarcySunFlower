@@ -7,7 +7,7 @@ import io.flutter.embedding.engine.dart.DartExecutor
 
 object FlutterPreloadHelper {
     private lateinit var flutterEngine: FlutterEngine
-    private var initRoute: String? =  null
+    private var initRoute: String? = null
 
     const val FLUTTER_ENGINE_ID_1 = "my_engine_id_1"
 
@@ -36,5 +36,15 @@ object FlutterPreloadHelper {
 
     fun isInitRoute(targetRoute: String): Boolean {
         return (initRoute?.isNotEmpty() == true) && (initRoute == targetRoute)
+    }
+
+    fun destroyEngine(engineId: String): Boolean {
+        return FlutterEngineCache.getInstance().get(engineId)?.let {
+            it.destroy()
+            FlutterEngineCache.getInstance().remove(engineId)
+            true
+        }?: run {
+            false
+        }
     }
 }

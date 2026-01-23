@@ -21,6 +21,27 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/hard_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="硬链接"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/soft_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="软链接"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/file_copy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="assets文件复制到私有目录"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/call_flutter_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,10 +49,31 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/innerFlutterPage"
+            android:id="@+id/inner_flutter_page_no_cache"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="内置Flutter页面"
+            android:text="内置Flutter页面(不使用缓存)"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/innerFlutterPageCached"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="内置Flutter页面(使用缓存)"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/innerFlutterCacheCheck"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="检查缓存 Flutter Engine"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/innerFlutterCacheDestroy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="销毁缓存 Flutter Engine"
             android:textAllCaps="false" />
 
         <Button

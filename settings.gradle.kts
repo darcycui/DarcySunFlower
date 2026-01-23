@@ -66,3 +66,5 @@ include(":lib_flutter")
 // flutter 库
 val filePath = settingsDir.parentFile.toString() + "/flutter_module/.android/include_flutter.groovy"
 apply(from = File(filePath))
+//flutter.hostAppProjectName="app"
+include(":lib_file")

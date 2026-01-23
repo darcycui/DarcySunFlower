@@ -108,6 +108,8 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
+//            isMinifyEnabled = true
+//            isShrinkResources = true
 //            signingConfig = signingConfigs.getByName("debugSign")
             // network security config
             resValue("xml", "network_security_config", "@xml/app_network_security_config_debug")
@@ -248,6 +250,7 @@ dependencies {
     implementation(project(":lib_startup"))
     implementation(project(":lib_login"))
     implementation(project(":lib_websocket"))
+    implementation(project(":lib_file"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖

@@ -3,11 +3,11 @@ package com.darcy.message.lib_ui.exts
 import android.app.Activity
 import android.content.Intent
 
-fun Activity.hasPermission(permissionName: String?) : Int {
-    permissionName?.let {
-        return this.checkSelfPermission(it)
+fun Activity.hasPermission(permissionName: String?): Int {
+    return permissionName?.let {
+        this.checkSelfPermission(it)
     } ?: run {
-        return -1
+        -1
     }
 }
 

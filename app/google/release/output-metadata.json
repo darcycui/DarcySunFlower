@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 1,
       "versionName": "1.0-google",
-      "outputFile": "Sunflower_google_v1.0_2025_0912_1422_release.apk"
+      "outputFile": "Sunflower_google_v1.0_2026_0105_0906_release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/Sunflower_google_v1.0_2025_0912_1422_release.dm"
+        "baselineProfiles/1/Sunflower_google_v1.0_2026_0105_0906_release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/Sunflower_google_v1.0_2025_0912_1422_release.dm"
+        "baselineProfiles/0/Sunflower_google_v1.0_2026_0105_0906_release.dm"
       ]
     }
   ],
