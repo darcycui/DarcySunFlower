@@ -251,14 +251,16 @@ dependencies {
     implementation(project(":lib_login"))
     implementation(project(":lib_websocket"))
     implementation(project(":lib_file"))
+    // flutter
+    api(project(":lib_flutter"))
+    // download 状态机
+    api(project(":lib_download"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
 //    implementation(libs.codelocator.core)
     // stringfog
     implementation(libs.stringfog.xor)
-    // flutter
-    api(project(":lib_flutter"))
 }
 
 // disable dependency verification foe one library

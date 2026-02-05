@@ -68,3 +68,4 @@ val filePath = settingsDir.parentFile.toString() + "/flutter_module/.android/inc
 apply(from = File(filePath))
 //flutter.hostAppProjectName="app"
 include(":lib_file")
+include(":lib_download")

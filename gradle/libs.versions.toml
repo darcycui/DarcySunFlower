@@ -7,6 +7,7 @@ codelocatorCore = "2.0.4"
 fragmentKtx = "1.6.0"
 gsonVersion = "2.10.1"
 mockk = "1.13.5"
+mockkVersion = "1.14.9"
 stringFogPlugin = "5.2.0"
 kotlin = "2.1.0"
 kotlinOld = "1.9.23"
@@ -63,6 +64,7 @@ codelocator-core = { module = "com.bytedance.tools.codelocator:codelocator-core"
 dagger-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltVersion" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-v1149 = { module = "io.mockk:mockk", version.ref = "mockkVersion" }
 stringfog-gradle-plugin = { module = "com.github.megatronking.stringfog:gradle-plugin", version.ref = "stringFogPlugin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
+import com.darcy.lib_download.ui.TestDownloadMachineActivity
 import com.darcy.lib_file.hardlink.HardLinkHelper
 import com.darcy.lib_file.softlink.SoftLinkHelper
 import com.darcy.lib_flutter.activity.FlutterActivityHelper
@@ -56,6 +57,9 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
 
     private lateinit var sourceFile: File
     override fun initView() {
+        binding.downloadStateMachine.setOnClickListener {
+            startPage(TestDownloadMachineActivity::class.java)
+        }
         binding.fileCopy.setOnClickListener {
             // assets文件video.mp4 复制到私有目录
             val fileFolder = filesDir
