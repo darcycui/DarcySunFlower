@@ -2,7 +2,7 @@ package com.darcy.message.sunflower
 
 import android.app.Application
 import android.content.res.Configuration
-import com.darcy.lib_flutter.preload.FlutterPreloadHelper
+//import com.darcy.lib_flutter.preload.FlutterPreloadHelper
 import com.darcy.message.lib_app_status.crash.CustomUncaughtExceptionHandler
 import com.darcy.message.lib_app_status.listener.CustomActivityLifecycleListener
 import com.darcy.message.lib_common.app.AppHelper
@@ -49,7 +49,7 @@ class App : Application() {
     }
 
     private fun initFlutter() {
-        FlutterPreloadHelper.preloadFlutterEngine(this, FlutterPreloadHelper.FLUTTER_ENGINE_ID_1, "/")
+//        FlutterPreloadHelper.preloadFlutterEngine(this, FlutterPreloadHelper.FLUTTER_ENGINE_ID_1, "/")
     }
 
     private fun startHomeActivity() {

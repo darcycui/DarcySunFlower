@@ -1,15 +1,17 @@
 package com.darcy.lib_download.statemachine
 
+import com.darcy.lib_download.listener.IStateMachineListener
 import com.darcy.lib_download.state.DownloadingState
 import com.darcy.lib_download.state.InitState
 import com.darcy.lib_download.state.PauseState
 import kotlin.reflect.KClass
 
-class DownloadStateMachine : StateMachine("DownloadStateMachine") {
-    private val initState = InitState()
-    private val downloadingState = DownloadingState()
-    private val pauseState = PauseState()
-    private val callback: StateMachineCallback? = null
+class DownloadStateMachine(
+    private val callback: IStateMachineListener
+) : StateMachine("DownloadStateMachine") {
+    private val initState = InitState(callback)
+    private val downloadingState = DownloadingState(callback)
+    private val pauseState = PauseState(callback)
 
     init {
         // 添加状态
@@ -26,14 +28,17 @@ class DownloadStateMachine : StateMachine("DownloadStateMachine") {
     companion object {
         @Volatile
         private var instance: DownloadStateMachine? = null
-        fun getInstance(): DownloadStateMachine {
+        fun init(callback: IStateMachineListener) {
             if (instance == null) {
                 synchronized(DownloadStateMachine::class.java) {
                     if (instance == null) {
-                        instance = DownloadStateMachine()
+                        instance = DownloadStateMachine(callback)
                     }
                 }
             }
+        }
+
+        fun getInstance(): DownloadStateMachine {
             return instance!!
         }
     }

@@ -59,19 +59,19 @@ android {
     // load key store from local.properties
     val localProperties = gradleLocalProperties(File(project.rootDir.absolutePath))
     signingConfigs {
-        create("debugSign") {
-            storeFile = file(localProperties.getProperty("keystore_path"))
-            keyAlias = localProperties.getProperty("key_alias")
-            storePassword = localProperties.getProperty("store_password")
-            keyPassword = localProperties.getProperty("key_password")
-        }
-
-        create("releaseSign") {
-            storeFile = file(localProperties.getProperty("keystore_path"))
-            keyAlias = localProperties.getProperty("key_alias")
-            storePassword = localProperties.getProperty("store_password")
-            keyPassword = localProperties.getProperty("key_password")
-        }
+//        create("debugSign") {
+//            storeFile = file(localProperties.getProperty("keystore_path"))
+//            keyAlias = localProperties.getProperty("key_alias")
+//            storePassword = localProperties.getProperty("store_password")
+//            keyPassword = localProperties.getProperty("key_password")
+//        }
+//
+//        create("releaseSign") {
+//            storeFile = file(localProperties.getProperty("keystore_path"))
+//            keyAlias = localProperties.getProperty("key_alias")
+//            storePassword = localProperties.getProperty("store_password")
+//            keyPassword = localProperties.getProperty("key_password")
+//        }
     }
 
     // set flavorDimensions
@@ -123,7 +123,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("releaseSign")
+//            signingConfig = signingConfigs.getByName("releaseSign")
             // network security config
             resValue("xml", "network_security_config", "@xml/app_network_security_config_release")
         }
@@ -251,8 +251,8 @@ dependencies {
     implementation(project(":lib_login"))
     implementation(project(":lib_websocket"))
     implementation(project(":lib_file"))
-    // flutter
-    api(project(":lib_flutter"))
+//    // flutter
+//    api(project(":lib_flutter"))
     // download 状态机
     api(project(":lib_download"))
 

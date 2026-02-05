@@ -2,18 +2,20 @@ package com.darcy.lib_download.state
 
 import android.os.Message
 import com.darcy.lib_download.event.DownloadEvent
+import com.darcy.lib_download.listener.IStateMachineListener
 import com.darcy.lib_download.statemachine.DownloadStateMachine
 import com.darcy.lib_download.statemachine.State
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 
-class PauseState : State() {
-    val TAG = PauseState::class.simpleName
+class PauseState(private val callback: IStateMachineListener?) : State() {
+    private val TAG = PauseState::class.simpleName
 
     override fun enter() {
         logI("$TAG:进入")
         super.enter()
+        callback?.onStateChange(this)
     }
 
     override fun exit() {
@@ -25,7 +27,7 @@ class PauseState : State() {
         var processed = false
         when (msg?.obj) {
             DownloadEvent.Resume -> {
-                logD("$TAG:暂停下载")
+                logD("$TAG:恢复下载")
                 DownloadStateMachine.getInstance().transitionToByClass(DownloadingState::class)
                 processed = true
             }

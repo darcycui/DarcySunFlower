@@ -9,7 +9,9 @@ import com.darcy.lib_download.R
 import com.darcy.lib_download.databinding.LibDownloadActivityTestDownloadMachineBinding
 import com.darcy.lib_download.event.DownloadEvent
 import com.darcy.lib_download.event.toMessage
+import com.darcy.lib_download.listener.IStateMachineListener
 import com.darcy.lib_download.statemachine.DownloadStateMachine
+import com.darcy.lib_download.statemachine.IState
 import com.darcy.lib_download.statemachine.State
 
 class TestDownloadMachineActivity : AppCompatActivity() {
@@ -23,7 +25,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, systemBars.top + 20, systemBars.right, systemBars.bottom)
             insets
         }
         initView()
@@ -38,10 +40,18 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             pause.setOnClickListener {
                 DownloadStateMachine.getInstance().sendMessage(DownloadEvent.Pause.toMessage())
             }
+            resume.setOnClickListener {
+                DownloadStateMachine.getInstance().sendMessage(DownloadEvent.Resume.toMessage())
+            }
         }
     }
 
     private fun initView() {
+        DownloadStateMachine.init(object : IStateMachineListener {
+            override fun onStateChange(newState: IState) {
+                binding.tvState.text = newState.javaClass.simpleName
+            }
+        })
         val currentState = DownloadStateMachine.getInstance().currentState as? State
         binding.apply {
             tvState.text = currentState?.javaClass?.simpleName ?: "null"

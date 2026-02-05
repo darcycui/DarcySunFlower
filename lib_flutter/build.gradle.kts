@@ -49,6 +49,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
-    // flutter 库
-    implementation(project(":flutter"))
+//    // flutter 库
+//    implementation(project(":flutter"))
 }

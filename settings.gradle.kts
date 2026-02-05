@@ -63,9 +63,9 @@ include(":lib_websocket")
 include(":lib_network_okhttp")
 include(":lib_flutter")
 
-// flutter 库
-val filePath = settingsDir.parentFile.toString() + "/flutter_module/.android/include_flutter.groovy"
-apply(from = File(filePath))
-//flutter.hostAppProjectName="app"
+//// flutter 库
+//val filePath = settingsDir.parentFile.toString() + "/flutter_module/.android/include_flutter.groovy"
+//apply(from = File(filePath))
+////flutter.hostAppProjectName="app"
 include(":lib_file")
 include(":lib_download")

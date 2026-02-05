@@ -2,17 +2,19 @@ package com.darcy.lib_download.state
 
 import android.os.Message
 import com.darcy.lib_download.event.DownloadEvent
+import com.darcy.lib_download.listener.IStateMachineListener
 import com.darcy.lib_download.statemachine.DownloadStateMachine
 import com.darcy.lib_download.statemachine.State
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 
-class InitState : State() {
-    val TAG = InitState::class.simpleName
+class InitState(private val callback: IStateMachineListener?) : State() {
+    private val TAG = InitState::class.simpleName
 
     override fun enter() {
         logI("$TAG:进入")
+        callback?.onStateChange(this)
         super.enter()
     }
 

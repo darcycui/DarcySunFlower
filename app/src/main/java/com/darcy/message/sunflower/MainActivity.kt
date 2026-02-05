@@ -8,8 +8,8 @@ import androidx.core.content.res.ResourcesCompat
 import com.darcy.lib_download.ui.TestDownloadMachineActivity
 import com.darcy.lib_file.hardlink.HardLinkHelper
 import com.darcy.lib_file.softlink.SoftLinkHelper
-import com.darcy.lib_flutter.activity.FlutterActivityHelper
-import com.darcy.lib_flutter.preload.FlutterPreloadHelper
+//import com.darcy.lib_flutter.activity.FlutterActivityHelper
+//import com.darcy.lib_flutter.preload.FlutterPreloadHelper
 import com.darcy.message.lib_app_status.TestAppStatusActivity
 import com.darcy.message.lib_camera.camera1.activity.TestCameraActivity
 import com.darcy.message.lib_camera.camera1.activity.TestCameraBackgroundActivity
@@ -102,24 +102,24 @@ class MainActivity : BaseActivity<AppActivityMainBinding>() {
             startActivity(intent)
         }
         binding.innerFlutterPageNoCache.setOnClickListener {
-            FlutterActivityHelper.startFlutterActivity(this, null, "")
+//            FlutterActivityHelper.startFlutterActivity(this, null, "")
         }
         binding.innerFlutterCacheDestroy.setOnClickListener {
-            FlutterPreloadHelper.destroyEngine(FlutterPreloadHelper.FLUTTER_ENGINE_ID_1)
+//            FlutterPreloadHelper.destroyEngine(FlutterPreloadHelper.FLUTTER_ENGINE_ID_1)
         }
         binding.innerFlutterCacheCheck.setOnClickListener {
-            if (FlutterPreloadHelper.hasCachedEngine(FlutterPreloadHelper.FLUTTER_ENGINE_ID_1)) {
-                toasts("Flutter Engine 已缓存")
-            } else {
-                toasts("Flutter Engine 未缓存")
-            }
+//            if (FlutterPreloadHelper.hasCachedEngine(FlutterPreloadHelper.FLUTTER_ENGINE_ID_1)) {
+//                toasts("Flutter Engine 已缓存")
+//            } else {
+//                toasts("Flutter Engine 未缓存")
+//            }
         }
         binding.innerFlutterPageCached.setOnClickListener {
-            FlutterActivityHelper.startFlutterActivity(
-                this,
-                FlutterPreloadHelper.FLUTTER_ENGINE_ID_1,
-                "/"
-            )
+//            FlutterActivityHelper.startFlutterActivity(
+//                this,
+//                FlutterPreloadHelper.FLUTTER_ENGINE_ID_1,
+//                "/"
+//            )
         }
         binding.stickyLiveData.setOnClickListener {
             startPage(StickyLiveDataActivity::class.java)
