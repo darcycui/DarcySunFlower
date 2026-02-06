@@ -9,7 +9,8 @@ import com.darcy.lib_download.R
 import com.darcy.lib_download.databinding.LibDownloadActivityTestDownloadMachineBinding
 import com.darcy.lib_download.event.DownloadEvent
 import com.darcy.lib_download.event.toMessage
-import com.darcy.lib_download.listener.IStateMachineListener
+import com.darcy.lib_download.listener.IStateChangeListener
+import com.darcy.lib_download.listener.IStateProgressChangeListener
 import com.darcy.lib_download.statemachine.DownloadStateMachine
 import com.darcy.lib_download.statemachine.IState
 import com.darcy.lib_download.statemachine.State
@@ -18,6 +19,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
     private val binding: LibDownloadActivityTestDownloadMachineBinding by lazy {
         LibDownloadActivityTestDownloadMachineBinding.inflate(layoutInflater)
     }
+    private var currentProgress: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,18 +45,40 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             resume.setOnClickListener {
                 DownloadStateMachine.getInstance().sendMessage(DownloadEvent.Resume.toMessage())
             }
+            updateProgress.setOnClickListener {
+                DownloadStateMachine.getInstance().sendMessage(
+                    DownloadEvent.ProgressUpdate(currentProgress++).toMessage()
+                )
+            }
         }
     }
 
     private fun initView() {
-        DownloadStateMachine.init(object : IStateMachineListener {
-            override fun onStateChange(newState: IState) {
-                binding.tvState.text = newState.javaClass.simpleName
+        DownloadStateMachine.init(
+            stateCallback = object : IStateChangeListener {
+                override fun onStateChange(newState: IState) {
+                    runOnUiThread {
+                        binding.tvState.text = newState.name
+                    }
+                }
+            },
+            progressCallback = object : IStateProgressChangeListener {
+                override fun onProgressChange(newState: IState, progress: Double) {
+                    runOnUiThread {
+                        binding.tvState.text = newState.name
+                    }
+                }
             }
-        })
+        )
         val currentState = DownloadStateMachine.getInstance().currentState as? State
         binding.apply {
             tvState.text = currentState?.javaClass?.simpleName ?: "null"
+        }
+    }
+
+    private fun updateUI(block: () -> Unit) {
+        runOnUiThread {
+            block()
         }
     }
 }

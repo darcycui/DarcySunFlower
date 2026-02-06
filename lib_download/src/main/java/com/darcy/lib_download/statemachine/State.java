@@ -71,6 +71,8 @@ public class State implements IState {
     public String getName() {
         String name = getClass().getName();
         int lastDollar = name.lastIndexOf('$');
-        return name.substring(lastDollar + 1);
+        String cacheName = name.substring(lastDollar + 1);
+        int lastDot = cacheName.lastIndexOf('.');
+        return name.substring(lastDot + 1);
     }
 }

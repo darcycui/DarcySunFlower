@@ -11,7 +11,7 @@ sealed class DownloadEvent(val what: Int) {
     data object Start : DownloadEvent(1)
     data object Pause : DownloadEvent(2)
     data object Resume : DownloadEvent(3)
-    data class ProgressUpdate(val progress: Int) : DownloadEvent(4)
+    data class ProgressUpdate(val progress: Double) : DownloadEvent(4)
     data object Cancel : DownloadEvent(5)
     data object FinishSuccess : DownloadEvent(6)
     data object FinishError : DownloadEvent(7)
