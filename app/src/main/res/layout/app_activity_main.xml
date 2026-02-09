@@ -21,6 +21,13 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/downloadStateMachineList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="状态机列表"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/downloadStateMachine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

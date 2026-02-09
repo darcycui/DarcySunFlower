@@ -8,6 +8,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.darcy.lib_download.R
 import com.darcy.lib_download.databinding.LibDownloadActivityTestDownloadMachineBinding
+import com.darcy.lib_download.downloader.DownloadTask
 import com.darcy.lib_download.event.DownloadEvent
 import com.darcy.lib_download.event.toMessage
 import com.darcy.lib_download.listener.IStateChangeListener
@@ -20,6 +21,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
     private val binding: LibDownloadActivityTestDownloadMachineBinding by lazy {
         LibDownloadActivityTestDownloadMachineBinding.inflate(layoutInflater)
     }
+    private lateinit var stateMachine: DownloadStateMachine
     private var currentProgress: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,27 +33,39 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top + 20, systemBars.right, systemBars.bottom)
             insets
         }
-        DownloadStateMachine.init(
+        stateMachine = DownloadStateMachine(
             stateCallback = object : IStateChangeListener {
-                override fun onStateChanged(currentState: IState, message: Message?) {
+                override fun onStateChanged(
+                    task: DownloadTask,
+                    currentState: IState,
+                    message: Message?
+                ) {
                     runOnUiThread {
                         binding.tvState.text = currentState.name
                     }
                 }
 
-                override fun onStatePreChange(currentState: IState, message: Message?) {
+                override fun onStatePreChange(
+                    task: DownloadTask,
+                    currentState: IState,
+                    message: Message?
+                ) {
 
                 }
             },
             progressCallback = object : IStateProgressChangeListener {
-                override fun onProgressChange(newState: IState, progress: Double) {
+                override fun onProgressChange(
+                    task: DownloadTask,
+                    newState: IState,
+                    progress: Double
+                ) {
                     runOnUiThread {
                         binding.tvState.text = newState.name
                     }
                 }
             }
         )
-        DownloadStateMachine.start()
+        stateMachine.start()
         initView()
         initObserver()
     }
@@ -59,16 +73,16 @@ class TestDownloadMachineActivity : AppCompatActivity() {
     private fun initObserver() {
         binding.apply {
             start.setOnClickListener {
-                DownloadStateMachine.getInstance().sendMessage(DownloadEvent.Start.toMessage())
+                stateMachine.sendMessage(DownloadEvent.Start.toMessage())
             }
             pause.setOnClickListener {
-                DownloadStateMachine.getInstance().sendMessage(DownloadEvent.Pause.toMessage())
+                stateMachine.sendMessage(DownloadEvent.Pause.toMessage())
             }
             resume.setOnClickListener {
-                DownloadStateMachine.getInstance().sendMessage(DownloadEvent.Resume.toMessage())
+                stateMachine.sendMessage(DownloadEvent.Resume.toMessage())
             }
             updateProgress.setOnClickListener {
-                DownloadStateMachine.getInstance().sendMessage(
+                stateMachine.sendMessage(
                     DownloadEvent.ProgressUpdate(++currentProgress).toMessage()
                 )
             }
@@ -76,7 +90,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        val currentState = DownloadStateMachine.getInstance().currentState as? State
+        val currentState = stateMachine.currentState as? State
         binding.apply {
             tvState.text = currentState?.javaClass?.simpleName ?: "null"
         }
@@ -90,6 +104,6 @@ class TestDownloadMachineActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        DownloadStateMachine.stop()
+        stateMachine.quitNow()
     }
 }

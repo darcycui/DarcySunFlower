@@ -14,7 +14,7 @@ sealed class DownloadEvent(val what: Int) {
     data class ProgressUpdate(val progress: Double) : DownloadEvent(4)
     data object Cancel : DownloadEvent(5)
     data object FinishSuccess : DownloadEvent(6)
-    data object FinishError : DownloadEvent(7)
+    data class FinishError(val e: Exception) : DownloadEvent(7)
     data object UnCompress : DownloadEvent(8)
     data object UnCompressSuccess : DownloadEvent(9)
     data object UnCompressError : DownloadEvent(10)

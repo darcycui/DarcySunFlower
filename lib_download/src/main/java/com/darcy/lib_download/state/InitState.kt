@@ -8,7 +8,9 @@ import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 
-class InitState() : State() {
+class InitState(
+    private val stateMachine: DownloadStateMachine
+) : State() {
     private val TAG = InitState::class.simpleName
 
     override fun enter() {
@@ -26,7 +28,7 @@ class InitState() : State() {
         when (msg?.obj) {
             DownloadEvent.Start -> {
                 logD("$TAG:开始下载")
-                DownloadStateMachine.getInstance().transitionToByClass(DownloadingState::class)
+                stateMachine.transitionToByClass(DownloadingState::class)
                 processed = true
             }
         }
