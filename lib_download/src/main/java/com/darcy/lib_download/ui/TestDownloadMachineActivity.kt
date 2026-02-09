@@ -1,6 +1,7 @@
 package com.darcy.lib_download.ui
 
 import android.os.Bundle
+import android.os.Message
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,6 +31,27 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top + 20, systemBars.right, systemBars.bottom)
             insets
         }
+        DownloadStateMachine.init(
+            stateCallback = object : IStateChangeListener {
+                override fun onStateChanged(currentState: IState, message: Message?) {
+                    runOnUiThread {
+                        binding.tvState.text = currentState.name
+                    }
+                }
+
+                override fun onStatePreChange(currentState: IState, message: Message?) {
+
+                }
+            },
+            progressCallback = object : IStateProgressChangeListener {
+                override fun onProgressChange(newState: IState, progress: Double) {
+                    runOnUiThread {
+                        binding.tvState.text = newState.name
+                    }
+                }
+            }
+        )
+        DownloadStateMachine.start()
         initView()
         initObserver()
     }
@@ -47,29 +69,13 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             }
             updateProgress.setOnClickListener {
                 DownloadStateMachine.getInstance().sendMessage(
-                    DownloadEvent.ProgressUpdate(currentProgress++).toMessage()
+                    DownloadEvent.ProgressUpdate(++currentProgress).toMessage()
                 )
             }
         }
     }
 
     private fun initView() {
-        DownloadStateMachine.init(
-            stateCallback = object : IStateChangeListener {
-                override fun onStateChange(newState: IState) {
-                    runOnUiThread {
-                        binding.tvState.text = newState.name
-                    }
-                }
-            },
-            progressCallback = object : IStateProgressChangeListener {
-                override fun onProgressChange(newState: IState, progress: Double) {
-                    runOnUiThread {
-                        binding.tvState.text = newState.name
-                    }
-                }
-            }
-        )
         val currentState = DownloadStateMachine.getInstance().currentState as? State
         binding.apply {
             tvState.text = currentState?.javaClass?.simpleName ?: "null"
@@ -80,5 +86,10 @@ class TestDownloadMachineActivity : AppCompatActivity() {
         runOnUiThread {
             block()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        DownloadStateMachine.stop()
     }
 }
