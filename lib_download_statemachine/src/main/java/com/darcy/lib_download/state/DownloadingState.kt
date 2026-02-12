@@ -32,7 +32,7 @@ class DownloadingState(
         logI("$TAG:进入")
         super.enter()
         scope.launch {
-            DownloadManager.startDownload(stateMachine.getDownloadTask())
+            DownloadManager.startDownload(stateMachine.getAppInstallTask())
         }
     }
 
@@ -55,7 +55,7 @@ class DownloadingState(
                 progress = newProgress
                 logD("$TAG:下载进度更新:$newProgress")
                 progressChangeListener?.onProgressChange(
-                    stateMachine.getDownloadTask(),
+                    stateMachine.getAppInstallTask(),
                     this,
                     newProgress
                 )

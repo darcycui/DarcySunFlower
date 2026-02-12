@@ -127,9 +127,9 @@ class AppInstallStateMachine(
         this.appInstallTask = task
     }
 
-    fun getDownloadTask(): AppInstallTask {
+    fun getAppInstallTask(): AppInstallTask {
         return appInstallTask
-            ?: throw NullPointerException("DownloadTask is null. Call setupDownloadTask first.")
+            ?: throw NullPointerException("appInstallTask is null. Call setupAppInstallTask() first.")
     }
 
     override fun onPreHandleMessage(msg: Message?) {

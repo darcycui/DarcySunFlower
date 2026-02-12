@@ -32,7 +32,7 @@ class InstallingState(
         logI("$TAG:进入")
         super.enter()
         scope.launch {
-            InstallManager.startInstall(stateMachine.getDownloadTask())
+            InstallManager.startInstall(stateMachine.getAppInstallTask())
         }
     }
 
@@ -49,7 +49,7 @@ class InstallingState(
                 progress = newProgress
                 logD("$TAG:安装进度更新:$newProgress")
                 progressChangeListener?.onProgressChange(
-                    stateMachine.getDownloadTask(),
+                    stateMachine.getAppInstallTask(),
                     this,
                     newProgress
                 )

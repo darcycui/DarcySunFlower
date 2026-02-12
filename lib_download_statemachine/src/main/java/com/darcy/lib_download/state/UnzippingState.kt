@@ -33,7 +33,7 @@ class UnzippingState(
         logI("$TAG:进入")
         super.enter()
         scope.launch {
-            UnzipManager.startUnzip(stateMachine.getDownloadTask())
+            UnzipManager.startUnzip(stateMachine.getAppInstallTask())
         }
     }
 
@@ -49,7 +49,7 @@ class UnzippingState(
                 val newProgress = (msg.obj as AppInstallEvent.UpdateProgressUnzip).progress
                 progress = newProgress
                 logD("$TAG:解压进度更新:$newProgress")
-                progressChangeListener?.onProgressChange(stateMachine.getDownloadTask(), this, newProgress)
+                progressChangeListener?.onProgressChange(stateMachine.getAppInstallTask(), this, newProgress)
                 processed = true
             }
 
