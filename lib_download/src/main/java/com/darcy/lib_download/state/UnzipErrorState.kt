@@ -1,17 +1,16 @@
 package com.darcy.lib_download.state
 
 import android.os.Message
-import com.darcy.lib_download.event.DownloadEvent
-import com.darcy.lib_download.statemachine.DownloadStateMachine
+import com.darcy.lib_download.event.AppInstallEvent
+import com.darcy.lib_download.statemachine.AppInstallStateMachine
 import com.darcy.lib_download.statemachine.State
-import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
 
-class PauseState(
-    private val stateMachine: DownloadStateMachine
+class UnzipErrorState(
+    private val stateMachine: AppInstallStateMachine
 ) : State() {
-    private val TAG = PauseState::class.simpleName
+    private val TAG = UnzipErrorState::class.simpleName
 
     override fun enter() {
         logI("$TAG:进入")
@@ -26,9 +25,9 @@ class PauseState(
     override fun processMessage(msg: Message?): Boolean {
         var processed = false
         when (msg?.obj) {
-            DownloadEvent.Resume -> {
-                logD("$TAG:恢复下载")
-                stateMachine.transitionToByClass(DownloadingState::class)
+
+            is AppInstallEvent.Reset -> {
+                stateMachine.transitionToByClass(InitState::class)
                 processed = true
             }
         }

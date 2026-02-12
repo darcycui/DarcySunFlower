@@ -1,7 +1,7 @@
 package com.darcy.lib_download.state
 
 import android.os.Message
-import com.darcy.lib_download.actions.downloader.DownloadManager
+import com.darcy.lib_download.actions.installer.InstallManager
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.listener.IStateProgressChangeListener
 import com.darcy.lib_download.statemachine.AppInstallStateMachine
@@ -16,12 +16,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
-class DownloadingState(
+class InstallingState(
     private val stateMachine: AppInstallStateMachine,
     private var progress: Double = 0.0,
     private val progressChangeListener: IStateProgressChangeListener?
 ) : State() {
-    private val TAG = DownloadingState::class.simpleName
+    private val TAG = InstallingState::class.simpleName
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         logE("$TAG:异常:$throwable")
     }
@@ -32,7 +32,7 @@ class DownloadingState(
         logI("$TAG:进入")
         super.enter()
         scope.launch {
-            DownloadManager.startDownload(stateMachine.getDownloadTask())
+            InstallManager.startInstall(stateMachine.getDownloadTask())
         }
     }
 
@@ -44,16 +44,10 @@ class DownloadingState(
     override fun processMessage(msg: Message?): Boolean {
         var processed = false
         when (msg?.obj) {
-            AppInstallEvent.PauseDownload -> {
-                logD("$TAG:暂停下载")
-                stateMachine.transitionToByClass(DownloadPauseState::class)
-                processed = true
-            }
-
-            is AppInstallEvent.UpdateProgressDownload -> {
-                val newProgress = (msg.obj as AppInstallEvent.UpdateProgressDownload).progress
+            is AppInstallEvent.UpdateProgressInstall -> {
+                val newProgress = (msg.obj as AppInstallEvent.UpdateProgressInstall).progress
                 progress = newProgress
-                logD("$TAG:下载进度更新:$newProgress")
+                logD("$TAG:安装进度更新:$newProgress")
                 progressChangeListener?.onProgressChange(
                     stateMachine.getDownloadTask(),
                     this,
@@ -62,15 +56,15 @@ class DownloadingState(
                 processed = true
             }
 
-            is AppInstallEvent.FinishDownloadSuccess -> {
-                logD("$TAG:下载完成")
-                stateMachine.transitionToByClass(DownloadSuccessState::class)
+            is AppInstallEvent.FinishInstallSuccess -> {
+                logD("$TAG:安装完成")
+                stateMachine.transitionToByClass(InstallSuccessState::class)
                 processed = true
             }
 
-            is AppInstallEvent.FinishDownloadError -> {
-                logD("$TAG:下载失败")
-                stateMachine.transitionToByClass(DownloadErrorState::class)
+            is AppInstallEvent.FinishInstallError -> {
+                logD("$TAG:安装失败")
+                stateMachine.transitionToByClass(InstallErrorState::class)
                 processed = true
             }
 

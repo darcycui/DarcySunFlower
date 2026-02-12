@@ -1,11 +1,12 @@
-package com.darcy.lib_download.downloader
+package com.darcy.lib_download.actions.downloader
 
+import com.darcy.lib_download.actions.AppInstallTask
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 object DownloadManager {
-    suspend fun startDownload(task: DownloadTask) {
+    suspend fun startDownload(task: AppInstallTask) {
         withContext(Dispatchers.IO) {
             task.listener?.onStart(task)
             repeat(100) {

@@ -8,12 +8,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.darcy.lib_download.R
 import com.darcy.lib_download.databinding.LibDownloadActivityTestDownloadMachineBinding
-import com.darcy.lib_download.downloader.DownloadTask
-import com.darcy.lib_download.event.DownloadEvent
+import com.darcy.lib_download.actions.AppInstallTask
+import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 import com.darcy.lib_download.listener.IStateChangeListener
 import com.darcy.lib_download.listener.IStateProgressChangeListener
-import com.darcy.lib_download.statemachine.DownloadStateMachine
+import com.darcy.lib_download.statemachine.AppInstallStateMachine
 import com.darcy.lib_download.statemachine.IState
 import com.darcy.lib_download.statemachine.State
 
@@ -21,7 +21,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
     private val binding: LibDownloadActivityTestDownloadMachineBinding by lazy {
         LibDownloadActivityTestDownloadMachineBinding.inflate(layoutInflater)
     }
-    private lateinit var stateMachine: DownloadStateMachine
+    private lateinit var stateMachine: AppInstallStateMachine
     private var currentProgress: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +33,10 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top + 20, systemBars.right, systemBars.bottom)
             insets
         }
-        stateMachine = DownloadStateMachine(
+        stateMachine = AppInstallStateMachine(
             stateCallback = object : IStateChangeListener {
                 override fun onStateChanged(
-                    task: DownloadTask,
+                    task: AppInstallTask,
                     currentState: IState,
                     message: Message?
                 ) {
@@ -46,7 +46,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
                 }
 
                 override fun onStatePreChange(
-                    task: DownloadTask,
+                    task: AppInstallTask,
                     currentState: IState,
                     message: Message?
                 ) {
@@ -55,7 +55,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             },
             progressCallback = object : IStateProgressChangeListener {
                 override fun onProgressChange(
-                    task: DownloadTask,
+                    task: AppInstallTask,
                     newState: IState,
                     progress: Double
                 ) {
@@ -73,17 +73,17 @@ class TestDownloadMachineActivity : AppCompatActivity() {
     private fun initObserver() {
         binding.apply {
             start.setOnClickListener {
-                stateMachine.sendMessage(DownloadEvent.Start.toMessage())
+                stateMachine.sendMessage(AppInstallEvent.StartDownload.toMessage())
             }
             pause.setOnClickListener {
-                stateMachine.sendMessage(DownloadEvent.Pause.toMessage())
+                stateMachine.sendMessage(AppInstallEvent.PauseDownload.toMessage())
             }
             resume.setOnClickListener {
-                stateMachine.sendMessage(DownloadEvent.Resume.toMessage())
+                stateMachine.sendMessage(AppInstallEvent.ResumeDownload.toMessage())
             }
             updateProgress.setOnClickListener {
                 stateMachine.sendMessage(
-                    DownloadEvent.ProgressUpdate(++currentProgress).toMessage()
+                    AppInstallEvent.UpdateProgressDownload(++currentProgress).toMessage()
                 )
             }
         }

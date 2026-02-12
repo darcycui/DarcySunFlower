@@ -5,19 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.darcy.lib_download.actions.AppInstallTask
+import com.darcy.lib_download.actions.downloader.IDownloadListener
+import com.darcy.lib_download.actions.installer.IInstallListener
+import com.darcy.lib_download.actions.unziper.IUnzipListener
 import com.darcy.lib_download.bean.ItemBean
 import com.darcy.lib_download.databinding.LibDownloadItemBinding
-import com.darcy.lib_download.downloader.DownloadManager
-import com.darcy.lib_download.downloader.DownloadTask
-import com.darcy.lib_download.downloader.IDownloadListener
-import com.darcy.lib_download.event.DownloadEvent
+import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 import com.darcy.lib_download.listener.IStateChangeListener
 import com.darcy.lib_download.listener.IStateProgressChangeListener
+import com.darcy.lib_download.state.DownloadPauseState
 import com.darcy.lib_download.state.DownloadingState
 import com.darcy.lib_download.state.InitState
-import com.darcy.lib_download.state.PauseState
-import com.darcy.lib_download.statemachine.DownloadStateMachine
+import com.darcy.lib_download.statemachine.AppInstallStateMachine
 import com.darcy.lib_download.statemachine.IState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +35,7 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
         val binding: LibDownloadItemBinding = LibDownloadItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ViewHolder(binding, downloadListener)
+        return ViewHolder(binding, downloadListener, unzipListener, installListener)
     }
 
     override fun onBindViewHolder(
@@ -51,16 +52,16 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
     fun setData(dataList: List<ItemBean>) {
         this.dataList.clear()
         this.dataList.addAll(dataList.map { item ->
-            val stateMachine = DownloadStateMachine(stateChange, progressChange)
+            val stateMachine = AppInstallStateMachine(stateChangeListener, progressChangeListener)
             item.stateMachine = stateMachine
             item
         })
         notifyDataSetChanged()
     }
 
-    val stateChange = object : IStateChangeListener {
+    val stateChangeListener = object : IStateChangeListener {
         override fun onStateChanged(
-            task: DownloadTask,
+            task: AppInstallTask,
             currentState: IState,
             message: Message?
         ) {
@@ -69,15 +70,15 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
         }
 
         override fun onStatePreChange(
-            task: DownloadTask,
+            task: AppInstallTask,
             currentState: IState,
             message: Message?
         ) {
         }
     }
-    val progressChange = object : IStateProgressChangeListener {
+    val progressChangeListener = object : IStateProgressChangeListener {
         override fun onProgressChange(
-            task: DownloadTask,
+            task: AppInstallTask,
             newState: IState,
             progress: Double
         ) {
@@ -92,60 +93,24 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
         }
     }
 
-    val downloadListener = object : IDownloadListener {
-        override fun onStart(task: DownloadTask) {
-            val stateMachine = task.itemBean.stateMachine
-            stateMachine?.sendMessage(DownloadEvent.Start.toMessage())
-        }
-
-        override fun onProgress(
-            task: DownloadTask,
-            progress: Double
-        ) {
-            val stateMachine = task.itemBean.stateMachine
-            stateMachine?.sendMessage(DownloadEvent.ProgressUpdate(progress).toMessage())
-        }
-
-        override fun onPause(task: DownloadTask) {
-            val stateMachine = task.itemBean.stateMachine
-            stateMachine?.sendMessage(DownloadEvent.Pause.toMessage())
-        }
-
-        override fun onResume(task: DownloadTask) {
-            val stateMachine = task.itemBean.stateMachine
-            stateMachine?.sendMessage(DownloadEvent.Resume.toMessage())
-        }
-
-        override fun onCancel(task: DownloadTask) {
-        }
-
-        override fun onFinish(task: DownloadTask) {
-            val stateMachine = task.itemBean.stateMachine
-            stateMachine?.sendMessage(DownloadEvent.FinishSuccess.toMessage())
-        }
-
-        override fun onError(
-            task: DownloadTask,
-            e: Exception
-        ) {
-            val stateMachine = task.itemBean.stateMachine
-            stateMachine?.sendMessage(DownloadEvent.FinishError(e).toMessage())
-        }
-    }
+    val downloadListener = DownloadListenerImpl()
+    val unzipListener = UnzipListenerImpl()
+    val installListener = InstallListenerImpl()
 }
-
-val scope = CoroutineScope(Dispatchers.IO)
 
 class ViewHolder(
     private val binding: LibDownloadItemBinding,
-    private val downloadListener: IDownloadListener
+    private val downloadListener: IDownloadListener,
+    private val unzipListener: IUnzipListener,
+    private val installListener: IInstallListener
 ) :
     RecyclerView.ViewHolder(binding.root) {
     fun bindData(item: ItemBean) {
         binding.apply {
             itemTitle.text = item.name
             if (item.stateMachine?.currentState is DownloadingState) {
-                val progress = (item.stateMachine?.currentState as DownloadingState).getProgress()
+                val progress =
+                    (item.stateMachine?.currentState as DownloadingState).getProgress()
                 itemProgress.progress = (progress * 100).toInt()
                 itemActionButton.visibility = View.GONE
                 itemProgress.visibility = View.VISIBLE
@@ -158,23 +123,22 @@ class ViewHolder(
             when (state) {
                 is InitState -> {
                     itemActionButton.setOnClickListener {
-                        scope.launch {
-                            val task = DownloadTask(item, downloadListener)
-                            item.stateMachine?.setupDownloadTask(task)
-                            DownloadManager.startDownload(task)
-                        }
+                        val task =
+                            AppInstallTask(item, downloadListener, unzipListener, installListener)
+                        item.stateMachine?.setupDownloadTask(task)
+                        item.stateMachine?.sendMessage(AppInstallEvent.StartDownload.toMessage())
                     }
                 }
 
                 is DownloadingState -> {
                     itemActionButton.setOnClickListener {
-                        item.stateMachine?.sendMessage(DownloadEvent.Pause.toMessage())
+                        item.stateMachine?.sendMessage(AppInstallEvent.PauseDownload.toMessage())
                     }
                 }
 
-                is PauseState -> {
+                is DownloadPauseState -> {
                     itemActionButton.setOnClickListener {
-                        item.stateMachine?.sendMessage(DownloadEvent.Resume.toMessage())
+                        item.stateMachine?.sendMessage(AppInstallEvent.ResumeDownload.toMessage())
                     }
                 }
 
