@@ -9,9 +9,10 @@ data class ItemBean(
     val name: String,
     val url: String,
     val size: Long,
-    var stateMachine: AppInstallStateMachine? = null,
+    var stateMachine: AppInstallStateMachine,
     val lastStateClass: KClass<out State>,
     var downloadingProgress: Double,
     var unzipProgress: Double,
-    var installProgress: Double
+    var installProgress: Double,
+    var isPaused: Boolean,
 )

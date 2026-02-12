@@ -22,18 +22,12 @@ class InstallingState(
     private val progressChangeListener: IStateProgressChangeListener?
 ) : State() {
     private val TAG = InstallingState::class.simpleName
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        logE("$TAG:异常:$throwable")
-    }
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob() + exceptionHandler)
 
 
     override fun enter() {
         logI("$TAG:进入")
         super.enter()
-        scope.launch {
-            InstallManager.startInstall(stateMachine.getAppInstallTask())
-        }
+        InstallManager.startInstall(stateMachine.getAppInstallTask())
     }
 
     override fun exit() {

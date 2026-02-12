@@ -11,11 +11,6 @@ import com.darcy.lib_download.utils.formatByDigits
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class UnzippingState(
     private val stateMachine: AppInstallStateMachine,
@@ -24,17 +19,11 @@ class UnzippingState(
 ) : State() {
     private val TAG = UnzippingState::class.simpleName
     private var appInstallTask: AppInstallTask? = null
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        logE("$TAG:异常:$throwable")
-    }
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob() + exceptionHandler)
 
     override fun enter() {
         logI("$TAG:进入")
         super.enter()
-        scope.launch {
-            UnzipManager.startUnzip(stateMachine.getAppInstallTask())
-        }
+        UnzipManager.startUnzip(stateMachine.getAppInstallTask())
     }
 
     override fun exit() {
@@ -49,7 +38,11 @@ class UnzippingState(
                 val newProgress = (msg.obj as AppInstallEvent.UpdateProgressUnzip).progress
                 progress = newProgress
                 logD("$TAG:解压进度更新:$newProgress")
-                progressChangeListener?.onProgressChange(stateMachine.getAppInstallTask(), this, newProgress)
+                progressChangeListener?.onProgressChange(
+                    stateMachine.getAppInstallTask(),
+                    this,
+                    newProgress
+                )
                 processed = true
             }
 

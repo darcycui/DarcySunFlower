@@ -4,6 +4,7 @@ import com.darcy.lib_download.actions.AppInstallTask
 import com.darcy.lib_download.actions.downloader.IDownloadListener
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
+import com.darcy.message.lib_common.exts.logV
 
 /**
  * 下载监听实现类
@@ -11,7 +12,7 @@ import com.darcy.lib_download.event.toMessage
 class DownloadListenerImpl: IDownloadListener {
     override fun onStart(task: AppInstallTask) {
         val stateMachine = task.itemBean.stateMachine
-        //stateMachine?.sendMessage(DownloadEvent.StartDownload.toMessage())
+        //stateMachine.sendMessage(DownloadEvent.StartDownload.toMessage())
     }
 
     override fun onProgress(
@@ -19,17 +20,17 @@ class DownloadListenerImpl: IDownloadListener {
         progress: Double
     ) {
         val stateMachine = task.itemBean.stateMachine
-        stateMachine?.sendMessage(AppInstallEvent.UpdateProgressDownload(progress).toMessage())
+        stateMachine.sendMessage(AppInstallEvent.UpdateProgressDownload(progress).toMessage())
     }
 
     override fun onPause(task: AppInstallTask) {
         val stateMachine = task.itemBean.stateMachine
-        stateMachine?.sendMessage(AppInstallEvent.PauseDownload.toMessage())
+        stateMachine.sendMessage(AppInstallEvent.PauseDownload.toMessage())
     }
 
     override fun onResume(task: AppInstallTask) {
         val stateMachine = task.itemBean.stateMachine
-        stateMachine?.sendMessage(AppInstallEvent.ResumeDownload.toMessage())
+        stateMachine.sendMessage(AppInstallEvent.ResumeDownload.toMessage())
     }
 
     override fun onCancel(task: AppInstallTask) {
@@ -37,7 +38,7 @@ class DownloadListenerImpl: IDownloadListener {
 
     override fun onFinish(task: AppInstallTask) {
         val stateMachine = task.itemBean.stateMachine
-        stateMachine?.sendMessage(AppInstallEvent.FinishDownloadSuccess.toMessage())
+        stateMachine.sendMessage(AppInstallEvent.FinishDownloadSuccess.toMessage())
     }
 
     override fun onError(
@@ -45,7 +46,7 @@ class DownloadListenerImpl: IDownloadListener {
         e: Exception
     ) {
         val stateMachine = task.itemBean.stateMachine
-        stateMachine?.sendMessage(AppInstallEvent.FinishDownloadError(e).toMessage())
+        stateMachine.sendMessage(AppInstallEvent.FinishDownloadError(e).toMessage())
     }
 
 }

@@ -10,11 +10,6 @@ import com.darcy.lib_download.utils.formatByDigits
 import com.darcy.message.lib_common.exts.logD
 import com.darcy.message.lib_common.exts.logE
 import com.darcy.message.lib_common.exts.logI
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
 
 class DownloadingState(
     private val stateMachine: AppInstallStateMachine,
@@ -22,18 +17,12 @@ class DownloadingState(
     private val progressChangeListener: IStateProgressChangeListener?
 ) : State() {
     private val TAG = DownloadingState::class.simpleName
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        logE("$TAG:异常:$throwable")
-    }
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob() + exceptionHandler)
 
 
     override fun enter() {
         logI("$TAG:进入")
         super.enter()
-        scope.launch {
-            DownloadManager.startDownload(stateMachine.getAppInstallTask())
-        }
+        DownloadManager.startDownload(stateMachine.getAppInstallTask())
     }
 
     override fun exit() {

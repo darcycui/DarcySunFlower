@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.darcy.lib_download.actions.AppInstallTask
+import com.darcy.lib_download.actions.downloader.DownloadManager
 import com.darcy.lib_download.actions.downloader.IDownloadListener
 import com.darcy.lib_download.actions.installer.IInstallListener
 import com.darcy.lib_download.actions.unziper.IUnzipListener
@@ -103,9 +104,6 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
                 downloadListener,
                 unzipListener,
                 installListener,
-                item.downloadingProgress,
-                item.unzipProgress,
-                item.installProgress
             )
             stateMachine.setupAppInstallTask(task)
             item.stateMachine = stateMachine
@@ -135,29 +133,30 @@ class ViewHolder(
     fun bindData(item: ItemBean) {
         binding.apply {
             itemTitle.text = item.name
-            if (item.stateMachine?.currentState is DownloadingState) {
+            if (item.stateMachine.currentState is DownloadingState) {
                 val progress =
-                    (item.stateMachine?.currentState as DownloadingState).getProgress()
+                    (item.stateMachine.currentState as DownloadingState).getProgress()
                 itemProgress.progress = (progress * 100).toInt()
             }
-            val state = item.stateMachine?.currentState
+            val state = item.stateMachine.currentState
             itemActionButton.text = state?.name ?: "未知"
             when (state) {
                 is InitState -> {
                     itemActionButton.setOnClickListener {
-                        item.stateMachine?.sendMessage(AppInstallEvent.StartDownload.toMessage())
+                        item.stateMachine.sendMessage(AppInstallEvent.StartDownload.toMessage())
                     }
                 }
 
                 is DownloadingState -> {
                     itemActionButton.setOnClickListener {
-                        item.stateMachine?.sendMessage(AppInstallEvent.PauseDownload.toMessage())
+                        item.stateMachine.sendMessage(AppInstallEvent.PauseDownload.toMessage())
                     }
                 }
 
                 is DownloadPauseState -> {
                     itemActionButton.setOnClickListener {
-                        item.stateMachine?.sendMessage(AppInstallEvent.ResumeDownload.toMessage())
+                        DownloadManager.resumeDownload(item.stateMachine.getAppInstallTask())
+                        item.stateMachine.sendMessage(AppInstallEvent.ResumeDownload.toMessage())
                     }
                 }
 

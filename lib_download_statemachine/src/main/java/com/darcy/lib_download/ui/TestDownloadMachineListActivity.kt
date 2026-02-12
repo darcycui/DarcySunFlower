@@ -53,7 +53,9 @@ class TestDownloadMachineListActivity : AppCompatActivity() {
     private fun initData() {
         scope.launch {
             val list = repository.getAppList()
-            appAdapter.setData(list)
+            scope.launch(Dispatchers.Main) {
+                appAdapter.setData(list)
+            }
         }
     }
 }

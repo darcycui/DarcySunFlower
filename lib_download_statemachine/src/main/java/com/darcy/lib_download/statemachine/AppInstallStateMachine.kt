@@ -25,8 +25,8 @@ import kotlin.reflect.KClass
  * 当前进度
  */
 class AppInstallStateMachine(
-    private val firstStateClass: KClass<out State>,
-    private val stateCallback: IStateChangeListener,
+    private val firstStateClass: KClass<out State>?,
+    private val stateCallback: IStateChangeListener?,
     private val progressCallback: IStateProgressChangeListener?,
 ) : StateMachine("DownloadStateMachine") {
     private val initState = InitState(this)
@@ -46,6 +46,11 @@ class AppInstallStateMachine(
     companion object {
         @Volatile
         private var instance: AppInstallStateMachine? = null
+
+        fun empty(): AppInstallStateMachine {
+            return AppInstallStateMachine(null, null, null)
+        }
+
         fun init(
             stateCallback: IStateChangeListener,
             progressCallback: IStateProgressChangeListener?,
@@ -155,12 +160,12 @@ class AppInstallStateMachine(
         if (appInstallTask == null) {
             throw NullPointerException("appInstallTask is null. Call setupAppInstallTask() first.")
         }
-        stateCallback.onStatePreChange(getAppInstallTask(), currentState, msg)
+        stateCallback?.onStatePreChange(getAppInstallTask(), currentState, msg)
     }
 
     override fun onPostHandleMessage(msg: Message?) {
         super.onPostHandleMessage(msg)
-        stateCallback.onStateChanged(getAppInstallTask(), currentState, msg)
+        stateCallback?.onStateChanged(getAppInstallTask(), currentState, msg)
     }
 
     override fun onQuitting() {

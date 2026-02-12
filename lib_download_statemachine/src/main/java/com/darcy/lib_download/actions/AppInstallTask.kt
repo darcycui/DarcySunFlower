@@ -10,8 +10,5 @@ data class AppInstallTask(
     val listener: IDownloadListener?,
     val unzipListener: IUnzipListener?,
     val installListener: IInstallListener?,
-    var downloadingProgress: Double,
-    var unzipProgress: Double,
-    var installProgress: Double
 ) {
 }
