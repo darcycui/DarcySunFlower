@@ -25,8 +25,9 @@ import kotlin.reflect.KClass
  * 当前进度
  */
 class AppInstallStateMachine(
+    private val firstStateClass: KClass<out State>,
     private val stateCallback: IStateChangeListener,
-    private val progressCallback: IStateProgressChangeListener?
+    private val progressCallback: IStateProgressChangeListener?,
 ) : StateMachine("DownloadStateMachine") {
     private val initState = InitState(this)
     private val downloadingState = DownloadingState(this, 0.0, progressCallback)
@@ -47,12 +48,14 @@ class AppInstallStateMachine(
         private var instance: AppInstallStateMachine? = null
         fun init(
             stateCallback: IStateChangeListener,
-            progressCallback: IStateProgressChangeListener?
+            progressCallback: IStateProgressChangeListener?,
+            firstState: KClass<out State>,
         ) {
             if (instance == null) {
                 synchronized(AppInstallStateMachine::class.java) {
                     if (instance == null) {
-                        instance = AppInstallStateMachine(stateCallback, progressCallback)
+                        instance =
+                            AppInstallStateMachine(firstState, stateCallback, progressCallback)
                     }
                 }
             }
@@ -101,7 +104,22 @@ class AppInstallStateMachine(
         addState(installErrorState)
 
         // 设置初始状态
-        setInitialState(initState)
+        val firstState = when (firstStateClass) {
+            DownloadingState::class -> downloadingState
+            DownloadPauseState::class -> downloadPauseState
+            DownloadSuccessState::class -> downloadSuccessState
+            DownloadErrorState::class -> downloadErrorState
+            UnzippingState::class -> unzippingState
+            UnzipSuccessState::class -> unzipSuccessState
+            UnzipErrorState::class -> unzipErrorState
+            InstallingState::class -> installingState
+            InstallSuccessState::class -> installSuccessState
+            InstallErrorState::class -> installErrorState
+            else -> {
+                initState
+            }
+        }
+        setInitialState(firstState)
         // 启动状态机
         start()
     }
@@ -123,7 +141,7 @@ class AppInstallStateMachine(
         }
     }
 
-    fun setupDownloadTask(task: AppInstallTask) {
+    fun setupAppInstallTask(task: AppInstallTask) {
         this.appInstallTask = task
     }
 
@@ -134,12 +152,15 @@ class AppInstallStateMachine(
 
     override fun onPreHandleMessage(msg: Message?) {
         super.onPreHandleMessage(msg)
-        stateCallback.onStatePreChange(appInstallTask!!, currentState, msg)
+        if (appInstallTask == null) {
+            throw NullPointerException("appInstallTask is null. Call setupAppInstallTask() first.")
+        }
+        stateCallback.onStatePreChange(getAppInstallTask(), currentState, msg)
     }
 
     override fun onPostHandleMessage(msg: Message?) {
         super.onPostHandleMessage(msg)
-        stateCallback.onStateChanged(appInstallTask!!, currentState, msg)
+        stateCallback.onStateChanged(getAppInstallTask(), currentState, msg)
     }
 
     override fun onQuitting() {

@@ -9,6 +9,9 @@ data class AppInstallTask(
     val itemBean: ItemBean,
     val listener: IDownloadListener?,
     val unzipListener: IUnzipListener?,
-    val installListener: IInstallListener?
+    val installListener: IInstallListener?,
+    var downloadingProgress: Double,
+    var unzipProgress: Double,
+    var installProgress: Double
 ) {
 }

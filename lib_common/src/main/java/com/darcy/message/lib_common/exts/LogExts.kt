@@ -2,7 +2,7 @@ package com.darcy.message.lib_common.exts
 
 import com.elvishew.xlog.XLog
 
-var FOR_TEST = true
+var FOR_TEST = false
 const val LOG_TAG = "DarcyLog"
 fun Any?.logD(message: String?, tag: String? = LOG_TAG) {
     if (FOR_TEST) {

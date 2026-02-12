@@ -2,7 +2,6 @@ package com.darcy.lib_download.ui.adapter
 
 import android.os.Message
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.darcy.lib_download.actions.AppInstallTask
@@ -94,10 +93,25 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
     fun setData(dataList: List<ItemBean>) {
         this.dataList.clear()
         this.dataList.addAll(dataList.map { item ->
-            val stateMachine = AppInstallStateMachine(stateChangeListener, progressChangeListener)
+            val stateMachine = AppInstallStateMachine(
+                item.lastStateClass,
+                stateChangeListener,
+                progressChangeListener
+            )
+            val task = AppInstallTask(
+                item,
+                downloadListener,
+                unzipListener,
+                installListener,
+                item.downloadingProgress,
+                item.unzipProgress,
+                item.installProgress
+            )
+            stateMachine.setupAppInstallTask(task)
             item.stateMachine = stateMachine
             item
         })
+
         notifyDataSetChanged()
     }
 
@@ -125,20 +139,12 @@ class ViewHolder(
                 val progress =
                     (item.stateMachine?.currentState as DownloadingState).getProgress()
                 itemProgress.progress = (progress * 100).toInt()
-                itemActionButton.visibility = View.GONE
-                itemProgress.visibility = View.VISIBLE
-            } else {
-                itemActionButton.visibility = View.VISIBLE
-                itemProgress.visibility = View.GONE
             }
             val state = item.stateMachine?.currentState
             itemActionButton.text = state?.name ?: "未知"
             when (state) {
                 is InitState -> {
                     itemActionButton.setOnClickListener {
-                        val task =
-                            AppInstallTask(item, downloadListener, unzipListener, installListener)
-                        item.stateMachine?.setupDownloadTask(task)
                         item.stateMachine?.sendMessage(AppInstallEvent.StartDownload.toMessage())
                     }
                 }

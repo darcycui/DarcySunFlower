@@ -42,6 +42,8 @@ class TestDownloadMachineListActivity : AppCompatActivity() {
         binding.recyclerView.apply {
             adapter = appAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            // 去除item更新动画
+            itemAnimator = null
         }
     }
 

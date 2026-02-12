@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.darcy.lib_download.R
-import com.darcy.lib_download.databinding.LibDownloadActivityTestDownloadMachineBinding
 import com.darcy.lib_download.actions.AppInstallTask
+import com.darcy.lib_download.databinding.LibDownloadActivityTestDownloadMachineBinding
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 import com.darcy.lib_download.listener.IStateChangeListener
 import com.darcy.lib_download.listener.IStateProgressChangeListener
+import com.darcy.lib_download.state.InitState
 import com.darcy.lib_download.statemachine.AppInstallStateMachine
 import com.darcy.lib_download.statemachine.IState
 import com.darcy.lib_download.statemachine.State
@@ -34,6 +35,7 @@ class TestDownloadMachineActivity : AppCompatActivity() {
             insets
         }
         stateMachine = AppInstallStateMachine(
+            firstStateClass = InitState::class,
             stateCallback = object : IStateChangeListener {
                 override fun onStateChanged(
                     task: AppInstallTask,

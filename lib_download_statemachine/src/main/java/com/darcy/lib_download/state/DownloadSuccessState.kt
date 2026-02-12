@@ -1,6 +1,7 @@
 package com.darcy.lib_download.state
 
 import android.os.Message
+import com.darcy.lib_download.actions.downloader.DownloadManager
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 import com.darcy.lib_download.statemachine.AppInstallStateMachine
@@ -16,6 +17,7 @@ class DownloadSuccessState(
     override fun enter() {
         logI("$TAG:进入")
         super.enter()
+        DownloadManager.cancelDownload(stateMachine.getAppInstallTask())
         stateMachine.sendMessage(AppInstallEvent.StartUnzip.toMessage())
     }
 
