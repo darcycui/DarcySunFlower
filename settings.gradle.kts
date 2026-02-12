@@ -68,4 +68,4 @@ include(":lib_flutter")
 //apply(from = File(filePath))
 ////flutter.hostAppProjectName="app"
 include(":lib_file")
-include(":lib_download")
+include(":lib_download_statemachine")

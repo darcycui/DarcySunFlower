@@ -251,10 +251,10 @@ dependencies {
     implementation(project(":lib_login"))
     implementation(project(":lib_websocket"))
     implementation(project(":lib_file"))
+    api(project(":lib_download_statemachine"))
 //    // flutter
 //    api(project(":lib_flutter"))
     // download 状态机
-    api(project(":lib_download"))
 
     implementation(libs.androidx.preference.ktx)
     // codelocator依赖
