@@ -5,6 +5,9 @@ import com.darcy.lib_download.actions.unziper.IUnzipListener
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 
+/**
+ * 解压监听实现类
+ */
 class UnzipListenerImpl: IUnzipListener {
     override fun onStart(task: AppInstallTask) {
     }

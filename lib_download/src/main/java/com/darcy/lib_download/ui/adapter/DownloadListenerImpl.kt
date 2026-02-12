@@ -5,6 +5,9 @@ import com.darcy.lib_download.actions.downloader.IDownloadListener
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 
+/**
+ * 下载监听实现类
+ */
 class DownloadListenerImpl: IDownloadListener {
     override fun onStart(task: AppInstallTask) {
         val stateMachine = task.itemBean.stateMachine

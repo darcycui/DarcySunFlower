@@ -5,6 +5,9 @@ import com.darcy.lib_download.actions.installer.IInstallListener
 import com.darcy.lib_download.event.AppInstallEvent
 import com.darcy.lib_download.event.toMessage
 
+/**
+ * 安装监听实现类
+ */
 class InstallListenerImpl: IInstallListener {
     override fun onStart(task: AppInstallTask) {
     }

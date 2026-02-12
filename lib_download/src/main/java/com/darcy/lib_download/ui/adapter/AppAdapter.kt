@@ -28,6 +28,48 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
     private val dataList: MutableList<ItemBean> = mutableListOf()
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
+    // 下载监听
+    private val downloadListener = DownloadListenerImpl()
+
+    // 解压监听
+    private val unzipListener = UnzipListenerImpl()
+
+    // 安装监听
+    private val installListener = InstallListenerImpl()
+
+    // 状态改变监听
+    private val stateChangeListener = object : IStateChangeListener {
+        override fun onStateChanged(
+            task: AppInstallTask,
+            currentState: IState,
+            message: Message?
+        ) {
+            val index = dataList.indexOf(task.itemBean)
+            // 更新UI
+            updateUI(index)
+        }
+
+        override fun onStatePreChange(
+            task: AppInstallTask,
+            currentState: IState,
+            message: Message?
+        ) {
+        }
+    }
+
+    // 进度改变监听
+    private val progressChangeListener = object : IStateProgressChangeListener {
+        override fun onProgressChange(
+            task: AppInstallTask,
+            newState: IState,
+            progress: Double
+        ) {
+            val index = dataList.indexOf(task.itemBean)
+            // 更新UI
+            updateUI(index)
+        }
+    }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -59,43 +101,14 @@ class AppAdapter : RecyclerView.Adapter<ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    val stateChangeListener = object : IStateChangeListener {
-        override fun onStateChanged(
-            task: AppInstallTask,
-            currentState: IState,
-            message: Message?
-        ) {
-            val index = dataList.indexOf(task.itemBean)
-            updateUI(index)
-        }
-
-        override fun onStatePreChange(
-            task: AppInstallTask,
-            currentState: IState,
-            message: Message?
-        ) {
-        }
-    }
-    val progressChangeListener = object : IStateProgressChangeListener {
-        override fun onProgressChange(
-            task: AppInstallTask,
-            newState: IState,
-            progress: Double
-        ) {
-            val index = dataList.indexOf(task.itemBean)
-            updateUI(index)
-        }
-    }
-
+    /**
+     * 状态变化后触发 更新UI
+     */
     private fun updateUI(index: Int) {
         mainScope.launch {
             notifyItemChanged(index)
         }
     }
-
-    val downloadListener = DownloadListenerImpl()
-    val unzipListener = UnzipListenerImpl()
-    val installListener = InstallListenerImpl()
 }
 
 class ViewHolder(
