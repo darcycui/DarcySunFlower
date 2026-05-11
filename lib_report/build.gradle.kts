@@ -54,7 +54,7 @@ dependencies {
     api(project(":lib_common"))
 
     // 友盟统计SDK
-    implementation("com.umeng.umsdk:common:9.7.7")// 必选
-    implementation("com.umeng.umsdk:asms:1.8.3")// 必选
-    implementation("com.umeng.umsdk:apm:1.9.11")// U-APM产品包依赖，必选
+    implementation("com.umeng.umsdk:common:9.8.9")// 必选
+    implementation("com.umeng.umsdk:asms:1.8.7.2")// 必选
+    implementation("com.umeng.umsdk:apm:2.0.6")// U-APM产品包依赖，必选
 }

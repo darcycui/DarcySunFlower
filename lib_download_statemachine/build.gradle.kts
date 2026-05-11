@@ -50,5 +50,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     api(project(":lib_common"))
-    testImplementation(libs.mockk.v1149)
+    testImplementation(libs.mockk)
 }

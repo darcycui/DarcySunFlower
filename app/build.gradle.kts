@@ -3,6 +3,7 @@ import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 import java.util.Properties
 
 plugins {
@@ -178,7 +179,13 @@ android {
                 }
             }
             // 将获取到的名称首字母变为大写，比如：release变为Release
-            val combineName = "${flavorName.capitalize()}${buildType.capitalize()}"
+            val flavorNameNew = flavorName.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+            }
+            val buildTypeNew = buildType.replaceFirstChar {
+                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+            }
+            val combineName = "$flavorNameNew$buildTypeNew"
             // 为我们的任务命名：比如叫packRelease
             val taskName = "pack$combineName"
             // 找到打包的任务，比如release就是assembleRelease任务
@@ -276,3 +283,32 @@ tasks.register("checkDetachedDependencies") {
         println(detachedConf.files)
     }
 }
+
+fun printDir(file: File?) {
+    if (file != null) {
+        if (file.isDirectory) {
+            file.listFiles()?.forEach {
+                printDir(it)
+            }
+        } else if (file.absolutePath.endsWith(".so")) {
+            println("find so file: ${file.absolutePath}")
+        }
+    }
+}
+
+// 查找并打印 so文件路径
+tasks.whenTaskAdded {
+    if (name.contains("DebugNativeLibs")) {
+        println("name=$name 包含*NativeLibs")
+        doFirst {
+            println("------------------- find so files start -------------------")
+            inputs.files.forEach { file ->
+                printDir(file)
+            }
+            println("------------------- find so files end -------------------")
+        }
+    } else {
+    }
+
+}
+

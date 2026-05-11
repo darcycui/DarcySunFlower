@@ -8,7 +8,7 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
         // umeng
-//        maven ("https://repo1.maven.org/maven2/")
+        maven ("https://repo1.maven.org/maven2/")
     }
 
     // 添加gradle插件
