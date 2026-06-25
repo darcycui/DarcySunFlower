@@ -21,3 +21,4 @@ local.properties
 /JustForCodeIndexModuleRelease
 codeLocator.gradle
 *.apk
+lib_download/build
