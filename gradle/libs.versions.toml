@@ -37,6 +37,7 @@ okhttpVersion = '4.12.0'
 pagingVersion = '3.3.6'
 retrofitVersion = '2.10.0'
 room = '2.7.2'
+uiautomator = "2.4.0-beta02"
 workRuntimeKtx = "2.8.0"
 xlogVersion = '1.11.0'
 sqlcipherAndroid = '4.13.0'
@@ -57,6 +58,7 @@ androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-lived
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
 androidx-window-window = { module = "androidx.window:window", version.ref = "androidxWindowVersion" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 codelocator-core = { module = "com.bytedance.tools.codelocator:codelocator-core", version.ref = "codelocatorCore" }

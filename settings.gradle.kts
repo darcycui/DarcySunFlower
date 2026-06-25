@@ -69,3 +69,4 @@ include(":lib_flutter")
 ////flutter.hostAppProjectName="app"
 include(":lib_file")
 include(":lib_download_statemachine")
+include(":lib_uiautomator")
